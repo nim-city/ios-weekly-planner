@@ -31,4 +31,9 @@ enum DayOfTheWeek: String, CaseIterable {
             .sunday
         ]
     }
+    
+    static func getDayFromIndex(_ index: Int) -> DayOfTheWeek? {
+        guard index >= 0 && index < 7 else { return nil }
+        return ordered()[index]
+    }
 }

@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// TODO: Refactor and optimize this
 struct WeeklyBreakdownTaskCell: View {
     @Environment(\.managedObjectContext) var moc
     @ObservedObject var taskItem: TaskItem
@@ -62,7 +63,7 @@ struct WeeklyBreakdownTaskCell: View {
                     }
                 }
             }
-            .padding(20)
+            .padding(15)
         }
     }
     

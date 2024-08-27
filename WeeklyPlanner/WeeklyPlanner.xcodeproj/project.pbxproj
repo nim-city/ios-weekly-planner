@@ -34,6 +34,8 @@
 		72B0D6062C48812B00C44784 /* WeekOverviewListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B0D6052C48812B00C44784 /* WeekOverviewListCell.swift */; };
 		72B0D6082C48814D00C44784 /* WeekOverviewNotesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B0D6072C48814D00C44784 /* WeekOverviewNotesView.swift */; };
 		72DEDED92C7DA6350099F3E0 /* WeeklyBreakdownTaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DEDED82C7DA6350099F3E0 /* WeeklyBreakdownTaskCell.swift */; };
+		72DEDEDB2C7DB3030099F3E0 /* WeeklyBreakdownDayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DEDEDA2C7DB3030099F3E0 /* WeeklyBreakdownDayView.swift */; };
+		72DEDEDD2C7DB3F00099F3E0 /* WeeklyBreakdownNotesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DEDEDC2C7DB3F00099F3E0 /* WeeklyBreakdownNotesView.swift */; };
 		72DFBD002BE9EA7B0009EE03 /* MainScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DFBCFF2BE9EA7B0009EE03 /* MainScreen.swift */; };
 		72DFBD052BE9F2CE0009EE03 /* WeekOverviewScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DFBD042BE9F2CE0009EE03 /* WeekOverviewScreen.swift */; };
 		72DFBD072BE9F38F0009EE03 /* WeeklyBreakdownScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DFBD062BE9F38F0009EE03 /* WeeklyBreakdownScreen.swift */; };
@@ -88,6 +90,8 @@
 		72B0D6052C48812B00C44784 /* WeekOverviewListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekOverviewListCell.swift; sourceTree = "<group>"; };
 		72B0D6072C48814D00C44784 /* WeekOverviewNotesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekOverviewNotesView.swift; sourceTree = "<group>"; };
 		72DEDED82C7DA6350099F3E0 /* WeeklyBreakdownTaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyBreakdownTaskCell.swift; sourceTree = "<group>"; };
+		72DEDEDA2C7DB3030099F3E0 /* WeeklyBreakdownDayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyBreakdownDayView.swift; sourceTree = "<group>"; };
+		72DEDEDC2C7DB3F00099F3E0 /* WeeklyBreakdownNotesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyBreakdownNotesView.swift; sourceTree = "<group>"; };
 		72DFBCFF2BE9EA7B0009EE03 /* MainScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreen.swift; sourceTree = "<group>"; };
 		72DFBD042BE9F2CE0009EE03 /* WeekOverviewScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekOverviewScreen.swift; sourceTree = "<group>"; };
 		72DFBD062BE9F38F0009EE03 /* WeeklyBreakdownScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyBreakdownScreen.swift; sourceTree = "<group>"; };
@@ -269,6 +273,8 @@
 			children = (
 				72DFBD062BE9F38F0009EE03 /* WeeklyBreakdownScreen.swift */,
 				72DEDED82C7DA6350099F3E0 /* WeeklyBreakdownTaskCell.swift */,
+				72DEDEDA2C7DB3030099F3E0 /* WeeklyBreakdownDayView.swift */,
+				72DEDEDC2C7DB3F00099F3E0 /* WeeklyBreakdownNotesView.swift */,
 			);
 			path = weeklyBreakdown;
 			sourceTree = "<group>";
@@ -436,10 +442,12 @@
 				72B0D5FD2C487DA000C44784 /* TaskListView.swift in Sources */,
 				72DEDED92C7DA6350099F3E0 /* WeeklyBreakdownTaskCell.swift in Sources */,
 				722A8A422C1B6C1100E8C318 /* SelectTasksScreen.swift in Sources */,
+				72DEDEDD2C7DB3F00099F3E0 /* WeeklyBreakdownNotesView.swift in Sources */,
 				725AAB8E2C0FAFB2001D8CA8 /* MockListItems.swift in Sources */,
 				72B0D6022C487FC800C44784 /* TaskListsTabBarItem.swift in Sources */,
 				7281BBD62C01559200855655 /* TaskListsTabBar.swift in Sources */,
 				721341802B3C9F9A00AACD27 /* DayOfTheWeek.swift in Sources */,
+				72DEDEDB2C7DB3030099F3E0 /* WeeklyBreakdownDayView.swift in Sources */,
 				72DFBD072BE9F38F0009EE03 /* WeeklyBreakdownScreen.swift in Sources */,
 				72DFBD052BE9F2CE0009EE03 /* WeekOverviewScreen.swift in Sources */,
 				72B0D6042C4880F000C44784 /* WeekOverviewListView.swift in Sources */,

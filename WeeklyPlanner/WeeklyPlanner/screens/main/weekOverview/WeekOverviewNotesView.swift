@@ -5,7 +5,6 @@
 //  Created by Nimish Narang on 2024-07-17.
 //
 
-import Foundation
 import SwiftUI
 
 struct WeekOverviewNotesView: View {
