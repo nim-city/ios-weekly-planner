@@ -65,8 +65,8 @@ struct WeekOverviewScreen: View {
     var body: some View {
         NavigationView {
             ScrollView(showsIndicators: false) {
-                VStack {
-                    VStack(spacing: 60) {
+                VStack(spacing: 0) {
+                    VStack(spacing: 40) {
                         // Goals
                         WeekItemsListView(
                             tasksType: .goal,

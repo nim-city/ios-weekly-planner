@@ -13,8 +13,7 @@ struct ScreenTitleLabel: View {
     
     var body: some View {
         Text(text)
-            .font(.title)
-            .fontWeight(.semibold)
+            .font(CustomFonts.screenTitleFont)
             .foregroundColor(CustomColours.textDarkGray)
     }
 }
@@ -26,6 +25,6 @@ struct SubtitleLabel: View {
         Text(text)
             .font(.title2)
             .fontWeight(.semibold)
-            .foregroundColor(CustomColours.accentBlue)
+            .foregroundColor(.black)
     }
 }

@@ -45,7 +45,8 @@ struct WeekItemsListView: View {
                 .padding(.leading, 5)
                 Spacer()
             }
-            .padding(.bottom, 20)
+            .padding(.leading, 10)
+            .padding(.bottom, 15)
             
             // List of tasks, only shown when in expanded state
             if isExpanded {
@@ -59,12 +60,12 @@ struct WeekItemsListView: View {
                         }
                     }
                 }
-                .background(CustomColours.getBackgroundColourForTaskType(tasksType))
+                .background(CustomColours.getBackgroundColourForTaskType(tasksType).opacity(0.8))
                 .clipShape(RoundedRectangle(cornerRadius: 20))
                 .overlay(
                     RoundedRectangle(cornerRadius: 20)
                         .stroke(
-                            CustomColours.veryLightGray,
+                            CustomColours.getBackgroundColourForTaskType(tasksType),
                             lineWidth: 5
                         )
                 )

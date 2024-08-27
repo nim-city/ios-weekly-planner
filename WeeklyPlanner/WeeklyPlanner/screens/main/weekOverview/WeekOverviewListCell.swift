@@ -17,10 +17,10 @@ struct WeekOverviewListCell: View {
             HStack {
                 Text(taskItem.name ?? "No name assigned")
                     .foregroundColor(CustomColours.textDarkGray)
-                    .fontWeight(.medium)
+                    .font(CustomFonts.taskCellFont)
                 Spacer()
             }
-            .padding(20)
+            .padding(15)
             if shouldShowDivider {
                 Divider()
                     .background(CustomColours.textDarkGray)

@@ -25,7 +25,7 @@ struct MainScreen: View {
                         }
                         .tag(0)
 
-                    WeekBreakdownScreen()
+                    WeeklyBreakdownScreen()
                         .tabItem {
                             Label(
                                 "Week Breakdown",

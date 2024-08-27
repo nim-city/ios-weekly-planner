@@ -14,21 +14,31 @@ struct WeekOverviewNotesView: View {
     var body: some View {
         VStack(alignment: .leading) {
             SubtitleLabel(text: "Notes")
-            HStack {
-                Text(
-                    text.isEmpty ? "No notes yet!" : text
+                .padding(.leading, 10)
+            
+            if text.isEmpty {
+                HStack {
+                    Text("No notes yet")
+                        .font(CustomFonts.noNotesFont)
+                        .italic()
+                        .padding(10)
+                    Spacer()
+                }
+            } else {
+                HStack {
+                    Text(text)
+                        .padding(20)
+                    Spacer()
+                }
+                .background(.white)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(
+                            CustomColours.accentBlue,
+                            lineWidth: 3
+                        )
                 )
-                .padding(20)
-                Spacer()
             }
-            .background(.white)
-            .overlay(
-                RoundedRectangle(cornerRadius: 20)
-                    .stroke(
-                        CustomColours.accentBlue,
-                        lineWidth: 3
-                    )
-            )
         }
     }
 }

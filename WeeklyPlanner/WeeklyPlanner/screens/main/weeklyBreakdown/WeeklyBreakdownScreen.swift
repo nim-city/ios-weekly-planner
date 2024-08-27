@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 import CoreData
 
-struct WeekBreakdownScreen: View {
+struct WeeklyBreakdownScreen: View {
     @Environment(\.managedObjectContext) var moc
     @FetchRequest(sortDescriptors: []) var dailySchedules: FetchedResults<DailySchedule>
     private var sortedDailySchedules: [DailySchedule] {
@@ -364,6 +364,6 @@ struct WeekBreakdownScreen_Preview: PreviewProvider {
         let moc = CoreDataController().moc
         let _ = MockDailySchedules(moc: moc)
         
-        return WeekBreakdownScreen()
+        return WeeklyBreakdownScreen()
     }
 }
