@@ -21,11 +21,10 @@ struct TaskListView: View {
                         taskType: tasksType,
                         shouldShowDivider: taskItem != taskItems.last
                     )
-                    .background(/*CustomColours.getBackgroundColourForTaskType(tasksType)*/)
                 }
             }
         }
-        .background(.white)
+        .background(CustomColours.getBackgroundColourForTaskType(tasksType).opacity(0.5))
         .clipShape(RoundedRectangle(cornerRadius: 20))
         .overlay(
             RoundedRectangle(cornerRadius: 20)

@@ -12,7 +12,7 @@ struct WeeklyBreakdownDayView: View {
     
     var body: some View {
         ScrollView(showsIndicators: false) {
-            VStack(spacing: 60) {
+            VStack(spacing: 40) {
                 // Goals
                 WeekdayTaskListView(
                     dailySchedule: dailySchedule,
@@ -52,6 +52,7 @@ struct WeeklyBreakdownDayView: View {
                 WeeklyBreakdownNotesView(dailySchedule: dailySchedule)
             }
             .padding(.horizontal, 20)
+            .padding(.top, 20)
         }
         .frame(width: UIScreen.main.bounds.size.width)
         .background(Color.white)

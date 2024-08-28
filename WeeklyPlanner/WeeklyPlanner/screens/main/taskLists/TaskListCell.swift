@@ -70,12 +70,10 @@ struct TaskListCell: View {
                 }
             }
             .padding(15)
-            .background(CustomColours.getBackgroundColourForTaskType(taskType).opacity(0.7))
             
             if shouldShowDivider {
                 Divider()
                     .padding(.horizontal, 20)
-                    .background(CustomColours.getBackgroundColourForTaskType(taskType).opacity(0.7))
             }
         }
     }

@@ -157,7 +157,7 @@ struct WeekdayTaskListView: View {
                     }
                 )
             }
-            .padding(.bottom, 20)
+            .padding(.bottom, 15)
             
             // List of tasks, only shown when in expanded mode
             if isExpanded {
@@ -177,7 +177,7 @@ struct WeekdayTaskListView: View {
                         }
                     }
                 }
-                .background(CustomColours.getBackgroundColourForTaskType(tasksType).opacity(0.7))
+                .background(CustomColours.getBackgroundColourForTaskType(tasksType).opacity(0.5))
                 .clipShape(RoundedRectangle(cornerRadius: 20))
                 .overlay(
                     RoundedRectangle(cornerRadius: 20)
