@@ -35,8 +35,17 @@ struct TaskListsTabBar: View {
             )
         }
         .frame(
-            width: UIScreen.main.bounds.size.width,
             alignment: .center
         )
+    }
+}
+
+
+struct TaskListTabBar_Previews: PreviewProvider {
+    
+    @State static var selectedTaskType: TaskType = .goal
+    
+    static var previews: some View {
+        TaskListsTabBar(selectedTaskType: $selectedTaskType)
     }
 }

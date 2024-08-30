@@ -18,6 +18,7 @@ struct WeekOverviewListCell: View {
                 Text(taskItem.name ?? "No name assigned")
                     .foregroundColor(CustomColours.textDarkGray)
                     .font(CustomFonts.taskCellFont)
+                    .frame(height: 20)
                 Spacer()
             }
             .padding(15)

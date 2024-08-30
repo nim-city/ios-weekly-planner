@@ -27,8 +27,8 @@ struct WeeklyBreakdownTaskCell: View {
                     label: {
                         HStack {
                             Text(taskItem.name ?? "Item name")
-                                .foregroundColor(CustomColours.textDarkGray)
-                                .fontWeight(.medium)
+                                .font(CustomFonts.taskCellFont)
+                                .foregroundStyle(CustomColours.textDarkGray)
                             Spacer()
                             Button(
                                 action: {
@@ -40,6 +40,7 @@ struct WeeklyBreakdownTaskCell: View {
                                 }
                             )
                         }
+                        .frame(height: 20)
                     }
                 )
                 

@@ -5,8 +5,8 @@
 //  Created by Nimish Narang on 2024-07-17.
 //
 
-import Foundation
 import SwiftUI
+
 
 struct TaskListsTabBarItem: View {
     let taskType: TaskType
@@ -41,20 +41,15 @@ struct TaskListsTabBarItem: View {
                     Text(title)
                         .fixedSize()
                         .foregroundColor(CustomColours.textDarkGray)
-                        .font(isSelected ? CustomFonts.selectedFont : CustomFonts.unselectedFont)
+                        .font(CustomFonts.tabBarFont)
                         .lineLimit(1)
+                        .padding(2)
                 }
                 Spacer()
             }
         )
-        .padding(.vertical, isSelected ? 10 : 8)
-        .padding(.horizontal, isSelected ? 7 : 5)
-        .background(CustomColours.getBackgroundColourForTaskType(taskType).opacity(0.5))
-        .clipShape(UnevenRoundedRectangle(cornerRadii: .init(topLeading: 10, topTrailing: 10)))
-        .overlay {
-            UnevenRoundedRectangle(cornerRadii: .init(topLeading: 10, topTrailing: 10))
-                .stroke(CustomColours.veryLightGray, lineWidth: 2)
-        }
+        .frame(height: 36)
+        .background(isSelected ? CustomColours.getBackgroundColourForTaskType(taskType).opacity(0.5) : .white)
+        .clipShape(RoundedRectangle(cornerRadius: 18))
     }
 }
-

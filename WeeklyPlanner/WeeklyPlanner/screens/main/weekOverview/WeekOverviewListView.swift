@@ -60,13 +60,13 @@ struct WeekItemsListView: View {
                         }
                     }
                 }
-                .background(CustomColours.getBackgroundColourForTaskType(tasksType).opacity(0.5))
+                .background(CustomColours.getBackgroundColourForTaskType(tasksType).opacity(0.3))
                 .clipShape(RoundedRectangle(cornerRadius: 20))
                 .overlay(
                     RoundedRectangle(cornerRadius: 20)
                         .stroke(
                             CustomColours.getBackgroundColourForTaskType(tasksType),
-                            lineWidth: 5
+                            lineWidth: 4
                         )
                 )
             }

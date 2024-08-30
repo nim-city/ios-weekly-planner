@@ -37,10 +37,10 @@ struct TaskListsScreen: View {
     var body: some View {
         NavigationView {
             VStack {
-                TaskListsTabBar(
-                    selectedTaskType: $selectedTaskType
-                )
-                .padding(.top, 20)
+                TaskListsTabBar(selectedTaskType: $selectedTaskType)
+                    .padding(.top, 20)
+                    .padding(.horizontal, 10)
+                
                 ScrollView(showsIndicators: false) {
                     VStack {
                         switch selectedTaskType {

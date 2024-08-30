@@ -41,6 +41,7 @@ struct TaskListCell: View {
                                 }
                             )
                         }
+                        .frame(height: 20)
                     }
                 )
                 
