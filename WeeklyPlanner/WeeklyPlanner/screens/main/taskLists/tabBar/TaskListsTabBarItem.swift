@@ -41,7 +41,7 @@ struct TaskListsTabBarItem: View {
                     Text(title)
                         .fixedSize()
                         .foregroundColor(CustomColours.textDarkGray)
-                        .font(CustomFonts.tabBarFont)
+                        .font(CustomFonts.taskListsTabBarFont)
                         .lineLimit(1)
                         .padding(2)
                 }
@@ -49,7 +49,7 @@ struct TaskListsTabBarItem: View {
             }
         )
         .frame(height: 36)
-        .background(isSelected ? CustomColours.getBackgroundColourForTaskType(taskType).opacity(0.5) : .white)
+        .background(isSelected ? CustomColours.getColourForTaskType(taskType).opacity(0.5) : .white)
         .clipShape(RoundedRectangle(cornerRadius: 18))
     }
 }

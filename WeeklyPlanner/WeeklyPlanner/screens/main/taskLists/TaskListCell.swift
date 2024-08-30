@@ -66,7 +66,7 @@ struct TaskListCell: View {
                         )
                     }
                     .padding(10)
-                    .background(CustomColours.white)
+                    .background(.white)
                     .clipShape(RoundedRectangle(cornerRadius: 10))
                 }
             }

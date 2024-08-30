@@ -5,13 +5,17 @@
 //  Created by Nimish Narang on 2024-05-06.
 //
 
-import Foundation
 import SwiftUI
+
 
 struct MainScreen: View {
     // UI specific
     @State private var selectedTabIndex = 0
 
+    init() {
+        UITabBar.appearance().unselectedItemTintColor = UIColor(CustomColours.mediumLightGray)
+    }
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -28,7 +32,7 @@ struct MainScreen: View {
                     WeeklyBreakdownScreen()
                         .tabItem {
                             Label(
-                                "Week Breakdown",
+                                "Daily Breakdown",
                                 systemImage: "calendar"
                             )
                         }
@@ -43,6 +47,7 @@ struct MainScreen: View {
                         }
                         .tag(2)
                 }
+                .tint(CustomColours.ctaGold)
             }
         }
     }
