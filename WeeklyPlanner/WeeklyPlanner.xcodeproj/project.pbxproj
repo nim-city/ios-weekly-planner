@@ -22,6 +22,8 @@
 		725AAB912C10EDA6001D8CA8 /* AddTaskScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725AAB902C10EDA6001D8CA8 /* AddTaskScreen.swift */; };
 		725AAB952C178363001D8CA8 /* Tasks.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 725AAB942C178363001D8CA8 /* Tasks.rtf */; };
 		725AABA22C1A1D94001D8CA8 /* KeyboardReadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725AABA12C1A1D94001D8CA8 /* KeyboardReadable.swift */; };
+		7264AE682C81531900C2F86E /* AddTaskNotesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7264AE672C81531900C2F86E /* AddTaskNotesView.swift */; };
+		7264AE6A2C81538C00C2F86E /* AddTaskNameInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7264AE692C81538C00C2F86E /* AddTaskNameInput.swift */; };
 		7281BBD62C01559200855655 /* TaskListsTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7281BBD52C01559200855655 /* TaskListsTabBar.swift */; };
 		7281BBD82C06BD4C00855655 /* CoreDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7281BBD72C06BD4C00855655 /* CoreDataController.swift */; };
 		7281BBDB2C070DD000855655 /* MockDailySchedules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7281BBDA2C070DD000855655 /* MockDailySchedules.swift */; };
@@ -78,6 +80,8 @@
 		725AAB902C10EDA6001D8CA8 /* AddTaskScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskScreen.swift; sourceTree = "<group>"; };
 		725AAB942C178363001D8CA8 /* Tasks.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Tasks.rtf; sourceTree = "<group>"; };
 		725AABA12C1A1D94001D8CA8 /* KeyboardReadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardReadable.swift; sourceTree = "<group>"; };
+		7264AE672C81531900C2F86E /* AddTaskNotesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskNotesView.swift; sourceTree = "<group>"; };
+		7264AE692C81538C00C2F86E /* AddTaskNameInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskNameInput.swift; sourceTree = "<group>"; };
 		7281BBD52C01559200855655 /* TaskListsTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListsTabBar.swift; sourceTree = "<group>"; };
 		7281BBD72C06BD4C00855655 /* CoreDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataController.swift; sourceTree = "<group>"; };
 		7281BBDA2C070DD000855655 /* MockDailySchedules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDailySchedules.swift; sourceTree = "<group>"; };
@@ -217,6 +221,8 @@
 			isa = PBXGroup;
 			children = (
 				725AAB902C10EDA6001D8CA8 /* AddTaskScreen.swift */,
+				7264AE672C81531900C2F86E /* AddTaskNotesView.swift */,
+				7264AE692C81538C00C2F86E /* AddTaskNameInput.swift */,
 			);
 			path = addTask;
 			sourceTree = "<group>";
@@ -435,6 +441,7 @@
 				72DFBD002BE9EA7B0009EE03 /* MainScreen.swift in Sources */,
 				7281BBDE2C07B83400855655 /* CustomColours.swift in Sources */,
 				72B0D5FB2C48505600C44784 /* CustomFonts.swift in Sources */,
+				7264AE682C81531900C2F86E /* AddTaskNotesView.swift in Sources */,
 				72DFBD092BE9F3F10009EE03 /* TaskListsScreen.swift in Sources */,
 				7281BBD82C06BD4C00855655 /* CoreDataController.swift in Sources */,
 				721341472B3B55D100AACD27 /* WeeklyPlannerApp.swift in Sources */,
@@ -450,6 +457,7 @@
 				72DEDEDB2C7DB3030099F3E0 /* WeeklyBreakdownDayView.swift in Sources */,
 				72DFBD072BE9F38F0009EE03 /* WeeklyBreakdownScreen.swift in Sources */,
 				72DFBD052BE9F2CE0009EE03 /* WeekOverviewScreen.swift in Sources */,
+				7264AE6A2C81538C00C2F86E /* AddTaskNameInput.swift in Sources */,
 				72B0D6042C4880F000C44784 /* WeekOverviewListView.swift in Sources */,
 				72B0D6082C48814D00C44784 /* WeekOverviewNotesView.swift in Sources */,
 				7281BBDB2C070DD000855655 /* MockDailySchedules.swift in Sources */,

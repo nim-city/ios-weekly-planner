@@ -34,6 +34,8 @@ struct TaskListsScreen: View {
         }
     }
     
+    @State private var isShowingAddScreen = false
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -73,13 +75,8 @@ struct TaskListsScreen: View {
                     }
                     .padding(20)
                 }
-                .frame(
-                    minWidth: 0,
-                    maxWidth: .infinity,
-                    minHeight: 0,
-                    maxHeight: .infinity,
-                    alignment: .top
-                )
+                
+                // Navigation bar
                 .toolbar {
                     ToolbarItem(placement: .topBarLeading) {
                         Button(
@@ -94,17 +91,22 @@ struct TaskListsScreen: View {
                         ScreenTitleLabel(text: screenTitle)
                     }
                     ToolbarItem(placement: .topBarTrailing) {
-                        NavigationLink(
-                            destination: AddTaskScreen(itemType: selectedTaskType),
-                            label: {
-                                Image(systemName: "plus")
-                                    .tint(CustomColours.ctaGold)
-                            }
-                        )
+                        Button {
+                            isShowingAddScreen = true
+                        } label: {
+                            Image(systemName: "plus")
+                                .tint(CustomColours.ctaGold)
+                        }
                     }
                 }
                 .toolbarBackground(.visible, for: .navigationBar)
                 .navigationBarTitleDisplayMode(.inline)
+                .toolbarBackground(.visible, for: .tabBar)
+                
+                // Add item modal
+                .sheet(isPresented: $isShowingAddScreen) {
+                    AddTaskScreen(itemType: selectedTaskType)
+                }
             }
         }
     }

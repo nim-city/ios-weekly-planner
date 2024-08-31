@@ -5,13 +5,8 @@
 //  Created by Nimish Narang on 2024-06-05.
 //
 
-import Foundation
 import SwiftUI
 
-private enum InputField: Hashable {
-    case name
-    case notes
-}
 
 struct AddTaskScreen: View {
     @Environment(\.managedObjectContext) var moc
@@ -61,84 +56,54 @@ struct AddTaskScreen: View {
     }
     
     var body: some View {
-        ScrollView {
-            VStack {
-                ScreenTitleLabel(text: screenTitle)
-                VStack(spacing: 40) {
-                    NameView(
-                        itemName: $itemName,
-                        isFocused: $isFocused
-                    )
-                    NotesView(
-                        text: $itemNotes,
-                        isFocused: $isFocused
-                    )
-                    VStack(spacing: 20) {
-                        Button(
-                            action: {
-                                if taskToEdit == nil {
-                                    addTask()
-                                } else {
-                                    editTask()
-                                }
-                            },
-                            label: {
-                                Text("Save")
-                                    .frame(
-                                        maxWidth: .infinity,
-                                        minHeight: 50,
-                                        maxHeight: 50
-                                    )
-                                    .foregroundColor(CustomColours.accentBlue)
-                                    .font(.title3)
-                                    .fontWeight(.bold)
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 20)
-                                            .stroke(
-                                                CustomColours.accentBlue,
-                                                lineWidth: 3
-                                            )
-                                    )
-                            }
+        NavigationSplitView {
+            ScrollView {
+                VStack {
+                    VStack(spacing: 40) {
+                        // Task name
+                        AddTaskNameInput(
+                            itemName: $itemName,
+                            isFocused: $isFocused,
+                            colour: CustomColours.getColourForTaskType(itemType)
                         )
-                        Button(
-                            action: {
-                                dismiss()
-                            },
-                            label: {
-                                Text("Cancel")
-                                    .frame(
-                                        maxWidth: .infinity,
-                                        minHeight: 50,
-                                        maxHeight: 50
-                                    )
-                                    .foregroundColor(CustomColours.accentBlue)
-                                    .font(.title3)
-                                    .fontWeight(.bold)
-                            }
+                        
+                        // Task notes
+                        AddTaskNotesView(
+                            text: $itemNotes,
+                            isFocused: $isFocused,
+                            colour: CustomColours.getColourForTaskType(itemType)
                         )
+                        
+                        // Save and cancel buttons
+                        buttonsStack
+                            .padding(.top, 40)
                     }
-                    .padding(.top, 20)
+                    .padding(20)
                 }
-                .padding(20)
+                .toolbar {
+                    ToolbarItemGroup(placement: .keyboard) {
+                        Spacer()
+                        Button {
+                            isFocused = false
+                        } label: {
+                            Text("Done")
+                                .font(CustomFonts.buttonFont)
+                                .foregroundStyle(CustomColours.ctaGold)
+                        }
+                    }
+                }
             }
-            .frame(
-                minWidth: 0,
-                maxWidth: .infinity,
-                minHeight: 0,
-                maxHeight: .infinity,
-                alignment: .top
-            )
             .toolbar {
-                ToolbarItemGroup(placement: .keyboard) {
-                    Button("Done") {
-                        isFocused = false
-                    }
-                    Spacer()
+                ToolbarItem(placement: .principal) {
+                    ScreenTitleLabel(text: screenTitle)
                 }
             }
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbarBackground(.visible, for: .navigationBar)
+            .navigationBarBackButtonHidden(true)
+        } detail: {
+            Text("Add task screen")
         }
-        .navigationBarBackButtonHidden(true)
     }
     
     private func addTask() {
@@ -185,60 +150,54 @@ struct AddTaskScreen: View {
     }
 }
 
-private struct NameView: View {
-    @Binding var itemName: String
-    var isFocused: FocusState<Bool>.Binding
-    
-    var body: some View {
-        VStack(alignment: .leading) {
-            SubtitleLabel(text: "Name")
-            HStack {
-                TextField(
-                    "Item name",
-                    text: $itemName
-                )
-                .padding(10)
-                .focused(isFocused)
-            }
-            .frame(height: 50)
-            .overlay(
-                RoundedRectangle(cornerRadius: 20)
-                    .stroke(
-                        CustomColours.accentBlue,
-                        lineWidth: 3
+
+// MARK: Bottom buttons
+
+
+extension AddTaskScreen {
+    var buttonsStack: some View {
+        VStack(spacing: 10) {
+            // Save button
+            Button {
+                if taskToEdit == nil {
+                    addTask()
+                } else {
+                    editTask()
+                }
+            } label: {
+                Text("Save")
+                    .frame(
+                        maxWidth: .infinity,
+                        minHeight: 50,
+                        maxHeight: 50
                     )
-            )
+                    .foregroundColor(CustomColours.textDarkGray)
+                    .background(CustomColours.getColourForTaskType(itemType))
+                    .font(CustomFonts.buttonFont)
+                    .clipShape(RoundedRectangle(cornerRadius: 25))
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 25)
+                            .stroke(CustomColours.veryLightGray, lineWidth: 1)
+                    }
+            }
+            
+            // Cancel button
+            Button {
+                dismiss()
+            } label: {
+                Text("Cancel")
+                    .frame(
+                        maxWidth: .infinity,
+                        minHeight: 50,
+                        maxHeight: 50
+                    )
+                    .foregroundColor(CustomColours.textDarkGray)
+                    .font(CustomFonts.buttonFont)
+            }
         }
     }
 }
 
-private struct NotesView: View {
-    @Binding var text: String
-    var isFocused: FocusState<Bool>.Binding
-    
-    var body: some View {
-        VStack(alignment: .leading) {
-            SubtitleLabel(text: "Notes")
-            VStack(spacing: 0) {
-                TextEditor(text: $text)
-                    .scrollContentBackground(.hidden)
-                    .padding(10)
-                    .focused(isFocused)
-            }
-            .background(.white)
-            .frame(
-                height: 200
-            )
-            .overlay(
-                RoundedRectangle(cornerRadius: 20)
-                    .stroke(
-                        CustomColours.accentBlue,
-                        lineWidth: 3
-                    )
-            )
-        }
-    }
-}
 
 struct AddItemView_Preview: PreviewProvider {
     static var previews: some View {

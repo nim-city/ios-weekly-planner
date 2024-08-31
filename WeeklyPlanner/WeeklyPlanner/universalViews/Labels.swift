@@ -25,6 +25,6 @@ struct SubtitleLabel: View {
         Text(text)
             .font(.title2)
             .fontWeight(.semibold)
-            .foregroundColor(.black)
+            .foregroundColor(CustomColours.textDarkGray)
     }
 }
