@@ -1,5 +1,5 @@
 //
-//  AddItemView.swift
+//  AddTaskScreen.swift
 //  WeeklyPlanner
 //
 //  Created by Nimish Narang on 2024-06-05.
@@ -14,7 +14,7 @@ struct AddTaskScreen: View {
     // To allow for manual dismiss
     @Environment(\.dismiss) var dismiss
     
-    @State var itemType: TaskType
+    var itemType: TaskType
     var taskToEdit: TaskItem?
     
     @State var itemName: String
@@ -42,14 +42,14 @@ struct AddTaskScreen: View {
     @FocusState private var isFocused: Bool
     
     init(itemType: TaskType) {
-        self._itemType = State(initialValue: itemType)
+        self.itemType = itemType
         self._itemName = State(initialValue: "")
         self._itemNotes = State(initialValue: "")
     }
     
     init(task: TaskItem, itemType: TaskType) {
         self.taskToEdit = task
-        self._itemType = State(initialValue: itemType)
+        self.itemType = itemType
         
         self._itemName = State(initialValue: task.name ?? "")
         self._itemNotes = State(initialValue: task.notes ?? "")

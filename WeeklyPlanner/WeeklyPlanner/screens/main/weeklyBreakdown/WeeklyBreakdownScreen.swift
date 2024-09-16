@@ -45,14 +45,6 @@ struct WeeklyBreakdownScreen: View {
                         ScreenTitleLabel(text: weekdayName)
                     }
                 }
-//                .toolbar {
-//                    ToolbarItemGroup(placement: .keyboard) {
-//                        Button("Done") {
-//                            saveMOC()
-//                        }
-//                        Spacer()
-//                    }
-//                }
                 .toolbarBackground(.visible, for: .navigationBar)
                 .navigationBarTitleDisplayMode(.inline)
                 .offset(x: xOffset)
@@ -188,6 +180,7 @@ struct WeekdayTaskListView: View {
                 )
             }
         }
+        
     }
 }
 

@@ -42,6 +42,7 @@
 		72DFBD052BE9F2CE0009EE03 /* WeekOverviewScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DFBD042BE9F2CE0009EE03 /* WeekOverviewScreen.swift */; };
 		72DFBD072BE9F38F0009EE03 /* WeeklyBreakdownScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DFBD062BE9F38F0009EE03 /* WeeklyBreakdownScreen.swift */; };
 		72DFBD092BE9F3F10009EE03 /* TaskListsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DFBD082BE9F3F10009EE03 /* TaskListsScreen.swift */; };
+		72E474232C82AAA50074FF40 /* AddTaskViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72E474222C82AAA50074FF40 /* AddTaskViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -100,6 +101,7 @@
 		72DFBD042BE9F2CE0009EE03 /* WeekOverviewScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekOverviewScreen.swift; sourceTree = "<group>"; };
 		72DFBD062BE9F38F0009EE03 /* WeeklyBreakdownScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyBreakdownScreen.swift; sourceTree = "<group>"; };
 		72DFBD082BE9F3F10009EE03 /* TaskListsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListsScreen.swift; sourceTree = "<group>"; };
+		72E474222C82AAA50074FF40 /* AddTaskViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -220,9 +222,9 @@
 		725AAB8F2C10ED82001D8CA8 /* addTask */ = {
 			isa = PBXGroup;
 			children = (
+				72E474242C82AAA90074FF40 /* subviews */,
 				725AAB902C10EDA6001D8CA8 /* AddTaskScreen.swift */,
-				7264AE672C81531900C2F86E /* AddTaskNotesView.swift */,
-				7264AE692C81538C00C2F86E /* AddTaskNameInput.swift */,
+				72E474222C82AAA50074FF40 /* AddTaskViewModel.swift */,
 			);
 			path = addTask;
 			sourceTree = "<group>";
@@ -305,6 +307,15 @@
 				72B0D5FE2C487ED900C44784 /* TaskListCell.swift */,
 			);
 			path = taskLists;
+			sourceTree = "<group>";
+		};
+		72E474242C82AAA90074FF40 /* subviews */ = {
+			isa = PBXGroup;
+			children = (
+				7264AE672C81531900C2F86E /* AddTaskNotesView.swift */,
+				7264AE692C81538C00C2F86E /* AddTaskNameInput.swift */,
+			);
+			path = subviews;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -451,6 +462,7 @@
 				722A8A422C1B6C1100E8C318 /* SelectTasksScreen.swift in Sources */,
 				72DEDEDD2C7DB3F00099F3E0 /* WeeklyBreakdownNotesView.swift in Sources */,
 				725AAB8E2C0FAFB2001D8CA8 /* MockListItems.swift in Sources */,
+				72E474232C82AAA50074FF40 /* AddTaskViewModel.swift in Sources */,
 				72B0D6022C487FC800C44784 /* TaskListsTabBarItem.swift in Sources */,
 				7281BBD62C01559200855655 /* TaskListsTabBar.swift in Sources */,
 				721341802B3C9F9A00AACD27 /* DayOfTheWeek.swift in Sources */,

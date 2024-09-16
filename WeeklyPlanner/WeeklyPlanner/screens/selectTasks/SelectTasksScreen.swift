@@ -41,31 +41,31 @@ struct SelectTasksScreen: View {
     
     var body: some View {
         VStack {
-            // Header
-            HStack {
-                Button(
-                    action: {
-                        dismiss()
-                    },
-                    label: {
-                        Text("Cancel")
-                            .foregroundColor(CustomColours.ctaGold)
-                    }
-                )
-                Spacer()
-                ScreenTitleLabel(text: screenTitle)
-                Spacer()
-                Button(
-                    action: {
-                        saveSelectedItems()
-                    },
-                    label: {
-                        Text("Save")
-                            .foregroundColor(CustomColours.ctaGold)
-                    }
-                )
-            }
-            .padding(.horizontal, 20)
+//            // Header
+//            HStack {
+//                Button(
+//                    action: {
+//                        dismiss()
+//                    },
+//                    label: {
+//                        Text("Cancel")
+//                            .foregroundColor(CustomColours.ctaGold)
+//                    }
+//                )
+//                Spacer()
+//                ScreenTitleLabel(text: screenTitle)
+//                Spacer()
+//                Button(
+//                    action: {
+//                        saveSelectedItems()
+//                    },
+//                    label: {
+//                        Text("Save")
+//                            .foregroundColor(CustomColours.ctaGold)
+//                    }
+//                )
+//            }
+//            .padding(.horizontal, 20)
             
             // Items list
             ScrollView(showsIndicators: false) {
@@ -127,6 +127,39 @@ struct SelectTasksScreen: View {
             }
         }
         .navigationBarBackButtonHidden(true)
+        
+        // Toolbar
+        .toolbar {
+            
+            // Cancel button
+            ToolbarItem(placement: .topBarLeading) {
+                Button {
+                    dismiss()
+                } label: {
+                    Text("Cancel")
+                        .foregroundStyle(CustomColours.ctaGold)
+                        .font(CustomFonts.toolbarButtonFont)
+                }
+            }
+            
+            // Screen title
+            ToolbarItem(placement: .principal) {
+                ScreenTitleLabel(text: screenTitle)
+            }
+            
+            // Save button
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    saveSelectedItems()
+                } label: {
+                    Text("Save")
+                        .foregroundStyle(CustomColours.ctaGold)
+                        .font(CustomFonts.toolbarButtonFont)
+                }
+            }
+        }
+        .toolbarBackground(.visible, for: .navigationBar)
+        .navigationBarTitleDisplayMode(.inline)
     }
     
     private func selectTask(_ taskItem: TaskItem) {
