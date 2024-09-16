@@ -41,57 +41,8 @@ struct SelectTasksScreen: View {
     
     var body: some View {
         VStack {
-//            // Header
-//            HStack {
-//                Button(
-//                    action: {
-//                        dismiss()
-//                    },
-//                    label: {
-//                        Text("Cancel")
-//                            .foregroundColor(CustomColours.ctaGold)
-//                    }
-//                )
-//                Spacer()
-//                ScreenTitleLabel(text: screenTitle)
-//                Spacer()
-//                Button(
-//                    action: {
-//                        saveSelectedItems()
-//                    },
-//                    label: {
-//                        Text("Save")
-//                            .foregroundColor(CustomColours.ctaGold)
-//                    }
-//                )
-//            }
-//            .padding(.horizontal, 20)
-            
-            // Items list
-            ScrollView(showsIndicators: false) {
-                VStack(spacing: 0) {
-                    ForEach(taskItems) { taskItem in
-                        TaskItemCell(
-                            taskItem: taskItem,
-                            isSelected: selectedTasks.contains(taskItem),
-                            selectTask: selectTask
-                        )
-                        if taskItem != taskItems.last {
-                            Divider()
-                                .background(CustomColours.textDarkGray)
-                                .padding(.horizontal, 20)
-                        }
-                    }
-                }
-                .overlay(
-                    RoundedRectangle(cornerRadius: 20)
-                        .stroke(
-                            CustomColours.accentBlue,
-                            lineWidth: 3
-                        )
-                )
-                .padding(20)
-            }
+            // Tasks list
+            tasksList
         }
         .frame(
             minWidth: 0,
@@ -218,38 +169,6 @@ struct SelectTasksScreen: View {
     }
 }
 
-private struct TaskItemCell: View {
-    var taskItem: TaskItem
-    var isSelected: Bool
-    var selectTask: (TaskItem) -> Void
-    
-    var body: some View {
-        VStack {
-            Button(
-                action: {
-                    selectTask(taskItem)
-                },
-                label: {
-                    HStack {
-                        Text(taskItem.name ?? "No name")
-                            .padding(.leading, 20)
-                            .foregroundColor(.black)
-                        Spacer()
-                        if isSelected {
-                            Image(systemName: "checkmark")
-                                .tint(CustomColours.ctaGold)
-                                .padding(.trailing, 20)
-                        }
-                    }
-                    .frame(height: 60)
-                }
-            )
-        }
-        .onTapGesture {
-            selectTask(taskItem)
-        }
-    }
-}
 
 //struct SelectItemScreen_Previews: PreviewProvider {
 //
@@ -261,3 +180,42 @@ private struct TaskItemCell: View {
 //        SelectItemScreen(taskListType: .goal)
 //    }
 //}
+
+
+// MARK: Select tasks list
+
+extension SelectTasksScreen {
+    
+    // List of all tasks
+    // Shows which tasks are selected via checkmarks
+    var tasksList: some View {
+        ScrollView(showsIndicators: false) {
+            VStack(spacing: 0) {
+                ForEach(taskItems) { taskItem in
+                    SelectTaskCell(
+                        taskItem: taskItem,
+                        isSelected: selectedTasks.contains(taskItem),
+                        selectTask: selectTask
+                    )
+                    if taskItem != taskItems.last {
+                        Divider()
+                            .background(CustomColours.textDarkGray)
+                            .padding(.horizontal, 20)
+                    }
+                }
+            }
+            .background(CustomColours.getColourForTaskType(taskListType).opacity(0.3))
+            
+            // Border
+            .clipShape(RoundedRectangle(cornerRadius: 20))
+            .overlay(
+                RoundedRectangle(cornerRadius: 20)
+                    .stroke(
+                        CustomColours.getColourForTaskType(taskListType),
+                        lineWidth: 4
+                    )
+            )
+            .padding(20)
+        }
+    }
+}

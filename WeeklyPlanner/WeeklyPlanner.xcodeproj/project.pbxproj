@@ -15,6 +15,7 @@
 		721341692B3B55D300AACD27 /* WeeklyPlannerUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721341682B3B55D300AACD27 /* WeeklyPlannerUITestsLaunchTests.swift */; };
 		7213417A2B3B838500AACD27 /* ToDoItemCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721341792B3B838500AACD27 /* ToDoItemCategory.swift */; };
 		721341802B3C9F9A00AACD27 /* DayOfTheWeek.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7213417F2B3C9F9A00AACD27 /* DayOfTheWeek.swift */; };
+		72206B462C97D3DA004FE043 /* SelectTaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72206B452C97D3DA004FE043 /* SelectTaskCell.swift */; };
 		722A8A422C1B6C1100E8C318 /* SelectTasksScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 722A8A412C1B6C1100E8C318 /* SelectTasksScreen.swift */; };
 		722A8A472C1B729B00E8C318 /* TaskType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 722A8A462C1B729B00E8C318 /* TaskType.swift */; };
 		725AAB8A2C0AB3AC001D8CA8 /* Labels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725AAB892C0AB3AC001D8CA8 /* Labels.swift */; };
@@ -74,6 +75,7 @@
 		721341682B3B55D300AACD27 /* WeeklyPlannerUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyPlannerUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		721341792B3B838500AACD27 /* ToDoItemCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoItemCategory.swift; sourceTree = "<group>"; };
 		7213417F2B3C9F9A00AACD27 /* DayOfTheWeek.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayOfTheWeek.swift; sourceTree = "<group>"; };
+		72206B452C97D3DA004FE043 /* SelectTaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTaskCell.swift; sourceTree = "<group>"; };
 		722A8A412C1B6C1100E8C318 /* SelectTasksScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTasksScreen.swift; sourceTree = "<group>"; };
 		722A8A462C1B729B00E8C318 /* TaskType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskType.swift; sourceTree = "<group>"; };
 		725AAB892C0AB3AC001D8CA8 /* Labels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Labels.swift; sourceTree = "<group>"; };
@@ -207,6 +209,7 @@
 			isa = PBXGroup;
 			children = (
 				722A8A412C1B6C1100E8C318 /* SelectTasksScreen.swift */,
+				72206B452C97D3DA004FE043 /* SelectTaskCell.swift */,
 			);
 			path = selectTasks;
 			sourceTree = "<group>";
@@ -450,6 +453,7 @@
 			files = (
 				725AAB912C10EDA6001D8CA8 /* AddTaskScreen.swift in Sources */,
 				72DFBD002BE9EA7B0009EE03 /* MainScreen.swift in Sources */,
+				72206B462C97D3DA004FE043 /* SelectTaskCell.swift in Sources */,
 				7281BBDE2C07B83400855655 /* CustomColours.swift in Sources */,
 				72B0D5FB2C48505600C44784 /* CustomFonts.swift in Sources */,
 				7264AE682C81531900C2F86E /* AddTaskNotesView.swift in Sources */,
