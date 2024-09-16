@@ -10,7 +10,6 @@ import SwiftUI
 
 // TODO: Optimize this screen by moving items lists to view model and refactoring view code
 struct WeekOverviewScreen: View {
-    @Environment(\.managedObjectContext) var moc
     @FetchRequest(sortDescriptors: []) var dailySchedules: FetchedResults<DailySchedule>
     
     var goals: [Goal] {

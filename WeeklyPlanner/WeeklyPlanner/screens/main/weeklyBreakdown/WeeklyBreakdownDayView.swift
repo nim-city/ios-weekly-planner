@@ -69,6 +69,7 @@ struct WeeklyBreakdownDayView: View {
 
 
 struct WeekdayTaskListView: View {
+    @Environment(\.managedObjectContext) var moc
     @ObservedObject var dailySchedule: DailySchedule
     let tasksType: TaskType
     var taskItems: [TaskItem]
@@ -113,7 +114,7 @@ struct WeekdayTaskListView: View {
                             WeeklyBreakdownTaskCell(
                                 taskItem: taskItem,
                                 taskType: tasksType,
-                                dailySchedule: dailySchedule
+                                removeTaskItem: removeTaskItem(_:)
                             )
                             if taskItem != taskItems.last {
                                 Divider()
@@ -134,6 +135,30 @@ struct WeekdayTaskListView: View {
                 )
             }
         }
+    }
+    
+    private func removeTaskItem(_ taskItem: TaskItem) {
+        // Remove the task from the appropriate list
+        if let goal = taskItem as? Goal {
+            dailySchedule.removeFromGoals(goal)
+        } else if let toDoItem = taskItem as? ToDoItem {
+            dailySchedule.removeFromToDoItems(toDoItem)
+        } else if let toBuyItem = taskItem as? ToBuyItem {
+            dailySchedule.removeFromToBuyItems(toBuyItem)
+        } else if let meal = taskItem as? Meal {
+            dailySchedule.removeFromMeals(meal)
+        } else if let workout = taskItem as? Workout {
+            dailySchedule.removeFromWorkouts(workout)
+        } else {
+            // TODO: Display error message, remove item from day's tasks failed
+            return
+        }
         
+        // Try to save MOC
+        do {
+            try moc.save()
+        } catch let error {
+            print(error)
+        }
     }
 }

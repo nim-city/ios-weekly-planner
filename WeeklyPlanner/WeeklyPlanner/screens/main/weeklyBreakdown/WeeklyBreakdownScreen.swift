@@ -10,10 +10,7 @@ import CoreData
 
 struct WeeklyBreakdownScreen: View {
     @Environment(\.managedObjectContext) var moc
-    @FetchRequest(sortDescriptors: []) var dailySchedules: FetchedResults<DailySchedule>
-    private var sortedDailySchedules: [DailySchedule] {
-        return dailySchedules.sorted(by: { $0.dayIndex < $1.dayIndex })
-    }
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \DailySchedule.dayIndex, ascending: true)]) var dailySchedules: FetchedResults<DailySchedule>
     
     // UI variables
     private let offsetInterval = UIScreen.main.bounds.size.width
@@ -28,7 +25,7 @@ struct WeeklyBreakdownScreen: View {
         NavigationView {
             VStack {
                 HStack(spacing: 0) {
-                    ForEach(sortedDailySchedules) { dailySchedule in
+                    ForEach(dailySchedules) { dailySchedule in
                         WeeklyBreakdownDayView(dailySchedule: dailySchedule)
                     }
                 }

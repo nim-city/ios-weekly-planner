@@ -7,12 +7,10 @@
 
 import SwiftUI
 
-// TODO: Refactor and optimize this
 struct WeeklyBreakdownTaskCell: View {
-    @Environment(\.managedObjectContext) var moc
-    @ObservedObject var taskItem: TaskItem
+    var taskItem: TaskItem
     let taskType: TaskType
-    let dailySchedule: DailySchedule
+    let removeTaskItem: (TaskItem) -> Void
     
     @State private var isExpanded = false
     
@@ -65,32 +63,6 @@ struct WeeklyBreakdownTaskCell: View {
                 }
             }
             .padding(15)
-        }
-    }
-    
-    // Removes a TaskItem from a DailySchedule
-    private func removeTaskItem(_ taskItem: TaskItem) {
-        // Remove the task from the appropriate list
-        if let goal = taskItem as? Goal {
-            dailySchedule.removeFromGoals(goal)
-        } else if let toDoItem = taskItem as? ToDoItem {
-            dailySchedule.removeFromToDoItems(toDoItem)
-        } else if let toBuyItem = taskItem as? ToBuyItem {
-            dailySchedule.removeFromToBuyItems(toBuyItem)
-        } else if let meal = taskItem as? Meal {
-            dailySchedule.removeFromMeals(meal)
-        } else if let workout = taskItem as? Workout {
-            dailySchedule.removeFromWorkouts(workout)
-        } else {
-            // TODO: Display error message, remove item from day's tasks failed
-            return
-        }
-        
-        // Try to save MOC
-        do {
-            try moc.save()
-        } catch let error {
-            print(error)
         }
     }
 }
