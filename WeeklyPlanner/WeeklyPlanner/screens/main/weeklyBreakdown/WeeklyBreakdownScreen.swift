@@ -5,7 +5,6 @@
 //  Created by Nimish Narang on 2024-05-06.
 //
 
-import Foundation
 import SwiftUI
 import CoreData
 
@@ -100,89 +99,6 @@ struct WeeklyBreakdownScreen: View {
     }
 }
 
-
-struct WeekdayTaskListView: View {
-    @ObservedObject var dailySchedule: DailySchedule
-    let tasksType: TaskType
-    var taskItems: [TaskItem]
-    
-    @State private var isExpanded = true
-    private var listTitle: String {
-        switch tasksType {
-        case .goal:
-            return "Goals"
-        case .toDo:
-            return "To do items"
-        case .toBuy:
-            return "To buy items"
-        case .meal:
-            return "Meals"
-        case .workout:
-            return "Workouts"
-        }
-    }
-    
-    var body: some View {
-        VStack(spacing: 0) {
-            // List header containing title, expand/collapse button, and link to select tasks screen
-            HStack {
-                SubtitleLabel(text: listTitle)
-                    .padding(.leading, 10)
-                Button {
-                    isExpanded.toggle()
-                } label: {
-                    Image(systemName: isExpanded ? "chevron.down.circle" : "chevron.right.circle")
-                        .tint(CustomColours.ctaGold)
-                }
-                .padding(.leading, 5)
-                
-                Spacer()
-                
-                NavigationLink(
-                    destination: SelectTasksScreen(
-                        dailySchedule: dailySchedule,
-                        taskListType: tasksType
-                    ),
-                    label: {
-                        Image(systemName: "plus")
-                            .tint(CustomColours.ctaGold)
-                    }
-                )
-            }
-            .padding(.bottom, 15)
-            
-            // List of tasks, only shown when in expanded mode
-            if isExpanded {
-                VStack {
-                    VStack(spacing: 0) {
-                        ForEach(taskItems) { taskItem in
-                            WeeklyBreakdownTaskCell(
-                                taskItem: taskItem,
-                                taskType: tasksType,
-                                dailySchedule: dailySchedule
-                            )
-                            if taskItem != taskItems.last {
-                                Divider()
-                                    .background(CustomColours.textDarkGray)
-                                    .padding(.horizontal, 20)
-                            }
-                        }
-                    }
-                }
-                .background(CustomColours.getColourForTaskType(tasksType).opacity(0.3))
-                .clipShape(RoundedRectangle(cornerRadius: 20))
-                .overlay(
-                    RoundedRectangle(cornerRadius: 20)
-                        .stroke(
-                            CustomColours.getColourForTaskType(tasksType),
-                            lineWidth: 4
-                        )
-                )
-            }
-        }
-        
-    }
-}
 
 struct WeekBreakdownScreen_Preview: PreviewProvider {
     static var previews: some View {
