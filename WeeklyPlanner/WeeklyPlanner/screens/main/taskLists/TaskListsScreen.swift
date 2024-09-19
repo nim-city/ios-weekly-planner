@@ -5,47 +5,28 @@
 //  Created by Nimish Narang on 2024-05-06.
 //
 
-import Foundation
 import SwiftUI
-import CoreData
 
 struct TaskListsScreen: View {
-    @Environment(\.managedObjectContext) var moc
-    
     @FetchRequest(sortDescriptors: []) var goals: FetchedResults<Goal>
     @FetchRequest(sortDescriptors: []) var toDoItems: FetchedResults<ToDoItem>
     @FetchRequest(sortDescriptors: []) var toBuyItems: FetchedResults<ToBuyItem>
     @FetchRequest(sortDescriptors: []) var meals: FetchedResults<Meal>
     @FetchRequest(sortDescriptors: []) var workouts: FetchedResults<Workout>
     
-    @State var selectedTaskType: TaskType = .goal
-    var screenTitle: String {
-        switch selectedTaskType {
-        case .goal:
-            return "Goals"
-        case .toDo:
-            return "To do items"
-        case .toBuy:
-            return "To buy items"
-        case .meal:
-            return "Meals"
-        case .workout:
-            return "Workout"
-        }
-    }
-    
-    @State private var isShowingAddScreen = false
+    @StateObject private var viewModel = TaskListsViewModel()
+        
     
     var body: some View {
         NavigationView {
             VStack {
-                TaskListsTabBar(selectedTaskType: $selectedTaskType)
+                TaskListsTabBar(selectedTaskType: $viewModel.selectedTaskType)
                     .padding(.top, 20)
                     .padding(.horizontal, 10)
                 
                 ScrollView(showsIndicators: false) {
                     VStack {
-                        switch selectedTaskType {
+                        switch viewModel.selectedTaskType {
                         case .goal:
                             TaskListView(
                                 tasksType: .goal,
@@ -78,21 +59,12 @@ struct TaskListsScreen: View {
                 
                 // Navigation bar
                 .toolbar {
-                    ToolbarItem(placement: .topBarLeading) {
-                        Button(
-                            action: deleteAllTasks,
-                            label: {
-                                Image(systemName: "clear")
-                                    .tint(CustomColours.ctaGold)
-                            }
-                        )
-                    }
                     ToolbarItem(placement: .principal) {
-                        ScreenTitleLabel(text: screenTitle)
+                        ScreenTitleLabel(text: viewModel.screenTitle)
                     }
                     ToolbarItem(placement: .topBarTrailing) {
                         Button {
-                            isShowingAddScreen = true
+                            viewModel.isShowingAddScreen = true
                         } label: {
                             Image(systemName: "plus")
                                 .tint(CustomColours.ctaGold)
@@ -101,31 +73,16 @@ struct TaskListsScreen: View {
                 }
                 .toolbarBackground(.visible, for: .navigationBar)
                 .navigationBarTitleDisplayMode(.inline)
-                .toolbarBackground(.visible, for: .tabBar)
                 
                 // Add item modal
-                .sheet(isPresented: $isShowingAddScreen) {
-                    AddTaskScreen(itemType: selectedTaskType)
+                .sheet(isPresented: $viewModel.isShowingAddScreen) {
+                    AddTaskScreen(itemType: viewModel.selectedTaskType)
                 }
             }
         }
     }
     
-    // Deletes all tasks (essentially clears the database except for skeletons of DailySchedules)
-    private func deleteAllTasks() {
-        // Delete all Tasks
-        goals.forEach { moc.delete($0) }
-        toDoItems.forEach { moc.delete($0) }
-        toBuyItems.forEach { moc.delete($0) }
-        meals.forEach { moc.delete($0) }
-        workouts.forEach { moc.delete($0) }
-        
-        do {
-            try moc.save()
-        } catch let error {
-            print(error)
-        }
-    }
+    
 }
 
 struct ListsScreen_Preview: PreviewProvider {
