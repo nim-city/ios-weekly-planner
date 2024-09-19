@@ -213,6 +213,36 @@
 			path = library;
 			sourceTree = "<group>";
 		};
+		72206B562C9BBC86004FE043 /* subviews */ = {
+			isa = PBXGroup;
+			children = (
+				72B0D6032C4880F000C44784 /* WeekOverviewListView.swift */,
+				72B0D6052C48812B00C44784 /* WeekOverviewListCell.swift */,
+				72B0D6072C48814D00C44784 /* WeekOverviewNotesView.swift */,
+			);
+			path = subviews;
+			sourceTree = "<group>";
+		};
+		72206B572C9BBCAA004FE043 /* subviews */ = {
+			isa = PBXGroup;
+			children = (
+				72DEDED82C7DA6350099F3E0 /* WeeklyBreakdownTaskCell.swift */,
+				72DEDEDA2C7DB3030099F3E0 /* WeeklyBreakdownDayView.swift */,
+				72DEDEDC2C7DB3F00099F3E0 /* WeeklyBreakdownNotesView.swift */,
+			);
+			path = subviews;
+			sourceTree = "<group>";
+		};
+		72206B582C9BBCB4004FE043 /* subviews */ = {
+			isa = PBXGroup;
+			children = (
+				72B0D6002C487FB600C44784 /* tabBar */,
+				72B0D5FC2C487DA000C44784 /* TaskListView.swift */,
+				72B0D5FE2C487ED900C44784 /* TaskListCell.swift */,
+			);
+			path = subviews;
+			sourceTree = "<group>";
+		};
 		722A8A402C1B6BDF00E8C318 /* selectTasks */ = {
 			isa = PBXGroup;
 			children = (
@@ -291,10 +321,8 @@
 		72DFBD012BE9F2700009EE03 /* weeklyBreakdown */ = {
 			isa = PBXGroup;
 			children = (
+				72206B572C9BBCAA004FE043 /* subviews */,
 				72DFBD062BE9F38F0009EE03 /* WeeklyBreakdownScreen.swift */,
-				72DEDED82C7DA6350099F3E0 /* WeeklyBreakdownTaskCell.swift */,
-				72DEDEDA2C7DB3030099F3E0 /* WeeklyBreakdownDayView.swift */,
-				72DEDEDC2C7DB3F00099F3E0 /* WeeklyBreakdownNotesView.swift */,
 				72206B502C9A3412004FE043 /* WeeklyBreakdownViewModel.swift */,
 			);
 			path = weeklyBreakdown;
@@ -303,10 +331,8 @@
 		72DFBD022BE9F2830009EE03 /* weekOverview */ = {
 			isa = PBXGroup;
 			children = (
+				72206B562C9BBC86004FE043 /* subviews */,
 				72DFBD042BE9F2CE0009EE03 /* WeekOverviewScreen.swift */,
-				72B0D6032C4880F000C44784 /* WeekOverviewListView.swift */,
-				72B0D6052C48812B00C44784 /* WeekOverviewListCell.swift */,
-				72B0D6072C48814D00C44784 /* WeekOverviewNotesView.swift */,
 				72206B4D2C99E7AB004FE043 /* WeekOverviewViewModel.swift */,
 			);
 			path = weekOverview;
@@ -315,10 +341,8 @@
 		72DFBD032BE9F29D0009EE03 /* taskLists */ = {
 			isa = PBXGroup;
 			children = (
-				72B0D6002C487FB600C44784 /* tabBar */,
+				72206B582C9BBCB4004FE043 /* subviews */,
 				72DFBD082BE9F3F10009EE03 /* TaskListsScreen.swift */,
-				72B0D5FC2C487DA000C44784 /* TaskListView.swift */,
-				72B0D5FE2C487ED900C44784 /* TaskListCell.swift */,
 				72206B542C9BBAFF004FE043 /* TaskListsViewModel.swift */,
 			);
 			path = taskLists;
