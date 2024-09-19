@@ -20,6 +20,7 @@
 		72206B512C9A3412004FE043 /* WeeklyBreakdownViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72206B502C9A3412004FE043 /* WeeklyBreakdownViewModel.swift */; };
 		72206B532C9BB88D004FE043 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72206B522C9BB88D004FE043 /* MainViewModel.swift */; };
 		72206B552C9BBAFF004FE043 /* TaskListsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72206B542C9BBAFF004FE043 /* TaskListsViewModel.swift */; };
+		72206B5A2C9BD59D004FE043 /* SelectTasksViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72206B592C9BD59D004FE043 /* SelectTasksViewModel.swift */; };
 		722A8A422C1B6C1100E8C318 /* SelectTasksScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 722A8A412C1B6C1100E8C318 /* SelectTasksScreen.swift */; };
 		722A8A472C1B729B00E8C318 /* TaskType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 722A8A462C1B729B00E8C318 /* TaskType.swift */; };
 		725AAB8A2C0AB3AC001D8CA8 /* Labels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725AAB892C0AB3AC001D8CA8 /* Labels.swift */; };
@@ -84,6 +85,7 @@
 		72206B502C9A3412004FE043 /* WeeklyBreakdownViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyBreakdownViewModel.swift; sourceTree = "<group>"; };
 		72206B522C9BB88D004FE043 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		72206B542C9BBAFF004FE043 /* TaskListsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListsViewModel.swift; sourceTree = "<group>"; };
+		72206B592C9BD59D004FE043 /* SelectTasksViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTasksViewModel.swift; sourceTree = "<group>"; };
 		722A8A412C1B6C1100E8C318 /* SelectTasksScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTasksScreen.swift; sourceTree = "<group>"; };
 		722A8A462C1B729B00E8C318 /* TaskType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskType.swift; sourceTree = "<group>"; };
 		725AAB892C0AB3AC001D8CA8 /* Labels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Labels.swift; sourceTree = "<group>"; };
@@ -248,6 +250,7 @@
 			children = (
 				722A8A412C1B6C1100E8C318 /* SelectTasksScreen.swift */,
 				72206B452C97D3DA004FE043 /* SelectTaskCell.swift */,
+				72206B592C9BD59D004FE043 /* SelectTasksViewModel.swift */,
 			);
 			path = selectTasks;
 			sourceTree = "<group>";
@@ -515,6 +518,7 @@
 				7264AE6A2C81538C00C2F86E /* AddTaskNameInput.swift in Sources */,
 				72B0D6042C4880F000C44784 /* WeekOverviewListView.swift in Sources */,
 				72B0D6082C48814D00C44784 /* WeekOverviewNotesView.swift in Sources */,
+				72206B5A2C9BD59D004FE043 /* SelectTasksViewModel.swift in Sources */,
 				7281BBDB2C070DD000855655 /* MockDailySchedules.swift in Sources */,
 				72206B512C9A3412004FE043 /* WeeklyBreakdownViewModel.swift in Sources */,
 				725AAB8A2C0AB3AC001D8CA8 /* Labels.swift in Sources */,

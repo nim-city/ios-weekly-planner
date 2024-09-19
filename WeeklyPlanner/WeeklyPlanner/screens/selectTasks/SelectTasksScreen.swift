@@ -5,42 +5,23 @@
 //  Created by Nimish Narang on 2024-06-13.
 //
 
-import Foundation
 import SwiftUI
 
+
 struct SelectTasksScreen: View {
-    @Environment(\.managedObjectContext) var moc
     // To allow for manual dismiss
     @Environment(\.dismiss) var dismiss
-    
+    // For task items list
+    @Environment(\.managedObjectContext) var moc
     @FetchRequest var taskItems: FetchedResults<TaskItem>
     
-    
-    @ObservedObject var dailySchedule: DailySchedule
-    var taskListType: TaskType
-    @State private var selectedTasks = [TaskItem]()
-    
-    private var screenTitle: String {
-        switch taskListType {
-        case .goal:
-            return "Select goals"
-        case .toDo:
-            return "Select to do items"
-        case .toBuy:
-            return "Select to buy items"
-        case .meal:
-            return "Select meals"
-        case .workout:
-            return "Select workouts"
-        }
-    }
+    @ObservedObject var viewModel: SelectTasksViewModel
     
     
-    init(dailySchedule: DailySchedule, taskType: TaskType) {
-        self.dailySchedule = dailySchedule
-        self.taskListType = taskType
-        
-        switch taskType {
+    init(viewModel: SelectTasksViewModel) {
+        self.viewModel = viewModel
+        // Set the fetch request according to the type of the task list
+        switch viewModel.taskType {
         case .goal:
             _taskItems = FetchRequest(entity: Goal.entity(), sortDescriptors: [])
         case .toDo:
@@ -67,35 +48,9 @@ struct SelectTasksScreen: View {
             maxHeight: .infinity,
             alignment: .leading
         )
-        .onAppear {
-            switch taskListType {
-            case .goal:
-                if let goals = dailySchedule.goals {
-                    selectedTasks = Array(_immutableCocoaArray: goals)
-                }
-            case .toDo:
-                if let toDoItems = dailySchedule.toDoItems {
-                    selectedTasks = Array(_immutableCocoaArray: toDoItems)
-                }
-            case .toBuy:
-                if let toBuyItems = dailySchedule.toBuyItems {
-                    selectedTasks = Array(_immutableCocoaArray: toBuyItems)
-                }
-            case .meal:
-                if let meals = dailySchedule.meals {
-                    selectedTasks = Array(_immutableCocoaArray: meals)
-                }
-            case .workout:
-                if let workouts = dailySchedule.workouts {
-                    selectedTasks = Array(_immutableCocoaArray: workouts)
-                }
-            }
-        }
-        .navigationBarBackButtonHidden(true)
         
-        // Toolbar
+        // Navigation toolbar
         .toolbar {
-            
             // Cancel button
             ToolbarItem(placement: .topBarLeading) {
                 Button {
@@ -109,13 +64,13 @@ struct SelectTasksScreen: View {
             
             // Screen title
             ToolbarItem(placement: .principal) {
-                ScreenTitleLabel(text: screenTitle)
+                ScreenTitleLabel(text: viewModel.screenTitle)
             }
             
             // Save button
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
-                    let wasSaveSuccessful = saveSelectedItems()
+                    let wasSaveSuccessful = viewModel.saveSelectedItems(moc: moc)
                     if wasSaveSuccessful {
                         dismiss()
                     }
@@ -128,54 +83,18 @@ struct SelectTasksScreen: View {
         }
         .toolbarBackground(.visible, for: .navigationBar)
         .navigationBarTitleDisplayMode(.inline)
-    }
-    
-    private func selectTask(_ taskItem: TaskItem) {
-        if let index = selectedTasks.firstIndex(of: taskItem) {
-            selectedTasks.remove(at: index)
-        } else {
-            selectedTasks.append(taskItem)
-        }
-    }
-    
-    private func saveSelectedItems() -> Bool {
-        switch taskListType {
-        case .goal:
-            dailySchedule.goals = NSOrderedSet(array: selectedTasks)
-        case .toDo:
-            dailySchedule.toDoItems = NSOrderedSet(array: selectedTasks)
-        case .toBuy:
-            dailySchedule.toBuyItems = NSOrderedSet(array: selectedTasks)
-        case .meal:
-            dailySchedule.meals = NSOrderedSet(array: selectedTasks)
-        case .workout:
-            dailySchedule.workouts = NSOrderedSet(array: selectedTasks)
-        }
+        .navigationBarBackButtonHidden(true)
         
-        do {
-            try moc.save()
-            return true
-        } catch let error {
-            print(error)
-            return false
+        // Set the tasks currently selected for the day and task type
+        .onAppear {
+            viewModel.setSelectedTasks()
         }
     }
 }
 
 
-//struct SelectItemScreen_Previews: PreviewProvider {
-//
-//    static var previews: some View {
-//        // Add mock items to CoreData
-//        let moc = CoreDataController().moc
-//        let _ = MockListItems(moc: moc)
-//
-//        SelectItemScreen(taskListType: .goal)
-//    }
-//}
-
-
 // MARK: Select tasks list
+
 
 extension SelectTasksScreen {
     
@@ -187,8 +106,8 @@ extension SelectTasksScreen {
                 ForEach(taskItems) { taskItem in
                     SelectTaskCell(
                         taskItem: taskItem,
-                        isSelected: selectedTasks.contains(taskItem),
-                        selectTask: selectTask
+                        isSelected: viewModel.selectedTasks.contains(taskItem),
+                        selectTask: viewModel.selectTask
                     )
                     if taskItem != taskItems.last {
                         Divider()
@@ -197,14 +116,14 @@ extension SelectTasksScreen {
                     }
                 }
             }
-            .background(CustomColours.getColourForTaskType(taskListType).opacity(0.3))
+            .background(CustomColours.getColourForTaskType(viewModel.taskType).opacity(0.3))
             
             // Border
             .clipShape(RoundedRectangle(cornerRadius: 20))
             .overlay(
                 RoundedRectangle(cornerRadius: 20)
                     .stroke(
-                        CustomColours.getColourForTaskType(taskListType),
+                        CustomColours.getColourForTaskType(viewModel.taskType),
                         lineWidth: 4
                     )
             )
