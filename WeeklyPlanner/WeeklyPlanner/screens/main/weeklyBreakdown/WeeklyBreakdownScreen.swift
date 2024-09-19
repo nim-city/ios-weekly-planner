@@ -9,9 +9,6 @@ import SwiftUI
 import CoreData
 
 struct WeeklyBreakdownScreen: View {
-    // TODO: Move the load default daily Schedules into startup code
-    // Needed to load default daily schedules if there are no dailySchedules
-    @Environment(\.managedObjectContext) var moc
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \DailySchedule.dayIndex, ascending: true)]) var dailySchedules: FetchedResults<DailySchedule>
     
     @StateObject private var viewModel = WeeklyBreakdownViewModel()
@@ -57,11 +54,6 @@ struct WeeklyBreakdownScreen: View {
                     }
             )
         }
-        .onReceive(dailySchedules.publisher.collect()) { schedules in
-            if (schedules.isEmpty) {
-                let _ = viewModel.addDefaultDailySchedules(moc: moc)
-            }
-        }
         .onAppear {
             viewModel.updateWeekdayName()
         }
@@ -81,6 +73,7 @@ struct WeeklyBreakdownScreen: View {
             }
         }
         
+        // Called separately to avoid animation
         viewModel.updateWeekdayName()
     }
 }
