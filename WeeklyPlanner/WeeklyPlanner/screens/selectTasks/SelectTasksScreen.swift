@@ -13,15 +13,11 @@ struct SelectTasksScreen: View {
     // To allow for manual dismiss
     @Environment(\.dismiss) var dismiss
     
-    @FetchRequest(sortDescriptors: []) var goals: FetchedResults<Goal>
-    @FetchRequest(sortDescriptors: []) var toDoItems: FetchedResults<ToDoItem>
-    @FetchRequest(sortDescriptors: []) var toBuyItems: FetchedResults<ToBuyItem>
-    @FetchRequest(sortDescriptors: []) var meals: FetchedResults<Meal>
-    @FetchRequest(sortDescriptors: []) var workouts: FetchedResults<Workout>
+    @FetchRequest var taskItems: FetchedResults<TaskItem>
+    
     
     @ObservedObject var dailySchedule: DailySchedule
     var taskListType: TaskType
-    @State private var taskItems = [TaskItem]()
     @State private var selectedTasks = [TaskItem]()
     
     private var screenTitle: String {
@@ -39,6 +35,26 @@ struct SelectTasksScreen: View {
         }
     }
     
+    
+    init(dailySchedule: DailySchedule, taskType: TaskType) {
+        self.dailySchedule = dailySchedule
+        self.taskListType = taskType
+        
+        switch taskType {
+        case .goal:
+            _taskItems = FetchRequest(entity: Goal.entity(), sortDescriptors: [])
+        case .toDo:
+            _taskItems = FetchRequest(entity: ToDoItem.entity(), sortDescriptors: [])
+        case .toBuy:
+            _taskItems = FetchRequest(entity: ToBuyItem.entity(), sortDescriptors: [])
+        case .meal:
+            _taskItems = FetchRequest(entity: Meal.entity(), sortDescriptors: [])
+        case .workout:
+            _taskItems = FetchRequest(entity: Workout.entity(), sortDescriptors: [])
+        }
+    }
+    
+    
     var body: some View {
         VStack {
             // Tasks list
@@ -54,24 +70,22 @@ struct SelectTasksScreen: View {
         .onAppear {
             switch taskListType {
             case .goal:
-                taskItems = Array(goals)
                 if let goals = dailySchedule.goals {
                     selectedTasks = Array(_immutableCocoaArray: goals)
                 }
             case .toDo:
-                taskItems = Array(toDoItems)
                 if let toDoItems = dailySchedule.toDoItems {
                     selectedTasks = Array(_immutableCocoaArray: toDoItems)
                 }
             case .toBuy:
-                taskItems = Array(toBuyItems)
+                if let toBuyItems = dailySchedule.toBuyItems {
+                    selectedTasks = Array(_immutableCocoaArray: toBuyItems)
+                }
             case .meal:
-                taskItems = Array(meals)
                 if let meals = dailySchedule.meals {
                     selectedTasks = Array(_immutableCocoaArray: meals)
                 }
             case .workout:
-                taskItems = Array(workouts)
                 if let workouts = dailySchedule.workouts {
                     selectedTasks = Array(_immutableCocoaArray: workouts)
                 }
@@ -101,7 +115,10 @@ struct SelectTasksScreen: View {
             // Save button
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
-                    saveSelectedItems()
+                    let wasSaveSuccessful = saveSelectedItems()
+                    if wasSaveSuccessful {
+                        dismiss()
+                    }
                 } label: {
                     Text("Save")
                         .foregroundStyle(CustomColours.ctaGold)
@@ -121,50 +138,26 @@ struct SelectTasksScreen: View {
         }
     }
     
-    private func saveSelectedItems() {
+    private func saveSelectedItems() -> Bool {
         switch taskListType {
         case .goal:
-            goals.forEach { dailySchedule.removeFromGoals($0) }
-            selectedTasks.forEach {
-                if let goal = $0 as? Goal {
-                    dailySchedule.addToGoals(goal)
-                }
-            }
+            dailySchedule.goals = NSOrderedSet(array: selectedTasks)
         case .toDo:
-            toDoItems.forEach { dailySchedule.removeFromToDoItems($0) }
-            selectedTasks.forEach {
-                if let toDoItem = $0 as? ToDoItem {
-                    dailySchedule.addToToDoItems(toDoItem)
-                }
-            }
+            dailySchedule.toDoItems = NSOrderedSet(array: selectedTasks)
         case .toBuy:
-            toBuyItems.forEach { dailySchedule.removeFromToBuyItems($0) }
-            selectedTasks.forEach {
-                if let toBuyItem = $0 as? ToBuyItem {
-                    dailySchedule.addToToBuyItems(toBuyItem)
-                }
-            }
+            dailySchedule.toBuyItems = NSOrderedSet(array: selectedTasks)
         case .meal:
-            meals.forEach { dailySchedule.removeFromMeals($0) }
-            selectedTasks.forEach {
-                if let meal = $0 as? Meal {
-                    dailySchedule.addToMeals(meal)
-                }
-            }
+            dailySchedule.meals = NSOrderedSet(array: selectedTasks)
         case .workout:
-            workouts.forEach { dailySchedule.removeFromWorkouts($0) }
-            selectedTasks.forEach {
-                if let workout = $0 as? Workout {
-                    dailySchedule.addToWorkouts(workout)
-                }
-            }
+            dailySchedule.workouts = NSOrderedSet(array: selectedTasks)
         }
         
         do {
             try moc.save()
-            dismiss()
-        } catch {
-            // TODO: handle the error
+            return true
+        } catch let error {
+            print(error)
+            return false
         }
     }
 }

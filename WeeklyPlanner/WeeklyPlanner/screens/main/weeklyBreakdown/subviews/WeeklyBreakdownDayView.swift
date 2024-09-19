@@ -96,7 +96,7 @@ struct WeekdayTaskListView: View {
                 NavigationLink(
                     destination: SelectTasksScreen(
                         dailySchedule: dailySchedule,
-                        taskListType: tasksType
+                        taskType: tasksType
                     ),
                     label: {
                         Image(systemName: "plus")
