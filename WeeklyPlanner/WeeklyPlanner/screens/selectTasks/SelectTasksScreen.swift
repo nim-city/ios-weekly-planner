@@ -5,39 +5,36 @@
 //  Created by Nimish Narang on 2024-06-13.
 //
 
-import Foundation
 import SwiftUI
 
+
 struct SelectTasksScreen: View {
-    @Environment(\.managedObjectContext) var moc
     // To allow for manual dismiss
     @Environment(\.dismiss) var dismiss
+    // For task items list
+    @Environment(\.managedObjectContext) var moc
+    @FetchRequest var taskItems: FetchedResults<TaskItem>
     
-    @FetchRequest(sortDescriptors: []) var goals: FetchedResults<Goal>
-    @FetchRequest(sortDescriptors: []) var toDoItems: FetchedResults<ToDoItem>
-    @FetchRequest(sortDescriptors: []) var toBuyItems: FetchedResults<ToBuyItem>
-    @FetchRequest(sortDescriptors: []) var meals: FetchedResults<Meal>
-    @FetchRequest(sortDescriptors: []) var workouts: FetchedResults<Workout>
+    @ObservedObject var viewModel: SelectTasksViewModel
     
-    @ObservedObject var dailySchedule: DailySchedule
-    var taskListType: TaskType
-    @State private var taskItems = [TaskItem]()
-    @State private var selectedTasks = [TaskItem]()
     
-    private var screenTitle: String {
-        switch taskListType {
+    init(viewModel: SelectTasksViewModel) {
+        self.viewModel = viewModel
+        // Set the fetch request according to the type of the task list
+        switch viewModel.taskType {
         case .goal:
-            return "Select goals"
+            _taskItems = FetchRequest(entity: Goal.entity(), sortDescriptors: [])
         case .toDo:
-            return "Select to do items"
+            _taskItems = FetchRequest(entity: ToDoItem.entity(), sortDescriptors: [])
         case .toBuy:
-            return "Select to buy items"
+            _taskItems = FetchRequest(entity: ToBuyItem.entity(), sortDescriptors: [])
         case .meal:
-            return "Select meals"
+            _taskItems = FetchRequest(entity: Meal.entity(), sortDescriptors: [])
         case .workout:
-            return "Select workouts"
+            _taskItems = FetchRequest(entity: Workout.entity(), sortDescriptors: [])
         }
     }
+    
     
     var body: some View {
         VStack {
@@ -51,37 +48,9 @@ struct SelectTasksScreen: View {
             maxHeight: .infinity,
             alignment: .leading
         )
-        .onAppear {
-            switch taskListType {
-            case .goal:
-                taskItems = Array(goals)
-                if let goals = dailySchedule.goals {
-                    selectedTasks = Array(_immutableCocoaArray: goals)
-                }
-            case .toDo:
-                taskItems = Array(toDoItems)
-                if let toDoItems = dailySchedule.toDoItems {
-                    selectedTasks = Array(_immutableCocoaArray: toDoItems)
-                }
-            case .toBuy:
-                taskItems = Array(toBuyItems)
-            case .meal:
-                taskItems = Array(meals)
-                if let meals = dailySchedule.meals {
-                    selectedTasks = Array(_immutableCocoaArray: meals)
-                }
-            case .workout:
-                taskItems = Array(workouts)
-                if let workouts = dailySchedule.workouts {
-                    selectedTasks = Array(_immutableCocoaArray: workouts)
-                }
-            }
-        }
-        .navigationBarBackButtonHidden(true)
         
-        // Toolbar
+        // Navigation toolbar
         .toolbar {
-            
             // Cancel button
             ToolbarItem(placement: .topBarLeading) {
                 Button {
@@ -95,13 +64,16 @@ struct SelectTasksScreen: View {
             
             // Screen title
             ToolbarItem(placement: .principal) {
-                ScreenTitleLabel(text: screenTitle)
+                ScreenTitleLabel(text: viewModel.screenTitle)
             }
             
             // Save button
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
-                    saveSelectedItems()
+                    let wasSaveSuccessful = viewModel.saveSelectedItems(moc: moc)
+                    if wasSaveSuccessful {
+                        dismiss()
+                    }
                 } label: {
                     Text("Save")
                         .foregroundStyle(CustomColours.ctaGold)
@@ -111,78 +83,18 @@ struct SelectTasksScreen: View {
         }
         .toolbarBackground(.visible, for: .navigationBar)
         .navigationBarTitleDisplayMode(.inline)
-    }
-    
-    private func selectTask(_ taskItem: TaskItem) {
-        if let index = selectedTasks.firstIndex(of: taskItem) {
-            selectedTasks.remove(at: index)
-        } else {
-            selectedTasks.append(taskItem)
-        }
-    }
-    
-    private func saveSelectedItems() {
-        switch taskListType {
-        case .goal:
-            goals.forEach { dailySchedule.removeFromGoals($0) }
-            selectedTasks.forEach {
-                if let goal = $0 as? Goal {
-                    dailySchedule.addToGoals(goal)
-                }
-            }
-        case .toDo:
-            toDoItems.forEach { dailySchedule.removeFromToDoItems($0) }
-            selectedTasks.forEach {
-                if let toDoItem = $0 as? ToDoItem {
-                    dailySchedule.addToToDoItems(toDoItem)
-                }
-            }
-        case .toBuy:
-            toBuyItems.forEach { dailySchedule.removeFromToBuyItems($0) }
-            selectedTasks.forEach {
-                if let toBuyItem = $0 as? ToBuyItem {
-                    dailySchedule.addToToBuyItems(toBuyItem)
-                }
-            }
-        case .meal:
-            meals.forEach { dailySchedule.removeFromMeals($0) }
-            selectedTasks.forEach {
-                if let meal = $0 as? Meal {
-                    dailySchedule.addToMeals(meal)
-                }
-            }
-        case .workout:
-            workouts.forEach { dailySchedule.removeFromWorkouts($0) }
-            selectedTasks.forEach {
-                if let workout = $0 as? Workout {
-                    dailySchedule.addToWorkouts(workout)
-                }
-            }
-        }
+        .navigationBarBackButtonHidden(true)
         
-        do {
-            try moc.save()
-            dismiss()
-        } catch {
-            // TODO: handle the error
+        // Set the tasks currently selected for the day and task type
+        .onAppear {
+            viewModel.setSelectedTasks()
         }
     }
 }
 
 
-//struct SelectItemScreen_Previews: PreviewProvider {
-//
-//    static var previews: some View {
-//        // Add mock items to CoreData
-//        let moc = CoreDataController().moc
-//        let _ = MockListItems(moc: moc)
-//
-//        SelectItemScreen(taskListType: .goal)
-//    }
-//}
-
-
 // MARK: Select tasks list
+
 
 extension SelectTasksScreen {
     
@@ -194,8 +106,8 @@ extension SelectTasksScreen {
                 ForEach(taskItems) { taskItem in
                     SelectTaskCell(
                         taskItem: taskItem,
-                        isSelected: selectedTasks.contains(taskItem),
-                        selectTask: selectTask
+                        isSelected: viewModel.selectedTasks.contains(taskItem),
+                        selectTask: viewModel.selectTask
                     )
                     if taskItem != taskItems.last {
                         Divider()
@@ -204,14 +116,14 @@ extension SelectTasksScreen {
                     }
                 }
             }
-            .background(CustomColours.getColourForTaskType(taskListType).opacity(0.3))
+            .background(CustomColours.getColourForTaskType(viewModel.taskType).opacity(0.3))
             
             // Border
             .clipShape(RoundedRectangle(cornerRadius: 20))
             .overlay(
                 RoundedRectangle(cornerRadius: 20)
                     .stroke(
-                        CustomColours.getColourForTaskType(taskListType),
+                        CustomColours.getColourForTaskType(viewModel.taskType),
                         lineWidth: 4
                     )
             )

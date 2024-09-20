@@ -77,6 +77,7 @@ struct WeekdayTaskListView: View {
     
     @State private var isExpanded = true
     
+    
     var body: some View {
         VStack(spacing: 0) {
             // List header containing title, expand/collapse button, and link to select tasks screen
@@ -95,8 +96,10 @@ struct WeekdayTaskListView: View {
                 
                 NavigationLink(
                     destination: SelectTasksScreen(
-                        dailySchedule: dailySchedule,
-                        taskListType: tasksType
+                        viewModel: SelectTasksViewModel(
+                            dailySchedule: dailySchedule,
+                            taskType: tasksType
+                        )
                     ),
                     label: {
                         Image(systemName: "plus")

@@ -9,90 +9,72 @@ import SwiftUI
 import CoreData
 
 struct WeeklyBreakdownScreen: View {
-    @Environment(\.managedObjectContext) var moc
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \DailySchedule.dayIndex, ascending: true)]) var dailySchedules: FetchedResults<DailySchedule>
+    
+    @StateObject private var viewModel = WeeklyBreakdownViewModel()
     
     // UI variables
     private let offsetInterval = UIScreen.main.bounds.size.width
-    @State private var xOffset: CGFloat = 0
-    
-    @State private var weekdayIndex: Int = 0
-    var weekdayName: String {
-        return DayOfTheWeek.getDayFromIndex(weekdayIndex)?.capitalizedName ?? "Weekday"
+    private var xOffset: CGFloat {
+        -(CGFloat(viewModel.weekdayIndex) * offsetInterval)
     }
+    
     
     var body: some View {
         NavigationView {
-            VStack {
-                HStack(spacing: 0) {
-                    ForEach(dailySchedules) { dailySchedule in
-                        WeeklyBreakdownDayView(dailySchedule: dailySchedule)
-                    }
-                }
-                .frame(
-                    minWidth: 0,
-                    maxWidth: offsetInterval * 7,
-                    minHeight: 0,
-                    maxHeight: .infinity,
-                    alignment: .leading
-                )
-                .toolbar {
-                    ToolbarItem(placement: .principal) {
-                        ScreenTitleLabel(text: weekdayName)
-                    }
-                }
-                .toolbarBackground(.visible, for: .navigationBar)
-                .navigationBarTitleDisplayMode(.inline)
-                .offset(x: xOffset)
-                .gesture(
-                    DragGesture()
-                        .onEnded { value in
-                            if value.translation.width < 0 {
-                                if xOffset > -(offsetInterval * 6) {
-                                    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-                                    withAnimation(.easeOut) {
-                                        xOffset -= offsetInterval
-                                    }
-                                    weekdayIndex += 1
-                                }
-                            }
-                            if value.translation.width > 0 {
-                                if xOffset < 0 {
-                                    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-                                    withAnimation(.easeOut) {
-                                        xOffset += offsetInterval
-                                    }
-                                    weekdayIndex -= 1
-                                }
-                            }
-                        }
-                )
-            }
-            .onReceive(dailySchedules.publisher.collect()) { schedules in
-                if (schedules.isEmpty) {
-                    addDefaultDailySchedules(moc: moc)
+            // Sideways list of Weekday views
+            HStack(spacing: 0) {
+                // TODO: Update this to a snapping scrollview
+                ForEach(dailySchedules) { dailySchedule in
+                    WeeklyBreakdownDayView(dailySchedule: dailySchedule)
                 }
             }
+            // Size and positioning
+            .frame(
+                minWidth: 0,
+                maxWidth: offsetInterval * 7,
+                minHeight: 0,
+                maxHeight: .infinity,
+                alignment: .leading
+            )
+            .offset(x: xOffset)
+            // Navigation bar
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    ScreenTitleLabel(text: viewModel.weekdayName)
+                }
+            }
+            .toolbarBackground(.visible, for: .navigationBar)
+            // Drag gestures
+            .gesture(
+                DragGesture()
+                    .onEnded { value in
+                        dragOnScreen(value: value)
+                    }
+            )
+        }
+        .onAppear {
+            viewModel.updateWeekdayName()
         }
     }
     
-    private func addDefaultDailySchedules(moc: NSManagedObjectContext) {
-        var dayIndex: Int16 = 0
-        DayOfTheWeek.ordered().forEach({ dayOfTheWeek in
-            let dailySchedule = DailySchedule(context: moc)
-            dailySchedule.dayName = dayOfTheWeek.capitalizedName
-            dailySchedule.dayIndex = dayIndex
-            dayIndex += 1
-        })
-        saveMOC()
-    }
     
-    private func saveMOC() {
-        do {
-            try moc.save()
-        } catch let error {
-            print(error)
+    private func dragOnScreen(value: DragGesture.Value) {
+        // Dismiss keyboard
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+        
+        // Pan screen left or right if appropriate
+        withAnimation(.easeOut) {
+            if value.translation.width < 0 {
+                viewModel.goToNextWeekday()
+            } else if value.translation.width > 0 {
+                viewModel.goToPreviousWeekday()
+            }
         }
+        
+        // Called separately to avoid animation
+        viewModel.updateWeekdayName()
     }
 }
 
