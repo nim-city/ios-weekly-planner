@@ -7,12 +7,10 @@
 
 import SwiftUI
 
-// TODO: Optimize this
 struct WeeklyBreakdownNotesView: View {
     @ObservedObject var dailySchedule: DailySchedule
-    @Binding var text: String
-
     var isFocused: FocusState<Bool>.Binding
+    @Binding var text: String
     
     
     init(dailySchedule: DailySchedule, isFocused: FocusState<Bool>.Binding) {
@@ -45,7 +43,8 @@ struct WeeklyBreakdownNotesView: View {
             }
             .background(.white)
             .frame(
-                height: 200
+                minHeight: 50,
+                maxHeight: 200
             )
             .overlay(
                 RoundedRectangle(cornerRadius: 20)

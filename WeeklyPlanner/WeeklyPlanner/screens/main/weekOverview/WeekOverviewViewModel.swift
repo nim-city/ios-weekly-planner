@@ -10,6 +10,8 @@ import Foundation
 class WeekOverviewViewModel: ObservableObject {
     
     @Published private(set) var dailySchedules = [DailySchedule]()
+    @Published var notes = ""
+    private let notesDataController = WeeklyNotesDataController()
     
     var goals: [Goal] {
         dailySchedules.reduce(NSMutableOrderedSet()) {
@@ -55,19 +57,19 @@ class WeekOverviewViewModel: ObservableObject {
             return $0
         }.array as? [Workout] ?? []
     }
+
     
-    var notes: String {
-        return dailySchedules.reduce("") {
-            if let notes = $1.notes {
-                return $0 + notes + "\n"
-            } else {
-                return $0 + ""
-            }
-        }
+    init() {
+        self.notes = self.notesDataController.getWeeklyNotes()
     }
     
     
     func setDailySchedules(dailySchedules: [DailySchedule]) {
         self.dailySchedules = dailySchedules
+    }
+    
+    
+    func saveNotes() {
+        self.notesDataController.setWeeklyNotes(newNotes: notes)
     }
 }

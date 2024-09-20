@@ -13,6 +13,7 @@ struct WeekOverviewScreen: View {
     @FetchRequest(sortDescriptors: []) var dailySchedules: FetchedResults<DailySchedule>
     
     @StateObject private var viewModel = WeekOverviewViewModel()
+    @FocusState var isFocused
     
         
     var body: some View {
@@ -45,10 +46,15 @@ struct WeekOverviewScreen: View {
                         taskItems: viewModel.workouts
                     )
                     // Notes
-                    WeekOverviewNotesView(text: viewModel.notes)
+                    WeekOverviewNotesView(
+                        text: $viewModel.notes,
+                        isFocused: $isFocused
+                    )
                 }
                 .padding(20)
             }
+            
+            // Sizing and positioning
             .frame(
                 minWidth: 0,
                 maxWidth: .infinity,
@@ -56,13 +62,32 @@ struct WeekOverviewScreen: View {
                 maxHeight: .infinity,
                 alignment: .leading
             )
+            
+            // Navigation toolbar
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     ScreenTitleLabel(text: "Week overview")
                 }
             }
             .toolbarBackground(.visible, for: .navigationBar)
-            .navigationBarTitleDisplayMode(.inline)
+            
+            // Keyboard done button for saving notes
+            .toolbar {
+                ToolbarItemGroup(placement: .keyboard) {
+                    Spacer()
+                    Button {
+                        isFocused = false
+                        viewModel.saveNotes()
+                    } label: {
+                        Text("Done")
+                            .font(CustomFonts.buttonFont)
+                            .foregroundStyle(CustomColours.ctaGold)
+                    }
+                }
+            }
+            
+            // Set daily schedules in view model to populate tasks lists
             .onAppear {
                 viewModel.setDailySchedules(dailySchedules: Array(dailySchedules))
             }
