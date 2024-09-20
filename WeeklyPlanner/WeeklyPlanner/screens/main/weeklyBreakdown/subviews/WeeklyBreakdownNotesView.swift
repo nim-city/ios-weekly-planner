@@ -9,16 +9,26 @@ import SwiftUI
 
 // TODO: Optimize this
 struct WeeklyBreakdownNotesView: View {
-    @Environment(\.managedObjectContext) var moc
-    var dailySchedule: DailySchedule
-    @State private var text: String
+    @ObservedObject var dailySchedule: DailySchedule
+    @Binding var text: String
 
-    @FocusState private var isFocused: Bool
+    var isFocused: FocusState<Bool>.Binding
     
-    init(dailySchedule: DailySchedule) {
+    
+    init(dailySchedule: DailySchedule, isFocused: FocusState<Bool>.Binding) {
         self.dailySchedule = dailySchedule
-        self.text = dailySchedule.notes ?? ""
+        self.isFocused = isFocused
+        
+        self._text = Binding(
+            get: {
+                return dailySchedule.notes ?? ""
+            },
+            set: { newValue in
+                dailySchedule.notes = newValue
+            }
+        )
     }
+    
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -26,22 +36,12 @@ struct WeeklyBreakdownNotesView: View {
                 SubtitleLabel(text: "Notes")
                     .padding(.leading, 10)
                 Spacer()
-                Button(
-                    action: {
-                        saveNotes()
-                        isFocused = false
-                    },
-                    label: {
-                        Image(systemName: "doc.badge.plus")
-                            .tint(CustomColours.ctaGold)
-                    }
-                )
             }
             VStack(spacing: 0) {
                 TextEditor(text: $text)
                     .scrollContentBackground(.hidden)
                     .padding(10)
-                    .focused($isFocused)
+                    .focused(isFocused)
             }
             .background(.white)
             .frame(
@@ -55,15 +55,6 @@ struct WeeklyBreakdownNotesView: View {
                     )
             )
             .padding(.bottom, 20)
-        }
-    }
-    
-    private func saveNotes() {
-        dailySchedule.notes = text
-        do {
-            try moc.save()
-        } catch let error {
-            print(error)
         }
     }
 }

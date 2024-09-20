@@ -28,13 +28,7 @@ class WeeklyBreakdownViewModel: ObservableObject {
             dailySchedule.dayIndex = dayIndex
             dayIndex += 1
         })
-        do {
-            try moc.save()
-            return true
-        } catch let error {
-            print(error)
-            return false
-        }
+        return saveMOC(moc: moc)
     }
     
     
@@ -48,6 +42,22 @@ class WeeklyBreakdownViewModel: ObservableObject {
     func goToNextWeekday() {
         if weekdayIndex < 6 {
             weekdayIndex += 1
+        }
+    }
+    
+    
+    func saveNotes(moc: NSManagedObjectContext) -> Bool{
+        saveMOC(moc: moc)
+    }
+    
+    
+    private func saveMOC(moc: NSManagedObjectContext) -> Bool {
+        do {
+            try moc.save()
+            return true
+        } catch let error {
+            print(error)
+            return false
         }
     }
 }
