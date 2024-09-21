@@ -9,6 +9,8 @@ import SwiftUI
 
 struct WeeklyBreakdownDayView: View {
     @ObservedObject var dailySchedule: DailySchedule
+    var isFocused: FocusState<Bool>.Binding
+    
     
     var body: some View {
         ScrollView(showsIndicators: false) {
@@ -54,7 +56,10 @@ struct WeeklyBreakdownDayView: View {
                 )
                 
                 // Notes
-                WeeklyBreakdownNotesView(dailySchedule: dailySchedule)
+                WeeklyBreakdownNotesView(
+                    dailySchedule: dailySchedule,
+                    isFocused: isFocused
+                )
             }
             .padding(.horizontal, 20)
             .padding(.top, 20)

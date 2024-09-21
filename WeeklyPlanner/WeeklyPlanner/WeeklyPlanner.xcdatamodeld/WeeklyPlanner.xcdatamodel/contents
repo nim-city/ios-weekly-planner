@@ -27,9 +27,6 @@
         <attribute name="categoryName" optional="YES" attributeType="String" customClassName="ToDoItemCategory"/>
         <relationship name="dailySchedule" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DailySchedule" inverseName="toDoItems" inverseEntity="DailySchedule"/>
     </entity>
-    <entity name="WeeklyNotes" representedClassName="WeeklyNotes" syncable="YES" codeGenerationType="class">
-        <attribute name="notes" optional="YES" attributeType="String"/>
-    </entity>
     <entity name="Workout" representedClassName="Workout" parentEntity="TaskItem" syncable="YES" codeGenerationType="class">
         <relationship name="workouts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DailySchedule" inverseName="workouts" inverseEntity="DailySchedule"/>
     </entity>
