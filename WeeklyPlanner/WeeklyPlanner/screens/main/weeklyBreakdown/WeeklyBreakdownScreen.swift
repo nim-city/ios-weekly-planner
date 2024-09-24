@@ -70,6 +70,10 @@ struct WeeklyBreakdownScreen: View {
                 }
             }
             
+            // To ensure bottom tab bar is showing
+            // Due to lack of vertical scroll view, bottom tab bar is transparent
+            .toolbarBackground(.visible, for: .tabBar)
+            
             // Drag gestures
             .gesture(
                 DragGesture()
