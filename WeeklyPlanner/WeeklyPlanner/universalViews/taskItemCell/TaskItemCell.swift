@@ -1,25 +1,26 @@
 //
-//  TaskListCell.swift
+//  TaskItemCell.swift
 //  WeeklyPlanner
 //
-//  Created by Nimish Narang on 2024-07-17.
+//  Created by Nimish Narang on 2024-10-14.
 //
 
-import Foundation
 import SwiftUI
 
+
 // Cell view for any of the task lists in the WeekBreakdownScreen
-struct TaskListCell: View {
+struct TaskItemCell: View {
     @Environment(\.managedObjectContext) var moc
-    @ObservedObject var taskItem: TaskItem
-    let taskType: TaskType
-    var shouldShowDivider = true
+    
+    @ObservedObject var viewModel: TaskItemCellViewModel
+    var deleteItem: (TaskItem) -> Void
     
     @State private var isExpanded = false
     
+    
     var body: some View {
         VStack(spacing: 0) {
-            VStack {
+            VStack(spacing: 15) {
                 // View shown by default (name and delete button)
                 Button(
                     action: {
@@ -27,13 +28,15 @@ struct TaskListCell: View {
                     },
                     label: {
                         HStack {
-                            Text(taskItem.name ?? "Item name")
+                            Text(viewModel.taskItem.name ?? "Item name")
                                 .foregroundColor(CustomColours.textDarkGray)
                                 .font(CustomFonts.taskCellFont)
+                                .lineLimit(2)
+                                .multilineTextAlignment(.leading)
                             Spacer()
                             Button(
                                 action: {
-                                    deleteTaskItem(taskItem)
+                                    deleteItem(viewModel.taskItem)
                                 },
                                 label: {
                                     Image(systemName: "trash")
@@ -47,17 +50,22 @@ struct TaskListCell: View {
                 
                 // View shown when in expanded mode (notes and edit button)
                 if (isExpanded) {
-                    VStack(spacing: 20) {
+                    VStack(spacing: 15) {
                         HStack {
-                            Text(formatNotes())
+                            Text(viewModel.formattedNotes)
                                 .font(CustomFonts.taskNotesFont)
+                                .lineSpacing(5)
                             Spacer()
                         }
                         Divider()
                             .background(CustomColours.textDarkGray)
                             .padding(.horizontal, 10)
                         NavigationLink(
-                            destination: AddTaskScreen(task: taskItem, itemType: taskType),
+                            destination: AddTaskScreen(viewModel: EditTaskViewModel(
+                                editMode: .Edit,
+                                taskType: viewModel.taskType,
+                                taskToEdit: viewModel.taskItem
+                            )),
                             label: {
                                 Text("Edit")
                                     .foregroundColor(CustomColours.ctaGold)
@@ -71,34 +79,7 @@ struct TaskListCell: View {
                 }
             }
             .padding(15)
-            
-            if shouldShowDivider {
-                Divider()
-                    .padding(.horizontal, 20)
-            }
-        }
-    }
-    
-    // Deletes a TaskItem entirely
-    private func deleteTaskItem(_ taskItem: TaskItem) {
-        // Delete the task
-        moc.delete(taskItem)
-        
-        // Try to save MOC
-        do {
-            try moc.save()
-        } catch let error {
-            print(error)
-        }
-    }
-    
-    private func formatNotes() -> String {
-        guard let notes = taskItem.notes, !notes.isEmpty else { return "" }
-        
-        let separatedLines = notes.components(separatedBy: "\n")
-        
-        return separatedLines.reduce(into: "") { lines, line in
-            lines += "• \(line)\n"
         }
     }
 }
+

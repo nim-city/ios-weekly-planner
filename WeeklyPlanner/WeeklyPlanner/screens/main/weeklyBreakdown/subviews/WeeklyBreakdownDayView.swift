@@ -119,10 +119,12 @@ struct WeekdayTaskListView: View {
                 VStack {
                     VStack(spacing: 0) {
                         ForEach(taskItems) { taskItem in
-                            WeeklyBreakdownTaskCell(
-                                taskItem: taskItem,
-                                taskType: tasksType,
-                                removeTaskItem: removeTaskItem(_:)
+                            TaskItemCell(
+                                viewModel: TaskItemCellViewModel(
+                                    taskType: tasksType,
+                                    taskItem: taskItem
+                                ),
+                                deleteItem: removeTaskItem(_:)
                             )
                             if taskItem != taskItems.last {
                                 Divider()

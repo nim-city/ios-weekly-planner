@@ -76,7 +76,7 @@ struct TaskListsScreen: View {
                 
                 // Add item modal
                 .sheet(isPresented: $viewModel.isShowingAddScreen) {
-                    AddTaskScreen(itemType: viewModel.selectedTaskType)
+                    AddTaskScreen(viewModel: EditTaskViewModel(editMode: .Add, taskType: viewModel.selectedTaskType))
                 }
             }
         }

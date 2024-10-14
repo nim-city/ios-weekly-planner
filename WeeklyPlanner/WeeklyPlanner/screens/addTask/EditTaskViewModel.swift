@@ -1,5 +1,5 @@
 //
-//  AddTaskViewModel.swift
+//  EditTaskViewModel.swift
 //  WeeklyPlanner
 //
 //  Created by Nimish Narang on 2024-08-30.
@@ -9,8 +9,14 @@ import Foundation
 import CoreData
 
 
-class AddTaskViewModel: ObservableObject {
+class EditTaskViewModel: ObservableObject {
     
+    enum EditTaskMode {
+        case Add
+        case Edit
+    }
+    
+    let editMode: EditTaskMode
     let taskType: TaskType
     let taskToEdit: TaskItem?
     
@@ -31,15 +37,18 @@ class AddTaskViewModel: ObservableObject {
         case .workout:
             itemTypeName =  "workout"
         }
-        if taskToEdit == nil {
+        
+        switch editMode {
+        case .Add:
             return "New \(itemTypeName)"
-        } else {
+        case .Edit:
             return "Edit \(itemTypeName)"
         }
     }
     
     
-    init(taskType: TaskType, taskToEdit: TaskItem? = nil) {
+    init(editMode: EditTaskMode, taskType: TaskType, taskToEdit: TaskItem? = nil) {
+        self.editMode = editMode
         self.taskType = taskType
         self.taskToEdit = taskToEdit
         if let task = taskToEdit {

@@ -10,50 +10,55 @@ import SwiftUI
 
 struct AddTaskScreen: View {
     @Environment(\.managedObjectContext) var moc
-    
     // To allow for manual dismiss
     @Environment(\.dismiss) var dismiss
     
-    var itemType: TaskType
-    var taskToEdit: TaskItem?
-    
-    @State var itemName: String
-    @State var itemNotes: String
-    var screenTitle: String {
-        let itemTypeName: String
-        switch itemType {
-        case .goal:
-            itemTypeName = "goal"
-        case .toDo:
-            itemTypeName =  "to do item"
-        case .toBuy:
-            itemTypeName =  "to buy item"
-        case .meal:
-            itemTypeName =  "meal"
-        case .workout:
-            itemTypeName =  "workout"
-        }
-        if taskToEdit == nil {
-            return "New \(itemTypeName)"
-        } else {
-            return "Edit \(itemTypeName)"
-        }
-    }
     @FocusState private var isFocused: Bool
+    @ObservedObject var viewModel: EditTaskViewModel
     
-    init(itemType: TaskType) {
-        self.itemType = itemType
-        self._itemName = State(initialValue: "")
-        self._itemNotes = State(initialValue: "")
-    }
+//    var itemType: TaskType
+//    var taskToEdit: TaskItem?
+//    
+//    @State var itemName: String
+//    @State var itemNotes: String
+//    var screenTitle: String {
+//        let itemTypeName: String
+//        switch itemType {
+//        case .goal:
+//            itemTypeName = "goal"
+//        case .toDo:
+//            itemTypeName =  "to do item"
+//        case .toBuy:
+//            itemTypeName =  "to buy item"
+//        case .meal:
+//            itemTypeName =  "meal"
+//        case .workout:
+//            itemTypeName =  "workout"
+//        }
+//        if taskToEdit == nil {
+//            return "New \(itemTypeName)"
+//        } else {
+//            return "Edit \(itemTypeName)"
+//        }
+//    }
     
-    init(task: TaskItem, itemType: TaskType) {
-        self.taskToEdit = task
-        self.itemType = itemType
-        
-        self._itemName = State(initialValue: task.name ?? "")
-        self._itemNotes = State(initialValue: task.notes ?? "")
-    }
+    
+    
+    
+    
+//    init(itemType: TaskType) {
+//        self.itemType = itemType
+//        self._itemName = State(initialValue: "")
+//        self._itemNotes = State(initialValue: "")
+//    }
+//    
+//    init(task: TaskItem, itemType: TaskType) {
+//        self.taskToEdit = task
+//        self.itemType = itemType
+//        
+//        self._itemName = State(initialValue: task.name ?? "")
+//        self._itemNotes = State(initialValue: task.notes ?? "")
+//    }
     
     var body: some View {
         NavigationSplitView {
@@ -62,16 +67,16 @@ struct AddTaskScreen: View {
                     VStack(spacing: 40) {
                         // Task name
                         AddTaskNameInput(
-                            itemName: $itemName,
+                            itemName: $viewModel.taskName,
                             isFocused: $isFocused,
-                            colour: CustomColours.getColourForTaskType(itemType)
+                            colour: CustomColours.getColourForTaskType(viewModel.taskType)
                         )
                         
                         // Task notes
                         AddTaskNotesView(
-                            text: $itemNotes,
+                            text: $viewModel.taskNotes,
                             isFocused: $isFocused,
-                            colour: CustomColours.getColourForTaskType(itemType)
+                            colour: CustomColours.getColourForTaskType(viewModel.taskType)
                         )
                         
                         // Save and cancel buttons
@@ -95,7 +100,7 @@ struct AddTaskScreen: View {
             }
             .toolbar {
                 ToolbarItem(placement: .principal) {
-                    ScreenTitleLabel(text: screenTitle)
+                    ScreenTitleLabel(text: viewModel.screenTitle)
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
@@ -106,48 +111,48 @@ struct AddTaskScreen: View {
         }
     }
     
-    private func addTask() {
-        switch itemType {
-        case .goal:
-            let item = Goal(context: moc)
-            item.name = itemName
-            item.notes = itemNotes
-        case .toDo:
-            let item = ToDoItem(context: moc)
-            item.name = itemName
-            item.notes = itemNotes
-            item.categoryName = ToDoItemCategory.shortTerm.rawValue
-        case .toBuy:
-            let item = ToBuyItem(context: moc)
-            item.name = itemName
-            item.notes = itemNotes
-        case .meal:
-            let item = Meal(context: moc)
-            item.name = itemName
-            item.notes = itemNotes
-        case .workout:
-            let item = Workout(context: moc)
-            item.name = itemName
-            item.notes = itemNotes
-        }
-        do {
-            try moc.save()
-            dismiss()
-        } catch let error {
-            print(error)
-        }
-    }
-    
-    private func editTask() {
-        taskToEdit?.name = itemName
-        taskToEdit?.notes = itemNotes
-        do {
-            try moc.save()
-            dismiss()
-        } catch let error {
-            print(error)
-        }
-    }
+//    private func addTask() {
+//        switch itemType {
+//        case .goal:
+//            let item = Goal(context: moc)
+//            item.name = itemName
+//            item.notes = itemNotes
+//        case .toDo:
+//            let item = ToDoItem(context: moc)
+//            item.name = itemName
+//            item.notes = itemNotes
+//            item.categoryName = ToDoItemCategory.shortTerm.rawValue
+//        case .toBuy:
+//            let item = ToBuyItem(context: moc)
+//            item.name = itemName
+//            item.notes = itemNotes
+//        case .meal:
+//            let item = Meal(context: moc)
+//            item.name = itemName
+//            item.notes = itemNotes
+//        case .workout:
+//            let item = Workout(context: moc)
+//            item.name = itemName
+//            item.notes = itemNotes
+//        }
+//        do {
+//            try moc.save()
+//            dismiss()
+//        } catch let error {
+//            print(error)
+//        }
+//    }
+//    
+//    private func editTask() {
+//        taskToEdit?.name = itemName
+//        taskToEdit?.notes = itemNotes
+//        do {
+//            try moc.save()
+//            dismiss()
+//        } catch let error {
+//            print(error)
+//        }
+//    }
 }
 
 
@@ -159,11 +164,12 @@ extension AddTaskScreen {
         VStack(spacing: 10) {
             // Save button
             Button {
-                if taskToEdit == nil {
-                    addTask()
-                } else {
-                    editTask()
-                }
+                let _ = viewModel.saveTask(moc: moc)
+//                if taskToEdit == nil {
+//                    addTask()
+//                } else {
+//                    editTask()
+//                }
             } label: {
                 Text("Save")
                     .frame(
@@ -172,7 +178,7 @@ extension AddTaskScreen {
                         maxHeight: 50
                     )
                     .foregroundColor(CustomColours.textDarkGray)
-                    .background(CustomColours.getColourForTaskType(itemType))
+                    .background(CustomColours.getColourForTaskType(viewModel.taskType))
                     .font(CustomFonts.buttonFont)
                     .clipShape(RoundedRectangle(cornerRadius: 25))
                     .overlay {
@@ -201,6 +207,6 @@ extension AddTaskScreen {
 
 struct AddItemView_Preview: PreviewProvider {
     static var previews: some View {
-        AddTaskScreen(itemType: .goal)
+        AddTaskScreen(viewModel: EditTaskViewModel(editMode: .Add, taskType: .goal))
     }
 }
