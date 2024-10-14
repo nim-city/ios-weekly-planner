@@ -1,31 +1,16 @@
 //
-//  WeeklyBreakdownNotesView.swift
+//  NotesView.swift
 //  WeeklyPlanner
 //
-//  Created by Nimish Narang on 2024-08-27.
+//  Created by Nimish Narang on 2024-10-14.
 //
 
 import SwiftUI
 
-struct WeeklyBreakdownNotesView: View {
-    @ObservedObject var dailySchedule: DailySchedule
-    var isFocused: FocusState<Bool>.Binding
+
+struct NotesView: View {
     @Binding var text: String
-    
-    
-    init(dailySchedule: DailySchedule, isFocused: FocusState<Bool>.Binding) {
-        self.dailySchedule = dailySchedule
-        self.isFocused = isFocused
-        
-        self._text = Binding(
-            get: {
-                return dailySchedule.notes ?? ""
-            },
-            set: { newValue in
-                dailySchedule.notes = newValue
-            }
-        )
-    }
+    var isFocused: FocusState<Bool>.Binding
     
     
     var body: some View {

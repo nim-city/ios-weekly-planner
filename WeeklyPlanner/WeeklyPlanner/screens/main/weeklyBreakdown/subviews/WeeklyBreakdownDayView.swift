@@ -56,8 +56,15 @@ struct WeeklyBreakdownDayView: View {
                 )
                 
                 // Notes
-                WeeklyBreakdownNotesView(
-                    dailySchedule: dailySchedule,
+                NotesView(
+                    text: Binding(
+                        get: {
+                            return dailySchedule.notes ?? ""
+                        },
+                        set: { newValue in
+                            dailySchedule.notes = newValue
+                        }
+                    ), 
                     isFocused: isFocused
                 )
             }

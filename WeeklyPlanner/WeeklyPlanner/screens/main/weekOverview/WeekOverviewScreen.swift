@@ -46,7 +46,7 @@ struct WeekOverviewScreen: View {
                         taskItems: viewModel.workouts
                     )
                     // Notes
-                    WeekOverviewNotesView(
+                    NotesView(
                         text: $viewModel.notes,
                         isFocused: $isFocused
                     )
