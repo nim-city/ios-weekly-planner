@@ -8,10 +8,13 @@
 import Foundation
 import SwiftUI
 
+
 struct TaskListView: View {
     @Environment(\.managedObjectContext) var moc
     let tasksType: TaskType
     var taskItems: [TaskItem]
+    
+    var editTaskItem: (TaskItem) -> Void
     
     var body: some View {
         VStack {
@@ -22,7 +25,8 @@ struct TaskListView: View {
                             taskType: tasksType,
                             taskItem: taskItem
                         ), 
-                        deleteItem: deleteItem(_:)
+                        deleteItem: deleteItem(_:),
+                        editItem: editTaskItem
                     )
                     if taskItem != taskItems.last {
                         Divider()

@@ -37,57 +37,51 @@ struct SelectTasksScreen: View {
     
     
     var body: some View {
-        VStack {
-            // Tasks list
-            tasksList
-        }
-        .frame(
-            minWidth: 0,
-            maxWidth: UIScreen.main.bounds.size.width,
-            minHeight: 0,
-            maxHeight: .infinity,
-            alignment: .leading
-        )
-        
-        // Navigation toolbar
-        .toolbar {
-            // Cancel button
-            ToolbarItem(placement: .topBarLeading) {
-                Button {
-                    dismiss()
-                } label: {
-                    Text("Cancel")
-                        .foregroundStyle(CustomColours.ctaGold)
-                        .font(CustomFonts.toolbarButtonFont)
+        NavigationSplitView {
+            VStack {
+                // Tasks list
+                tasksList
+            }
+            .frame(
+                minWidth: 0,
+                maxWidth: UIScreen.main.bounds.size.width,
+                minHeight: 0,
+                maxHeight: .infinity,
+                alignment: .leading
+            )
+            
+            // Navigation toolbar
+            .toolbar {
+                
+                // Screen title
+                ToolbarItem(placement: .principal) {
+                    ScreenTitleLabel(text: viewModel.screenTitle)
                 }
-            }
-            
-            // Screen title
-            ToolbarItem(placement: .principal) {
-                ScreenTitleLabel(text: viewModel.screenTitle)
-            }
-            
-            // Save button
-            ToolbarItem(placement: .topBarTrailing) {
-                Button {
-                    let wasSaveSuccessful = viewModel.saveSelectedItems(moc: moc)
-                    if wasSaveSuccessful {
-                        dismiss()
+                
+                // Save button
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        let wasSaveSuccessful = viewModel.saveSelectedItems(moc: moc)
+                        if wasSaveSuccessful {
+                            dismiss()
+                        }
+                    } label: {
+                        Text("Save")
+                            .foregroundStyle(CustomColours.ctaGold)
+                            .font(CustomFonts.toolbarButtonFont)
                     }
-                } label: {
-                    Text("Save")
-                        .foregroundStyle(CustomColours.ctaGold)
-                        .font(CustomFonts.toolbarButtonFont)
                 }
             }
-        }
-        .toolbarBackground(.visible, for: .navigationBar)
-        .navigationBarTitleDisplayMode(.inline)
-        .navigationBarBackButtonHidden(true)
-        
-        // Set the tasks currently selected for the day and task type
-        .onAppear {
-            viewModel.setSelectedTasks()
+            .toolbarBackground(.visible, for: .navigationBar)
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarBackButtonHidden(true)
+            
+            // Set the tasks currently selected for the day and task type
+            .onAppear {
+                viewModel.setSelectedTasks()
+            }
+        } detail: {
+            Text("Select Tasks Screen")
         }
     }
 }

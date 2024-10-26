@@ -14,9 +14,9 @@ struct TaskItemCell: View {
     
     @ObservedObject var viewModel: TaskItemCellViewModel
     var deleteItem: (TaskItem) -> Void
+    var editItem: (TaskItem) -> Void
     
     @State private var isExpanded = false
-    
     
     var body: some View {
         VStack(spacing: 0) {
@@ -60,18 +60,13 @@ struct TaskItemCell: View {
                         Divider()
                             .background(CustomColours.textDarkGray)
                             .padding(.horizontal, 10)
-                        NavigationLink(
-                            destination: AddTaskScreen(viewModel: EditTaskViewModel(
-                                editMode: .Edit,
-                                taskType: viewModel.taskType,
-                                taskToEdit: viewModel.taskItem
-                            )),
-                            label: {
-                                Text("Edit")
-                                    .foregroundColor(CustomColours.ctaGold)
-                                    .font(CustomFonts.taskCellFont)
-                            }
-                        )
+                        Button {
+                            editItem(viewModel.taskItem)
+                        } label: {
+                            Text("Edit")
+                                .foregroundColor(CustomColours.ctaGold)
+                                .font(CustomFonts.taskCellFont)
+                        }
                     }
                     .padding(10)
                     .background(.white)

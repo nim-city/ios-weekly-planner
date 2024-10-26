@@ -12,7 +12,9 @@ import CoreData
 class TaskListsViewModel: ObservableObject {
     
     @Published var selectedTaskType: TaskType = .goal
-    @Published var isShowingAddScreen = false
+    @Published var isShowingEditScreen = false
+    
+    @Published var editTaskViewModel: EditTaskViewModel?
     
     var screenTitle: String {
         switch selectedTaskType {

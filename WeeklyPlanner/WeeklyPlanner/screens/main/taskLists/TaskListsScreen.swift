@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+
 struct TaskListsScreen: View {
     @FetchRequest(sortDescriptors: []) var goals: FetchedResults<Goal>
     @FetchRequest(sortDescriptors: []) var toDoItems: FetchedResults<ToDoItem>
@@ -15,44 +16,37 @@ struct TaskListsScreen: View {
     @FetchRequest(sortDescriptors: []) var workouts: FetchedResults<Workout>
     
     @StateObject private var viewModel = TaskListsViewModel()
-        
     
     var body: some View {
         NavigationView {
             VStack {
-                TaskListsTabBar(selectedTaskType: $viewModel.selectedTaskType)
+                TaskListsTabBar(selectedTaskType: Binding(
+                    get: {
+                        viewModel.selectedTaskType
+                    },
+                    set: { newValue in
+                        viewModel.selectedTaskType = newValue
+                    }
+                ))
                     .padding(.top, 20)
                     .padding(.horizontal, 10)
                 
                 ScrollView(showsIndicators: false) {
                     VStack {
-                        switch viewModel.selectedTaskType {
-                        case .goal:
-                            TaskListView(
-                                tasksType: .goal,
-                                taskItems: Array(goals)
-                            )
-                        case .toDo:
-                            TaskListView(
-                                tasksType: .toDo,
-                                taskItems: Array(toDoItems)
-                            )
-                        case .toBuy:
-                            TaskListView(
-                                tasksType: .toBuy,
-                                taskItems: Array(toBuyItems)
-                            )
-                        case .meal:
-                            TaskListView(
-                                tasksType: .meal,
-                                taskItems: Array(meals)
-                            )
-                        case .workout:
-                            TaskListView(
-                                tasksType: .workout,
-                                taskItems: Array(workouts)
-                            )
-                        }
+                        TaskListView(
+                            tasksType: viewModel.selectedTaskType,
+                            taskItems: getSelectedTaskList(),
+                            editTaskItem: { taskToEdit in
+                                // Create the view model
+                                viewModel.editTaskViewModel = EditTaskViewModel(
+                                    editMode: .Edit,
+                                    taskType: viewModel.selectedTaskType,
+                                    taskToEdit: taskToEdit
+                                )
+                                // Show the popup
+                                viewModel.isShowingEditScreen = true
+                            }
+                        )
                     }
                     .padding(20)
                 }
@@ -64,7 +58,13 @@ struct TaskListsScreen: View {
                     }
                     ToolbarItem(placement: .topBarTrailing) {
                         Button {
-                            viewModel.isShowingAddScreen = true
+                            // Create the view model
+                            viewModel.editTaskViewModel = EditTaskViewModel(
+                                editMode: .Add,
+                                taskType: viewModel.selectedTaskType
+                            )
+                            // Show the popup
+                            viewModel.isShowingEditScreen = true
                         } label: {
                             Image(systemName: "plus")
                                 .tint(CustomColours.ctaGold)
@@ -73,16 +73,32 @@ struct TaskListsScreen: View {
                 }
                 .toolbarBackground(.visible, for: .navigationBar)
                 .navigationBarTitleDisplayMode(.inline)
-                
-                // Add item modal
-                .sheet(isPresented: $viewModel.isShowingAddScreen) {
-                    AddTaskScreen(viewModel: EditTaskViewModel(editMode: .Add, taskType: viewModel.selectedTaskType))
+
+                // Add/edit item modal
+                .sheet(isPresented: $viewModel.isShowingEditScreen) {
+                    if let editTaskViewModel = viewModel.editTaskViewModel {
+                        AddTaskScreen(viewModel: editTaskViewModel)
+                    }
                 }
             }
         }
     }
     
     
+    private func getSelectedTaskList() -> [TaskItem] {
+        switch viewModel.selectedTaskType {
+        case .goal:
+            return Array(goals)
+        case .toDo:
+            return Array(toDoItems)
+        case .toBuy:
+            return Array(toBuyItems)
+        case .meal:
+            return Array(meals)
+        case .workout:
+            return Array(workouts)
+        }
+    }
 }
 
 struct ListsScreen_Preview: PreviewProvider {

@@ -11,6 +11,7 @@ struct WeeklyBreakdownDayView: View {
     @ObservedObject var dailySchedule: DailySchedule
     var isFocused: FocusState<Bool>.Binding
     
+    var selectTasks: (DailySchedule, TaskType) -> Void
     
     var body: some View {
         ScrollView(showsIndicators: false) {
@@ -20,7 +21,8 @@ struct WeeklyBreakdownDayView: View {
                     dailySchedule: dailySchedule,
                     tasksType: .goal,
                     taskItems: dailySchedule.goals?.array as? [Goal] ?? [],
-                    title: "Goals"
+                    title: "Goals",
+                    selectTasks: selectTasks
                 )
                 
                 // To do items
@@ -28,7 +30,8 @@ struct WeeklyBreakdownDayView: View {
                     dailySchedule: dailySchedule,
                     tasksType: .toDo,
                     taskItems: dailySchedule.toDoItems?.array as? [ToDoItem] ?? [],
-                    title: "To do items"
+                    title: "To do items",
+                    selectTasks: selectTasks
                 )
                 
                 // To buy items
@@ -36,7 +39,8 @@ struct WeeklyBreakdownDayView: View {
                     dailySchedule: dailySchedule,
                     tasksType: .toBuy,
                     taskItems: dailySchedule.toBuyItems?.array as? [ToBuyItem] ?? [],
-                    title: "To buy items"
+                    title: "To buy items",
+                    selectTasks: selectTasks
                 )
                 
                 // Meals
@@ -44,7 +48,8 @@ struct WeeklyBreakdownDayView: View {
                     dailySchedule: dailySchedule,
                     tasksType: .meal,
                     taskItems: dailySchedule.meals?.array as? [Meal] ?? [],
-                    title: "Meals"
+                    title: "Meals",
+                    selectTasks: selectTasks
                 )
                 
                 // Workouts
@@ -52,7 +57,8 @@ struct WeeklyBreakdownDayView: View {
                     dailySchedule: dailySchedule,
                     tasksType: .workout,
                     taskItems: dailySchedule.workouts?.array as? [Workout] ?? [],
-                    title: "Workouts"
+                    title: "Workouts",
+                    selectTasks: selectTasks
                 )
                 
                 // Notes
@@ -87,6 +93,8 @@ struct WeekdayTaskListView: View {
     var taskItems: [TaskItem]
     let title: String
     
+    var selectTasks: (DailySchedule, TaskType) -> Void
+    
     @State private var isExpanded = true
     
     
@@ -106,18 +114,12 @@ struct WeekdayTaskListView: View {
                 
                 Spacer()
                 
-                NavigationLink(
-                    destination: SelectTasksScreen(
-                        viewModel: SelectTasksViewModel(
-                            dailySchedule: dailySchedule,
-                            taskType: tasksType
-                        )
-                    ),
-                    label: {
-                        Image(systemName: "plus")
-                            .tint(CustomColours.ctaGold)
-                    }
-                )
+                Button {
+                    selectTasks(dailySchedule, tasksType)
+                } label: {
+                    Image(systemName: "plus")
+                        .tint(CustomColours.ctaGold)
+                }
             }
             .padding(.bottom, 15)
             
@@ -131,7 +133,10 @@ struct WeekdayTaskListView: View {
                                     taskType: tasksType,
                                     taskItem: taskItem
                                 ),
-                                deleteItem: removeTaskItem(_:)
+                                deleteItem: removeTaskItem(_:),
+                                editItem: { _ in
+                                        // TODO: Implement this
+                                }
                             )
                             if taskItem != taskItems.last {
                                 Divider()

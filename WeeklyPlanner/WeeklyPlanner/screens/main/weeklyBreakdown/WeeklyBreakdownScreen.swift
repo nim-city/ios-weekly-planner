@@ -30,7 +30,16 @@ struct WeeklyBreakdownScreen: View {
                 ForEach(dailySchedules) { dailySchedule in
                     WeeklyBreakdownDayView(
                         dailySchedule: dailySchedule,
-                        isFocused: $isFocused
+                        isFocused: $isFocused,
+                        selectTasks: { dailySchedule, taskType in
+                            // Create the view model
+                            viewModel.selectTasksViewModel = SelectTasksViewModel(
+                                dailySchedule: dailySchedule,
+                                taskType: taskType
+                            )
+                            // Show the popup
+                            viewModel.isShowingSelectItemsScreen = true
+                        }
                     )
                 }
             }
@@ -84,6 +93,13 @@ struct WeeklyBreakdownScreen: View {
         }
         .onAppear {
             viewModel.updateWeekdayName()
+        }
+        
+        // Select items sheet
+        .sheet(isPresented: $viewModel.isShowingSelectItemsScreen) {
+            if let selectTasksViewModel = viewModel.selectTasksViewModel {
+                SelectTasksScreen(viewModel: selectTasksViewModel)
+            }
         }
     }
     

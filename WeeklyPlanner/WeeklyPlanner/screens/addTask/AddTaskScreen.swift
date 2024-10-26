@@ -16,50 +16,6 @@ struct AddTaskScreen: View {
     @FocusState private var isFocused: Bool
     @ObservedObject var viewModel: EditTaskViewModel
     
-//    var itemType: TaskType
-//    var taskToEdit: TaskItem?
-//    
-//    @State var itemName: String
-//    @State var itemNotes: String
-//    var screenTitle: String {
-//        let itemTypeName: String
-//        switch itemType {
-//        case .goal:
-//            itemTypeName = "goal"
-//        case .toDo:
-//            itemTypeName =  "to do item"
-//        case .toBuy:
-//            itemTypeName =  "to buy item"
-//        case .meal:
-//            itemTypeName =  "meal"
-//        case .workout:
-//            itemTypeName =  "workout"
-//        }
-//        if taskToEdit == nil {
-//            return "New \(itemTypeName)"
-//        } else {
-//            return "Edit \(itemTypeName)"
-//        }
-//    }
-    
-    
-    
-    
-    
-//    init(itemType: TaskType) {
-//        self.itemType = itemType
-//        self._itemName = State(initialValue: "")
-//        self._itemNotes = State(initialValue: "")
-//    }
-//    
-//    init(task: TaskItem, itemType: TaskType) {
-//        self.taskToEdit = task
-//        self.itemType = itemType
-//        
-//        self._itemName = State(initialValue: task.name ?? "")
-//        self._itemNotes = State(initialValue: task.notes ?? "")
-//    }
-    
     var body: some View {
         NavigationSplitView {
             ScrollView {
@@ -110,49 +66,6 @@ struct AddTaskScreen: View {
             Text("Add task screen")
         }
     }
-    
-//    private func addTask() {
-//        switch itemType {
-//        case .goal:
-//            let item = Goal(context: moc)
-//            item.name = itemName
-//            item.notes = itemNotes
-//        case .toDo:
-//            let item = ToDoItem(context: moc)
-//            item.name = itemName
-//            item.notes = itemNotes
-//            item.categoryName = ToDoItemCategory.shortTerm.rawValue
-//        case .toBuy:
-//            let item = ToBuyItem(context: moc)
-//            item.name = itemName
-//            item.notes = itemNotes
-//        case .meal:
-//            let item = Meal(context: moc)
-//            item.name = itemName
-//            item.notes = itemNotes
-//        case .workout:
-//            let item = Workout(context: moc)
-//            item.name = itemName
-//            item.notes = itemNotes
-//        }
-//        do {
-//            try moc.save()
-//            dismiss()
-//        } catch let error {
-//            print(error)
-//        }
-//    }
-//    
-//    private func editTask() {
-//        taskToEdit?.name = itemName
-//        taskToEdit?.notes = itemNotes
-//        do {
-//            try moc.save()
-//            dismiss()
-//        } catch let error {
-//            print(error)
-//        }
-//    }
 }
 
 
@@ -165,11 +78,7 @@ extension AddTaskScreen {
             // Save button
             Button {
                 let _ = viewModel.saveTask(moc: moc)
-//                if taskToEdit == nil {
-//                    addTask()
-//                } else {
-//                    editTask()
-//                }
+                dismiss()
             } label: {
                 Text("Save")
                     .frame(
