@@ -50,35 +50,35 @@ struct TaskListsScreen: View {
                     }
                     .padding(20)
                 }
-                
-                // Navigation bar
-                .toolbar {
-                    ToolbarItem(placement: .principal) {
-                        ScreenTitleLabel(text: viewModel.screenTitle)
-                    }
-                    ToolbarItem(placement: .topBarTrailing) {
-                        Button {
-                            // Create the view model
-                            viewModel.editTaskViewModel = EditTaskViewModel(
-                                editMode: .Add,
-                                taskType: viewModel.selectedTaskType
-                            )
-                            // Show the popup
-                            viewModel.isShowingEditScreen = true
-                        } label: {
-                            Image(systemName: "plus")
-                                .tint(CustomColours.ctaGold)
-                        }
+            }
+            
+            // Navigation bar
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    ScreenTitleLabel(text: viewModel.screenTitle)
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        // Create the view model
+                        viewModel.editTaskViewModel = EditTaskViewModel(
+                            editMode: .Add,
+                            taskType: viewModel.selectedTaskType
+                        )
+                        // Show the popup
+                        viewModel.isShowingEditScreen = true
+                    } label: {
+                        Image(systemName: "plus")
+                            .tint(CustomColours.ctaGold)
                     }
                 }
-                .toolbarBackground(.visible, for: .navigationBar)
-                .navigationBarTitleDisplayMode(.inline)
+            }
+            .toolbarBackground(.visible, for: .navigationBar)
+            .navigationBarTitleDisplayMode(.inline)
 
-                // Add/edit item modal
-                .sheet(isPresented: $viewModel.isShowingEditScreen) {
-                    if let editTaskViewModel = viewModel.editTaskViewModel {
-                        AddTaskScreen(viewModel: editTaskViewModel)
-                    }
+            // Add/edit item modal
+            .sheet(isPresented: $viewModel.isShowingEditScreen) {
+                if let editTaskViewModel = viewModel.editTaskViewModel {
+                    AddTaskScreen(viewModel: editTaskViewModel)
                 }
             }
         }

@@ -131,12 +131,12 @@ struct WeekdayTaskListView: View {
                             TaskItemCell(
                                 viewModel: TaskItemCellViewModel(
                                     taskType: tasksType,
-                                    taskItem: taskItem
-                                ),
-                                deleteItem: removeTaskItem(_:),
-                                editItem: { _ in
-                                        // TODO: Implement this
-                                }
+                                    taskItem: taskItem,
+                                    deleteItem: removeTaskItem(_:),
+                                    editItem: { _ in
+                                            // TODO: Implement this
+                                    }
+                                )
                             )
                             if taskItem != taskItems.last {
                                 Divider()

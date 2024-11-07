@@ -17,25 +17,22 @@ struct TaskListView: View {
     var editTaskItem: (TaskItem) -> Void
     
     var body: some View {
-        VStack {
-            VStack(spacing: 0) {
-                ForEach(taskItems) { taskItem in
-                    TaskItemCell(
-                        viewModel: TaskItemCellViewModel(
-                            taskType: tasksType,
-                            taskItem: taskItem
-                        ), 
+        VStack(spacing: 0) {
+            ForEach(taskItems) { taskItem in
+                TaskItemCell(
+                    viewModel: TaskItemCellViewModel(
+                        taskType: tasksType,
+                        taskItem: taskItem,
                         deleteItem: deleteItem(_:),
                         editItem: editTaskItem
                     )
-                    if taskItem != taskItems.last {
-                        Divider()
-                            .padding(.horizontal, 20)
-                    }
+                )
+                if taskItem != taskItems.last {
+                    Divider()
+                        .padding(.horizontal, 20)
                 }
             }
         }
-        .background(CustomColours.getColourForTaskType(tasksType).opacity(0.3))
         .clipShape(RoundedRectangle(cornerRadius: 20))
         .overlay(
             RoundedRectangle(cornerRadius: 20)
