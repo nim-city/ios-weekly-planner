@@ -14,67 +14,70 @@ struct WeeklyBreakdownDayView: View {
     var selectTasks: (DailySchedule, TaskType) -> Void
     
     var body: some View {
-        ScrollView(showsIndicators: false) {
-            VStack(spacing: 40) {
-                // Goals
-                WeekdayTaskListView(
-                    dailySchedule: dailySchedule,
-                    tasksType: .goal,
-                    taskItems: dailySchedule.goals?.array as? [Goal] ?? [],
-                    title: "Goals",
-                    selectTasks: selectTasks
-                )
-                
-                // To do items
-                WeekdayTaskListView(
-                    dailySchedule: dailySchedule,
-                    tasksType: .toDo,
-                    taskItems: dailySchedule.toDoItems?.array as? [ToDoItem] ?? [],
-                    title: "To do items",
-                    selectTasks: selectTasks
-                )
-                
-                // To buy items
-                WeekdayTaskListView(
-                    dailySchedule: dailySchedule,
-                    tasksType: .toBuy,
-                    taskItems: dailySchedule.toBuyItems?.array as? [ToBuyItem] ?? [],
-                    title: "To buy items",
-                    selectTasks: selectTasks
-                )
-                
-                // Meals
-                WeekdayTaskListView(
-                    dailySchedule: dailySchedule,
-                    tasksType: .meal,
-                    taskItems: dailySchedule.meals?.array as? [Meal] ?? [],
-                    title: "Meals",
-                    selectTasks: selectTasks
-                )
-                
-                // Workouts
-                WeekdayTaskListView(
-                    dailySchedule: dailySchedule,
-                    tasksType: .workout,
-                    taskItems: dailySchedule.workouts?.array as? [Workout] ?? [],
-                    title: "Workouts",
-                    selectTasks: selectTasks
-                )
-                
-                // Notes
-                NotesView(
-                    text: Binding(
-                        get: {
-                            return dailySchedule.notes ?? ""
-                        },
-                        set: { newValue in
-                            dailySchedule.notes = newValue
-                        }
-                    ), 
-                    isFocused: isFocused
-                )
+        VStack {
+            ScrollView(showsIndicators: false) {
+                VStack(spacing: 40) {
+                    // Goals
+                    WeekdayTaskListView(
+                        dailySchedule: dailySchedule,
+                        tasksType: .goal,
+                        taskItems: dailySchedule.goals?.array as? [Goal] ?? [],
+                        title: "Goals",
+                        selectTasks: selectTasks
+                    )
+                    
+                    // To do items
+                    WeekdayTaskListView(
+                        dailySchedule: dailySchedule,
+                        tasksType: .toDo,
+                        taskItems: dailySchedule.toDoItems?.array as? [ToDoItem] ?? [],
+                        title: "To do items",
+                        selectTasks: selectTasks
+                    )
+                    
+                    // To buy items
+                    WeekdayTaskListView(
+                        dailySchedule: dailySchedule,
+                        tasksType: .toBuy,
+                        taskItems: dailySchedule.toBuyItems?.array as? [ToBuyItem] ?? [],
+                        title: "To buy items",
+                        selectTasks: selectTasks
+                    )
+                    
+                    // Meals
+                    WeekdayTaskListView(
+                        dailySchedule: dailySchedule,
+                        tasksType: .meal,
+                        taskItems: dailySchedule.meals?.array as? [Meal] ?? [],
+                        title: "Meals",
+                        selectTasks: selectTasks
+                    )
+                    
+                    // Workouts
+                    WeekdayTaskListView(
+                        dailySchedule: dailySchedule,
+                        tasksType: .workout,
+                        taskItems: dailySchedule.workouts?.array as? [Workout] ?? [],
+                        title: "Workouts",
+                        selectTasks: selectTasks
+                    )
+                    
+                    // Notes
+                    NotesView(
+                        text: Binding(
+                            get: {
+                                return dailySchedule.notes ?? ""
+                            },
+                            set: { newValue in
+                                dailySchedule.notes = newValue
+                            }
+                        ),
+                        isFocused: isFocused
+                    )
+                }
+                .padding(5)
             }
-            .padding(.horizontal, 20)
+            .padding(.horizontal, 15)
             .padding(.top, 20)
         }
         .frame(width: UIScreen.main.bounds.size.width)

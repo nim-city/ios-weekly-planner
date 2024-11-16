@@ -17,8 +17,9 @@ struct WeeklyBreakdownScreen: View {
     
     // UI variables
     private let offsetInterval = UIScreen.main.bounds.size.width
+    @State private var dragAmount: CGFloat = 0
     private var xOffset: CGFloat {
-        -(CGFloat(viewModel.weekdayIndex) * offsetInterval)
+        (-(CGFloat(viewModel.weekdayIndex) * offsetInterval)) + dragAmount
     }
     
     
@@ -26,7 +27,6 @@ struct WeeklyBreakdownScreen: View {
         NavigationView {
             // Sideways list of Weekday views
             HStack(spacing: 0) {
-                // TODO: Update this to a snapping scrollview
                 ForEach(dailySchedules) { dailySchedule in
                     WeeklyBreakdownDayView(
                         dailySchedule: dailySchedule,
@@ -86,8 +86,11 @@ struct WeeklyBreakdownScreen: View {
             // Drag gestures
             .gesture(
                 DragGesture()
-                    .onEnded { value in
-                        dragOnScreen(value: value)
+                    .onChanged { dragValue in
+                        dragChanged(dragValue: dragValue)
+                    }
+                    .onEnded { dragValue in
+                        dragEnded(dragValue: dragValue)
                     }
             )
         }
@@ -104,17 +107,35 @@ struct WeeklyBreakdownScreen: View {
     }
     
     
-    private func dragOnScreen(value: DragGesture.Value) {
+    private func dragChanged(dragValue: DragGesture.Value) {
+        // Dismiss keyboard
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+        
+        dragAmount = dragValue.translation.width
+        if viewModel.weekdayIndex == 0 {
+            if dragAmount > 0 {
+                dragAmount = dragValue.translation.width / 2
+            }
+        } else if viewModel.weekdayIndex == 6 {
+            if dragAmount < 0 {
+                dragAmount = dragValue.translation.width / 2
+            }
+        }
+    }
+    
+    
+    private func dragEnded(dragValue: DragGesture.Value) {
         // Dismiss keyboard
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
         
         // Pan screen left or right if appropriate
         withAnimation(.easeOut) {
-            if value.translation.width < 0 {
+            if dragValue.translation.width < -100 {
                 viewModel.goToNextWeekday()
-            } else if value.translation.width > 0 {
+            } else if dragValue.translation.width > 100 {
                 viewModel.goToPreviousWeekday()
             }
+            dragAmount = 0
         }
         
         // Called separately to avoid animation
