@@ -146,7 +146,6 @@ struct WeekdayTaskListView: View {
                         }
                     }
                 }
-                .background(CustomColours.getColourForTaskType(tasksType).opacity(0.3))
                 .clipShape(RoundedRectangle(cornerRadius: 20))
                 .overlay(
                     RoundedRectangle(cornerRadius: 20)

@@ -28,7 +28,7 @@ struct NotesView: View {
             }
             .background(.white)
             .frame(
-                minHeight: 50,
+                minHeight: 55,
                 maxHeight: 200
             )
             .overlay(

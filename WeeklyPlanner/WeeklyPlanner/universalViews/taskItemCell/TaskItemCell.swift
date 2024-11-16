@@ -97,21 +97,25 @@ struct TaskItemCell: View {
     
     var mainTextView: some View {
         HStack {
-            HStack(spacing: 5) {
+            HStack(spacing: 15) {
                 Text(viewModel.taskItem.name ?? "Item name")
                     .foregroundColor(CustomColours.textDarkGray)
                     .font(CustomFonts.taskCellFont)
                     .lineLimit(2)
                     .multilineTextAlignment(.leading)
-                Button {
-                    viewModel.isExpanded.toggle()
-                } label: {
-                    Image(systemName: viewModel.isExpanded ? "chevron.down.circle" : "chevron.right.circle")
-                        .tint(CustomColours.ctaGold)
-                }
+                Image(systemName: "chevron.right")
+                    .resizable()
+                    .frame(width: 5, height: 10)
+                    .tint(CustomColours.textDarkGray)
+                    .rotationEffect(viewModel.isExpanded ? .degrees(90) : .degrees(0))
                 Spacer()
             }
             .padding(15)
+            .onTapGesture {
+                withAnimation(.easeOut(duration: 0.25)) {
+                    viewModel.isExpanded.toggle()
+                }
+            }
         }
         .frame(height: cellHeight)
     }
@@ -145,15 +149,20 @@ struct TaskItemCell: View {
     var expandedView: some View {
         VStack {
             HStack {
-                Text(viewModel.formattedNotes)
-                    .font(CustomFonts.taskNotesFont)
-                    .lineSpacing(5)
+                if viewModel.taskNotes.isEmpty {
+                    Text("No notes yet")
+                        .font(CustomFonts.taskNotesFont)
+                        .italic()
+                        .foregroundStyle(CustomColours.textMediumGray)
+                } else {
+                    Text(viewModel.taskNotes)
+                        .font(CustomFonts.taskNotesFont)
+                        .lineSpacing(5)
+                        .foregroundStyle(CustomColours.textDarkGray)
+                }
                 Spacer()
             }
-            .padding(10)
-            .background(.white)
-            .clipShape(RoundedRectangle(cornerRadius: 10))
-            .padding(.horizontal, 15)
+            .padding(.horizontal, 20)
             .padding(.bottom, 15)
         }
     }

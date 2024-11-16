@@ -20,7 +20,7 @@ class TaskItemCellViewModel: ObservableObject {
     @Published var isShowingDeleteAlert = false
     @Published var offset: CGFloat = 0
     
-    var formattedNotes: String {
+    var taskNotes: String {
         guard let notes = taskItem.notes, !notes.isEmpty else { return "" }
         
         let separatedLines = notes.components(separatedBy: "\n")
