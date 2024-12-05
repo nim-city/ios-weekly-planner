@@ -39,6 +39,9 @@
 		72B0D6022C487FC800C44784 /* TaskListsTabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B0D6012C487FC800C44784 /* TaskListsTabBarItem.swift */; };
 		72B0D6042C4880F000C44784 /* WeekOverviewListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B0D6032C4880F000C44784 /* WeekOverviewListView.swift */; };
 		72B0D6062C48812B00C44784 /* WeekOverviewListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B0D6052C48812B00C44784 /* WeekOverviewListCell.swift */; };
+		72B7D22F2D01772B00B106BB /* WeeklyBreakdownDayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B7D22E2D01772B00B106BB /* WeeklyBreakdownDayViewModel.swift */; };
+		72B7D2312D017DC000B106BB /* AddTaskViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B7D2302D017DC000B106BB /* AddTaskViewModel.swift */; };
+		72B7D2332D01806A00B106BB /* TaskItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B7D2322D01806A00B106BB /* TaskItemViewModel.swift */; };
 		72D107F52CBDB7E100A777EC /* TaskItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D107F42CBDB7E100A777EC /* TaskItemCell.swift */; };
 		72D107F72CBDB7EC00A777EC /* TaskItemCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D107F62CBDB7EC00A777EC /* TaskItemCellViewModel.swift */; };
 		72D107F92CBDBEE300A777EC /* NotesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D107F82CBDBEE300A777EC /* NotesView.swift */; };
@@ -104,6 +107,9 @@
 		72B0D6012C487FC800C44784 /* TaskListsTabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListsTabBarItem.swift; sourceTree = "<group>"; };
 		72B0D6032C4880F000C44784 /* WeekOverviewListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekOverviewListView.swift; sourceTree = "<group>"; };
 		72B0D6052C48812B00C44784 /* WeekOverviewListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekOverviewListCell.swift; sourceTree = "<group>"; };
+		72B7D22E2D01772B00B106BB /* WeeklyBreakdownDayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyBreakdownDayViewModel.swift; sourceTree = "<group>"; };
+		72B7D2302D017DC000B106BB /* AddTaskViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskViewModel.swift; sourceTree = "<group>"; };
+		72B7D2322D01806A00B106BB /* TaskItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskItemViewModel.swift; sourceTree = "<group>"; };
 		72D107F42CBDB7E100A777EC /* TaskItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskItemCell.swift; sourceTree = "<group>"; };
 		72D107F62CBDB7EC00A777EC /* TaskItemCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskItemCellViewModel.swift; sourceTree = "<group>"; };
 		72D107F82CBDBEE300A777EC /* NotesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesView.swift; sourceTree = "<group>"; };
@@ -251,6 +257,7 @@
 				72E474242C82AAA90074FF40 /* subviews */,
 				725AAB902C10EDA6001D8CA8 /* AddTaskScreen.swift */,
 				72E474222C82AAA50074FF40 /* EditTaskViewModel.swift */,
+				72B7D2302D017DC000B106BB /* AddTaskViewModel.swift */,
 			);
 			path = addTask;
 			sourceTree = "<group>";
@@ -323,9 +330,10 @@
 		72DFBD012BE9F2700009EE03 /* weeklyBreakdown */ = {
 			isa = PBXGroup;
 			children = (
-				72DEDEDA2C7DB3030099F3E0 /* WeeklyBreakdownDayView.swift */,
 				72DFBD062BE9F38F0009EE03 /* WeeklyBreakdownScreen.swift */,
 				72206B502C9A3412004FE043 /* WeeklyBreakdownViewModel.swift */,
+				72DEDEDA2C7DB3030099F3E0 /* WeeklyBreakdownDayView.swift */,
+				72B7D22E2D01772B00B106BB /* WeeklyBreakdownDayViewModel.swift */,
 			);
 			path = weeklyBreakdown;
 			sourceTree = "<group>";
@@ -356,6 +364,7 @@
 			children = (
 				7264AE672C81531900C2F86E /* AddTaskNotesView.swift */,
 				7264AE692C81538C00C2F86E /* AddTaskNameInput.swift */,
+				72B7D2322D01806A00B106BB /* TaskItemViewModel.swift */,
 			);
 			path = subviews;
 			sourceTree = "<group>";
@@ -503,6 +512,7 @@
 				7281BBD82C06BD4C00855655 /* CoreDataController.swift in Sources */,
 				721341472B3B55D100AACD27 /* WeeklyPlannerApp.swift in Sources */,
 				72B0D5FD2C487DA000C44784 /* TaskListsScreen+ListView.swift in Sources */,
+				72B7D2332D01806A00B106BB /* TaskItemViewModel.swift in Sources */,
 				72206B4E2C99E7AB004FE043 /* WeekOverviewViewModel.swift in Sources */,
 				722A8A422C1B6C1100E8C318 /* SelectTasksScreen.swift in Sources */,
 				725AAB8E2C0FAFB2001D8CA8 /* MockListItems.swift in Sources */,
@@ -518,6 +528,8 @@
 				72B0D6042C4880F000C44784 /* WeekOverviewListView.swift in Sources */,
 				72206B5A2C9BD59D004FE043 /* SelectTasksViewModel.swift in Sources */,
 				7281BBDB2C070DD000855655 /* MockDailySchedules.swift in Sources */,
+				72B7D2312D017DC000B106BB /* AddTaskViewModel.swift in Sources */,
+				72B7D22F2D01772B00B106BB /* WeeklyBreakdownDayViewModel.swift in Sources */,
 				72206B512C9A3412004FE043 /* WeeklyBreakdownViewModel.swift in Sources */,
 				725AAB8A2C0AB3AC001D8CA8 /* Labels.swift in Sources */,
 				722A8A472C1B729B00E8C318 /* TaskType.swift in Sources */,

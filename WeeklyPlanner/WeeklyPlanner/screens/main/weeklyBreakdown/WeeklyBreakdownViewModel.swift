@@ -14,8 +14,10 @@ class WeeklyBreakdownViewModel: ObservableObject {
     @Published var weekdayIndex: Int = 0
     @Published private(set) var weekdayName = ""
     @Published var isShowingSelectItemsScreen = false
+    @Published var isShowingAddTaskScreen = false
     
     @Published var selectTasksViewModel: SelectTasksViewModel?
+    @Published var addTaskViewModel: AddTaskViewModel?
     
     func updateWeekdayName() {
         weekdayName = DayOfTheWeek.getDayFromIndex(weekdayIndex)?.capitalizedName ?? "Weekday"

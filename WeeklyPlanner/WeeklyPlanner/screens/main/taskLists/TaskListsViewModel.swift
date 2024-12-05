@@ -14,7 +14,7 @@ class TaskListsViewModel: ObservableObject {
     @Published var selectedTaskType: TaskType = .goal
     @Published var isShowingEditScreen = false
     
-    @Published var editTaskViewModel: EditTaskViewModel?
+    @Published var taskItemViewModel: TaskItemViewModel?
     
     var screenTitle: String {
         switch selectedTaskType {

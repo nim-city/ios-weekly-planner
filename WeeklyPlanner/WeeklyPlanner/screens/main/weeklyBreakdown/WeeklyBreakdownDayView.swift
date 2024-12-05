@@ -11,7 +11,11 @@ struct WeeklyBreakdownDayView: View {
     @ObservedObject var dailySchedule: DailySchedule
     var isFocused: FocusState<Bool>.Binding
     
-    var selectTasks: (DailySchedule, TaskType) -> Void
+    var selectTaskType: (TaskType) -> Void
+    var addNewTask: (TaskType) -> Void
+    
+    @ObservedObject var viewModel = WeeklyBreakdownDayViewModel()
+    
     
     var body: some View {
         VStack {
@@ -23,7 +27,7 @@ struct WeeklyBreakdownDayView: View {
                         tasksType: .goal,
                         taskItems: dailySchedule.goals?.array as? [Goal] ?? [],
                         title: "Goals",
-                        selectTasks: selectTasks
+                        selectTaskType: viewModel.selectTaskType
                     )
                     
                     // To do items
@@ -32,7 +36,7 @@ struct WeeklyBreakdownDayView: View {
                         tasksType: .toDo,
                         taskItems: dailySchedule.toDoItems?.array as? [ToDoItem] ?? [],
                         title: "To do items",
-                        selectTasks: selectTasks
+                        selectTaskType: viewModel.selectTaskType
                     )
                     
                     // To buy items
@@ -41,7 +45,7 @@ struct WeeklyBreakdownDayView: View {
                         tasksType: .toBuy,
                         taskItems: dailySchedule.toBuyItems?.array as? [ToBuyItem] ?? [],
                         title: "To buy items",
-                        selectTasks: selectTasks
+                        selectTaskType: viewModel.selectTaskType
                     )
                     
                     // Meals
@@ -50,7 +54,7 @@ struct WeeklyBreakdownDayView: View {
                         tasksType: .meal,
                         taskItems: dailySchedule.meals?.array as? [Meal] ?? [],
                         title: "Meals",
-                        selectTasks: selectTasks
+                        selectTaskType: viewModel.selectTaskType
                     )
                     
                     // Workouts
@@ -59,7 +63,7 @@ struct WeeklyBreakdownDayView: View {
                         tasksType: .workout,
                         taskItems: dailySchedule.workouts?.array as? [Workout] ?? [],
                         title: "Workouts",
-                        selectTasks: selectTasks
+                        selectTaskType: viewModel.selectTaskType
                     )
                     
                     // Notes
@@ -82,6 +86,31 @@ struct WeeklyBreakdownDayView: View {
         }
         .frame(width: UIScreen.main.bounds.size.width)
         .background(Color.white)
+        .alert("Add an item?", isPresented: $viewModel.isPresentingAddTaskAlert) {
+            Button("Select item") {
+                guard let taskType = viewModel.selectedTaskType else {
+                    return
+                }
+                
+                viewModel.isPresentingAddTaskAlert = false
+                
+                selectTaskType(taskType)
+            }
+            Button("Add new item") {
+                guard let taskType = viewModel.selectedTaskType else {
+                    return
+                }
+                
+                viewModel.isPresentingAddTaskAlert = false
+                
+                addNewTask(taskType)
+            }
+            Button("Cancel") {
+                viewModel.isPresentingAddTaskAlert = false
+                
+                viewModel.selectedTaskType = nil
+            }
+        }
     }
 }
 
@@ -96,7 +125,7 @@ struct WeekdayTaskListView: View {
     var taskItems: [TaskItem]
     let title: String
     
-    var selectTasks: (DailySchedule, TaskType) -> Void
+    var selectTaskType: (TaskType) -> Void
     
     @State private var isExpanded = true
     
@@ -118,7 +147,7 @@ struct WeekdayTaskListView: View {
                 Spacer()
                 
                 Button {
-                    selectTasks(dailySchedule, tasksType)
+                    selectTaskType(tasksType)
                 } label: {
                     Image(systemName: "plus")
                         .tint(CustomColours.ctaGold)

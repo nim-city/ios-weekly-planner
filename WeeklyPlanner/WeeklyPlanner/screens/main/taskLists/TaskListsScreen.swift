@@ -38,11 +38,11 @@ struct TaskListsScreen: View {
                             taskItems: getSelectedTaskList(),
                             editTaskItem: { taskToEdit in
                                 // Create the view model
-                                viewModel.editTaskViewModel = EditTaskViewModel(
-                                    editMode: .Edit,
-                                    taskType: viewModel.selectedTaskType,
-                                    taskToEdit: taskToEdit
+                                viewModel.taskItemViewModel = EditTaskViewModel(
+                                    taskItemType: viewModel.selectedTaskType,
+                                    taskItem: taskToEdit
                                 )
+                                
                                 // Show the popup
                                 viewModel.isShowingEditScreen = true
                             }
@@ -60,10 +60,8 @@ struct TaskListsScreen: View {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
                         // Create the view model
-                        viewModel.editTaskViewModel = EditTaskViewModel(
-                            editMode: .Add,
-                            taskType: viewModel.selectedTaskType
-                        )
+                        viewModel.taskItemViewModel = AddTaskViewModel(taskItemType: viewModel.selectedTaskType)
+                        
                         // Show the popup
                         viewModel.isShowingEditScreen = true
                     } label: {
@@ -77,8 +75,8 @@ struct TaskListsScreen: View {
 
             // Add/edit item modal
             .sheet(isPresented: $viewModel.isShowingEditScreen) {
-                if let editTaskViewModel = viewModel.editTaskViewModel {
-                    AddTaskScreen(viewModel: editTaskViewModel)
+                if let taskItemViewModel = viewModel.taskItemViewModel {
+                    AddTaskScreen(viewModel: taskItemViewModel)
                 }
             }
         }

@@ -14,7 +14,8 @@ struct AddTaskScreen: View {
     @Environment(\.dismiss) var dismiss
     
     @FocusState private var isFocused: Bool
-    @ObservedObject var viewModel: EditTaskViewModel
+    @ObservedObject var viewModel: TaskItemViewModel
+    
     
     var body: some View {
         NavigationSplitView {
@@ -25,14 +26,14 @@ struct AddTaskScreen: View {
                         AddTaskNameInput(
                             itemName: $viewModel.taskName,
                             isFocused: $isFocused,
-                            colour: CustomColours.getColourForTaskType(viewModel.taskType)
+                            colour: CustomColours.getColourForTaskType(viewModel.taskItemType)
                         )
                         
                         // Task notes
                         AddTaskNotesView(
                             text: $viewModel.taskNotes,
                             isFocused: $isFocused,
-                            colour: CustomColours.getColourForTaskType(viewModel.taskType)
+                            colour: CustomColours.getColourForTaskType(viewModel.taskItemType)
                         )
                         
                         // Save and cancel buttons
@@ -56,7 +57,7 @@ struct AddTaskScreen: View {
             }
             .toolbar {
                 ToolbarItem(placement: .principal) {
-                    ScreenTitleLabel(text: viewModel.screenTitle)
+                    ScreenTitleLabel(text: viewModel.itemTypeLabel)
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
@@ -77,7 +78,7 @@ extension AddTaskScreen {
         VStack(spacing: 10) {
             // Save button
             Button {
-                let _ = viewModel.saveTask(moc: moc)
+                let _ = viewModel.saveTaskItem(moc: moc)
                 dismiss()
             } label: {
                 Text("Save")
@@ -87,7 +88,7 @@ extension AddTaskScreen {
                         maxHeight: 50
                     )
                     .foregroundColor(CustomColours.textDarkGray)
-                    .background(CustomColours.getColourForTaskType(viewModel.taskType))
+                    .background(CustomColours.getColourForTaskType(viewModel.taskItemType))
                     .font(CustomFonts.buttonFont)
                     .clipShape(RoundedRectangle(cornerRadius: 25))
                     .overlay {
@@ -116,6 +117,6 @@ extension AddTaskScreen {
 
 struct AddItemView_Preview: PreviewProvider {
     static var previews: some View {
-        AddTaskScreen(viewModel: EditTaskViewModel(editMode: .Add, taskType: .goal))
+        AddTaskScreen(viewModel: AddTaskViewModel(taskItemType: .goal))
     }
 }
