@@ -21,15 +21,7 @@ struct WeeklyBreakdownDayView: View {
         VStack {
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 40) {
-                    // Goals
-                    WeekdayTaskListView(
-                        dailySchedule: dailySchedule,
-                        tasksType: .goal,
-                        taskItems: dailySchedule.goals?.array as? [Goal] ?? [],
-                        title: "Goals",
-                        selectTaskType: viewModel.selectTaskType
-                    )
-                    
+
                     // To do items
                     WeekdayTaskListView(
                         dailySchedule: dailySchedule,

@@ -8,19 +8,11 @@
 import Foundation
 
 class WeekOverviewViewModel: ObservableObject {
-    
+        
+    @Published private(set) var currentWeeklySchedule: WeeklySchedule?
     @Published private(set) var dailySchedules = [DailySchedule]()
     @Published var notes = ""
     private let notesDataController = WeeklyNotesDataController()
-    
-    var goals: [Goal] {
-        dailySchedules.reduce(NSMutableOrderedSet()) {
-            if let dailyGoals = $1.goals {
-                $0.addObjects(from: dailyGoals.array)
-            }
-            return $0
-        }.array as? [Goal] ?? []
-    }
     
     var toDoItems: [ToDoItem] {
         dailySchedules.reduce(NSMutableOrderedSet()) {

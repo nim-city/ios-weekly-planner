@@ -20,11 +20,12 @@ struct WeekOverviewScreen: View {
         NavigationView {
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 40) {
-                    // Goals
-                    WeekItemsListView(
-                        tasksType: .goal,
-                        taskItems: viewModel.goals
-                    )
+                    // TODO: Fix this
+//                    // Goals
+//                    WeekItemsListView(
+//                        tasksType: .goal,
+//                        taskItems: viewModel.goals
+//                    )
                     // To do list
                     WeekItemsListView(
                         tasksType: .toDo,

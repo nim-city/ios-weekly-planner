@@ -11,7 +11,7 @@ import SwiftUI
 struct MainScreen: View {
     // To add default empty daily schedules if necessary
     @Environment(\.managedObjectContext) var moc
-    @FetchRequest(sortDescriptors: []) var dailySchedules: FetchedResults<DailySchedule>
+    @FetchRequest(sortDescriptors: []) var weeklySchedules: FetchedResults<WeeklySchedule>
     
     @StateObject private var viewModel = MainViewModel()
     
@@ -55,11 +55,9 @@ struct MainScreen: View {
                 .tint(CustomColours.ctaGold)
             }
         }
-        // Load default daily schedules if appropriate
-        .onReceive(dailySchedules.publisher.collect()) { schedules in
-            if schedules.isEmpty {
-                viewModel.addDefaultDailySchedules(moc: moc)
-            }
+        // Load default weekly schedules if appropriate
+        .onReceive(weeklySchedules.publisher.collect()) { schedules in
+            viewModel.assignWeeklySchedules(schedules, moc: moc)
         }
     }
 }
