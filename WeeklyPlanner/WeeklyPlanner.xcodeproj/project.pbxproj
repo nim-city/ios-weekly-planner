@@ -34,6 +34,7 @@
 		7281BBD82C06BD4C00855655 /* CoreDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7281BBD72C06BD4C00855655 /* CoreDataController.swift */; };
 		7281BBDB2C070DD000855655 /* MockDailySchedules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7281BBDA2C070DD000855655 /* MockDailySchedules.swift */; };
 		7281BBDE2C07B83400855655 /* CustomColours.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7281BBDD2C07B83400855655 /* CustomColours.swift */; };
+		72A822542D0428BA002C3356 /* SnappingScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A822532D0428BA002C3356 /* SnappingScrollView.swift */; };
 		72B0D5FB2C48505600C44784 /* CustomFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B0D5FA2C48505600C44784 /* CustomFonts.swift */; };
 		72B0D5FD2C487DA000C44784 /* TaskListsScreen+ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B0D5FC2C487DA000C44784 /* TaskListsScreen+ListView.swift */; };
 		72B0D6022C487FC800C44784 /* TaskListsTabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B0D6012C487FC800C44784 /* TaskListsTabBarItem.swift */; };
@@ -42,6 +43,7 @@
 		72B7D22F2D01772B00B106BB /* WeeklyBreakdownDayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B7D22E2D01772B00B106BB /* WeeklyBreakdownDayViewModel.swift */; };
 		72B7D2312D017DC000B106BB /* AddTaskViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B7D2302D017DC000B106BB /* AddTaskViewModel.swift */; };
 		72B7D2332D01806A00B106BB /* TaskItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B7D2322D01806A00B106BB /* TaskItemViewModel.swift */; };
+		72B7D2352D02C8EF00B106BB /* DailySchedule+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B7D2342D02C8EF00B106BB /* DailySchedule+Extensions.swift */; };
 		72D107F52CBDB7E100A777EC /* TaskItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D107F42CBDB7E100A777EC /* TaskItemCell.swift */; };
 		72D107F72CBDB7EC00A777EC /* TaskItemCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D107F62CBDB7EC00A777EC /* TaskItemCellViewModel.swift */; };
 		72D107F92CBDBEE300A777EC /* NotesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D107F82CBDBEE300A777EC /* NotesView.swift */; };
@@ -102,6 +104,7 @@
 		7281BBD72C06BD4C00855655 /* CoreDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataController.swift; sourceTree = "<group>"; };
 		7281BBDA2C070DD000855655 /* MockDailySchedules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDailySchedules.swift; sourceTree = "<group>"; };
 		7281BBDD2C07B83400855655 /* CustomColours.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomColours.swift; sourceTree = "<group>"; };
+		72A822532D0428BA002C3356 /* SnappingScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnappingScrollView.swift; sourceTree = "<group>"; };
 		72B0D5FA2C48505600C44784 /* CustomFonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFonts.swift; sourceTree = "<group>"; };
 		72B0D5FC2C487DA000C44784 /* TaskListsScreen+ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TaskListsScreen+ListView.swift"; sourceTree = "<group>"; };
 		72B0D6012C487FC800C44784 /* TaskListsTabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListsTabBarItem.swift; sourceTree = "<group>"; };
@@ -110,6 +113,7 @@
 		72B7D22E2D01772B00B106BB /* WeeklyBreakdownDayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyBreakdownDayViewModel.swift; sourceTree = "<group>"; };
 		72B7D2302D017DC000B106BB /* AddTaskViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskViewModel.swift; sourceTree = "<group>"; };
 		72B7D2322D01806A00B106BB /* TaskItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskItemViewModel.swift; sourceTree = "<group>"; };
+		72B7D2342D02C8EF00B106BB /* DailySchedule+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DailySchedule+Extensions.swift"; sourceTree = "<group>"; };
 		72D107F42CBDB7E100A777EC /* TaskItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskItemCell.swift; sourceTree = "<group>"; };
 		72D107F62CBDB7EC00A777EC /* TaskItemCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskItemCellViewModel.swift; sourceTree = "<group>"; };
 		72D107F82CBDBEE300A777EC /* NotesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesView.swift; sourceTree = "<group>"; };
@@ -218,6 +222,7 @@
 				721341792B3B838500AACD27 /* ToDoItemCategory.swift */,
 				7213417F2B3C9F9A00AACD27 /* DayOfTheWeek.swift */,
 				722A8A462C1B729B00E8C318 /* TaskType.swift */,
+				72B7D2342D02C8EF00B106BB /* DailySchedule+Extensions.swift */,
 			);
 			path = library;
 			sourceTree = "<group>";
@@ -247,6 +252,7 @@
 				72D107F32CBDB7CA00A777EC /* taskItemCell */,
 				725AAB892C0AB3AC001D8CA8 /* Labels.swift */,
 				72D107F82CBDBEE300A777EC /* NotesView.swift */,
+				72A822532D0428BA002C3356 /* SnappingScrollView.swift */,
 			);
 			path = universalViews;
 			sourceTree = "<group>";
@@ -536,9 +542,11 @@
 				72B0D6062C48812B00C44784 /* WeekOverviewListCell.swift in Sources */,
 				72D107F72CBDB7EC00A777EC /* TaskItemCellViewModel.swift in Sources */,
 				72D107F92CBDBEE300A777EC /* NotesView.swift in Sources */,
+				72A822542D0428BA002C3356 /* SnappingScrollView.swift in Sources */,
 				7213417A2B3B838500AACD27 /* ToDoItemCategory.swift in Sources */,
 				725AABA22C1A1D94001D8CA8 /* KeyboardReadable.swift in Sources */,
 				721341532B3B55D200AACD27 /* WeeklyPlanner.xcdatamodeld in Sources */,
+				72B7D2352D02C8EF00B106BB /* DailySchedule+Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

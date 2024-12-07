@@ -29,11 +29,10 @@ class AddTaskViewModel: TaskItemViewModel {
         // Create item
         taskItem = createNewTaskItem(moc: moc)
         
-        // Assign to schedule
-        if dailySchedule != nil {
-            let wasAssignmentSuccessful = assignItemToSchedule(moc: moc)
+        // Assign to schedule if not nil
+        if let dailySchedule, let taskItem {
+            let wasAssignmentSuccessful = dailySchedule.addTaskItem(taskItem, ofType: taskItemType)
             if !wasAssignmentSuccessful {
-                
                 return false
             }
         }
@@ -65,50 +64,5 @@ class AddTaskViewModel: TaskItemViewModel {
         newTaskItem.notes = taskNotes
         
         return newTaskItem
-    }
-    
-    
-    private func assignItemToSchedule(moc: NSManagedObjectContext) -> Bool {
-        guard let dailySchedule, let taskItem else { return false }
-        
-        switch taskItemType {
-        case .goal:
-            
-            guard let goal = taskItem as? Goal else {
-                return false
-            }
-            dailySchedule.addToGoals(goal)
-            
-        case .toDo:
-            
-            guard let toDoItem = taskItem as? ToDoItem else {
-                return false
-            }
-            dailySchedule.addToToDoItems(toDoItem)
-            
-        case .toBuy:
-            
-            guard let toBuyItem = taskItem as? ToBuyItem else {
-                return false
-            }
-            dailySchedule.addToToBuyItems(toBuyItem)
-            
-        case .meal:
-            
-            guard let meal = taskItem as? Meal else {
-                return false
-            }
-            dailySchedule.addToMeals(meal)
-            
-        case .workout:
-            
-            guard let workout = taskItem as? Workout else {
-                return false
-            }
-            dailySchedule.addToWorkouts(workout)
-            
-        }
-        
-        return true
     }
 }
