@@ -25,7 +25,7 @@ struct MainScreen: View {
         NavigationView {
             VStack {
                 TabView(selection: $viewModel.selectedIndex) {
-                    WeekOverviewScreen()
+                    WeekOverviewScreen(weeklyScheduleName: "Default")
                         .tabItem {
                             Label(
                                 "Week Overview",
@@ -34,7 +34,7 @@ struct MainScreen: View {
                         }
                         .tag(0)
 
-                    WeeklyBreakdownScreen()
+                    WeeklyBreakdownScreen(weeklyScheduleName: "Default")
                         .tabItem {
                             Label(
                                 "Daily Breakdown",
@@ -55,9 +55,10 @@ struct MainScreen: View {
                 .tint(CustomColours.ctaGold)
             }
         }
+        
         // Load default weekly schedules if appropriate
-        .onReceive(weeklySchedules.publisher.collect()) { schedules in
-            viewModel.assignWeeklySchedules(schedules, moc: moc)
+        .onAppear {
+            viewModel.assignWeeklySchedules(Array(weeklySchedules), moc: moc)
         }
     }
 }

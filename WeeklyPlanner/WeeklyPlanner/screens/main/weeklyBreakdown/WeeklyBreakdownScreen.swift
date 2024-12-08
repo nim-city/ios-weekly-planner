@@ -10,6 +10,7 @@ import CoreData
 
 struct WeeklyBreakdownScreen: View {
     @Environment(\.managedObjectContext) var moc
+    @FetchRequest var weeklySchedules: FetchedResults<WeeklySchedule>
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \DailySchedule.dayIndex, ascending: true)]) var dailySchedules: FetchedResults<DailySchedule>
     
     @StateObject private var viewModel = WeeklyBreakdownViewModel()
@@ -20,6 +21,16 @@ struct WeeklyBreakdownScreen: View {
     @State private var dragAmount: CGFloat = 0
     private var xOffset: CGFloat {
         (-(CGFloat(viewModel.weekdayIndex) * offsetInterval)) + dragAmount
+    }
+    
+    
+    init(weeklyScheduleName: String) {
+        let predicate = NSPredicate(format: "name == %@", weeklyScheduleName)
+        self._weeklySchedules = FetchRequest(
+            entity: WeeklySchedule.entity(),
+            sortDescriptors: [],
+            predicate: predicate
+        )
     }
     
     
@@ -104,6 +115,10 @@ struct WeeklyBreakdownScreen: View {
             )
         }
         .onAppear {
+            if let weeklySchedule = weeklySchedules.first {
+                viewModel.setDailySchedulesFromWeeklySchedule(weeklySchedule)
+                viewModel.updateWeekdayName()
+            }
             viewModel.updateWeekdayName()
         }
         
@@ -160,12 +175,12 @@ struct WeeklyBreakdownScreen: View {
 }
 
 
-struct WeekBreakdownScreen_Preview: PreviewProvider {
-    static var previews: some View {
-        // Add mock items to CoreData
-        let moc = CoreDataController().moc
-        let _ = MockDailySchedules(moc: moc)
-        
-        return WeeklyBreakdownScreen()
-    }
-}
+//struct WeekBreakdownScreen_Preview: PreviewProvider {
+//    static var previews: some View {
+//        // Add mock items to CoreData
+//        let moc = CoreDataController().moc
+//        let _ = MockDailySchedules(moc: moc)
+//        
+//        return WeeklyBreakdownScreen()
+//    }
+//}

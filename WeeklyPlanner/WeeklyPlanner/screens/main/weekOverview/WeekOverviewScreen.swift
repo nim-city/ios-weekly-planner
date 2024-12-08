@@ -10,10 +10,23 @@ import SwiftUI
 
 // TODO: Optimize this screen by moving items lists to view model and refactoring view code
 struct WeekOverviewScreen: View {
-    @FetchRequest(sortDescriptors: []) var dailySchedules: FetchedResults<DailySchedule>
+    // TODO: See if making this an observedobject allows us to just pass the weeklySchedule in
+    @FetchRequest var weeklySchedules: FetchedResults<WeeklySchedule>
+    // TODO: Remove this
+//    @FetchRequest(sortDescriptors: []) var dailySchedules: FetchedResults<DailySchedule>
     
-    @StateObject private var viewModel = WeekOverviewViewModel()
+    @ObservedObject private var viewModel = WeekOverviewViewModel()
     @FocusState var isFocused
+    
+    
+    init(weeklyScheduleName: String) {
+        let predicate = NSPredicate(format: "name == %@", weeklyScheduleName)
+        self._weeklySchedules = FetchRequest(
+            entity: WeeklySchedule.entity(),
+            sortDescriptors: [],
+            predicate: predicate
+        )
+    }
     
         
     var body: some View {
@@ -87,22 +100,24 @@ struct WeekOverviewScreen: View {
                     }
                 }
             }
-            
+
             // Set daily schedules in view model to populate tasks lists
             .onAppear {
-                viewModel.setDailySchedules(dailySchedules: Array(dailySchedules))
+                if let weeklySchedule = weeklySchedules.first {
+                    viewModel.setWeeklySchedule(weeklySchedule: weeklySchedule)
+                }
             }
         }
     }
 }
 
-struct WeekOverviewScreen_Preview: PreviewProvider {
-    static var previews: some View {
-        // Add mock items to CoreData
-        let moc = CoreDataController().moc
-        let _ = MockListItems(moc: moc)
-
-        return WeekOverviewScreen()
-//            .environment(\.managedObjectContext, moc)
-    }
-}
+//struct WeekOverviewScreen_Preview: PreviewProvider {
+//    static var previews: some View {
+//        // Add mock items to CoreData
+//        let moc = CoreDataController().moc
+//        let _ = MockListItems(moc: moc)
+//
+//        return WeekOverviewScreen()
+////            .environment(\.managedObjectContext, moc)
+//    }
+//}

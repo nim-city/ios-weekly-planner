@@ -8,7 +8,7 @@
 import Foundation
 
 class WeekOverviewViewModel: ObservableObject {
-        
+    
     @Published private(set) var currentWeeklySchedule: WeeklySchedule?
     @Published private(set) var dailySchedules = [DailySchedule]()
     @Published var notes = ""
@@ -49,17 +49,26 @@ class WeekOverviewViewModel: ObservableObject {
             return $0
         }.array as? [Workout] ?? []
     }
-
+    
     
     init() {
         self.notes = self.notesDataController.getWeeklyNotes()
     }
     
     
-    func setDailySchedules(dailySchedules: [DailySchedule]) {
-        self.dailySchedules = dailySchedules
+    func setWeeklySchedule(weeklySchedule: WeeklySchedule) {
+        self.currentWeeklySchedule = weeklySchedule
+        if let dailySchedules = weeklySchedule.dailySchedules {
+            self.dailySchedules = Array(_immutableCocoaArray: dailySchedules)
+        }
     }
     
+//    
+//    // TODO: Remove this
+//    func setDailySchedules(dailySchedules: [DailySchedule]) {
+//        self.dailySchedules = dailySchedules
+//    }
+//    
     
     func saveNotes() {
         self.notesDataController.setWeeklyNotes(newNotes: notes)

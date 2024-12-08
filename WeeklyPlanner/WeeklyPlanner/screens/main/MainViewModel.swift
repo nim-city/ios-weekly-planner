@@ -18,6 +18,7 @@ class MainViewModel: ObservableObject {
         
         // Assign a default weekly schedule if no schedules have been created
         if weeklySchedules.isEmpty {
+            // TODO: At some point, provide user the chance to create this themselves so they can assign a name
             if let weeklySchedule = createDefaultWeeklySchedule(moc: moc) {
                 self.weeklySchedules = [weeklySchedule]
                 
@@ -31,14 +32,14 @@ class MainViewModel: ObservableObject {
     }
     
     
-    // TODO: At some point, provide user the chance to create this themselves so they can assign a name
     func createDefaultWeeklySchedule(moc: NSManagedObjectContext) -> WeeklySchedule? {
         // Create a default weekly schedule for now
         let defaultWeeklySchedule = WeeklySchedule(context: moc)
+        defaultWeeklySchedule.name = "Default"
         
         // Assign the daily schedules
         let defaultDailySchedules = createDefaultDailySchedules(moc: moc)
-        defaultWeeklySchedule.dailySchedules = NSSet(array: defaultDailySchedules)
+        defaultWeeklySchedule.dailySchedules = NSOrderedSet(array: defaultDailySchedules)
         
         // Save
         do {
