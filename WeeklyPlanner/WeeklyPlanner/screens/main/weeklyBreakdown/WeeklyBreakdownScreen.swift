@@ -11,7 +11,6 @@ import CoreData
 struct WeeklyBreakdownScreen: View {
     @Environment(\.managedObjectContext) var moc
     @FetchRequest var weeklySchedules: FetchedResults<WeeklySchedule>
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \DailySchedule.dayIndex, ascending: true)]) var dailySchedules: FetchedResults<DailySchedule>
     
     @StateObject private var viewModel = WeeklyBreakdownViewModel()
     @FocusState private var isFocused: Bool
@@ -38,7 +37,7 @@ struct WeeklyBreakdownScreen: View {
         NavigationView {
             // Sideways list of Weekday views
             HStack(spacing: 0) {
-                ForEach(dailySchedules) { dailySchedule in
+                ForEach(viewModel.dailySchedules) { dailySchedule in
                     WeeklyBreakdownDayView(
                         dailySchedule: dailySchedule,
                         isFocused: $isFocused,
