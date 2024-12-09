@@ -8,26 +8,11 @@
 import Foundation
 import SwiftUI
 
-// TODO: Optimize this screen by moving items lists to view model and refactoring view code
+
 struct WeekOverviewScreen: View {
-    // TODO: See if making this an observedobject allows us to just pass the weeklySchedule in
-    @FetchRequest var weeklySchedules: FetchedResults<WeeklySchedule>
-    // TODO: Remove this
-//    @FetchRequest(sortDescriptors: []) var dailySchedules: FetchedResults<DailySchedule>
+    @ObservedObject var viewModel: WeekOverviewViewModel
     
-    @ObservedObject private var viewModel = WeekOverviewViewModel()
     @FocusState var isFocused
-    
-    
-    init(weeklyScheduleName: String) {
-        let predicate = NSPredicate(format: "name == %@", weeklyScheduleName)
-        self._weeklySchedules = FetchRequest(
-            entity: WeeklySchedule.entity(),
-            sortDescriptors: [],
-            predicate: predicate
-        )
-    }
-    
         
     var body: some View {
         NavigationView {
@@ -98,13 +83,6 @@ struct WeekOverviewScreen: View {
                             .font(CustomFonts.buttonFont)
                             .foregroundStyle(CustomColours.ctaGold)
                     }
-                }
-            }
-
-            // Set daily schedules in view model to populate tasks lists
-            .onAppear {
-                if let weeklySchedule = weeklySchedules.first {
-                    viewModel.setWeeklySchedule(weeklySchedule: weeklySchedule)
                 }
             }
         }

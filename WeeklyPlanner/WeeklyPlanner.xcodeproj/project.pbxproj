@@ -34,6 +34,7 @@
 		7281BBD82C06BD4C00855655 /* CoreDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7281BBD72C06BD4C00855655 /* CoreDataController.swift */; };
 		7281BBDB2C070DD000855655 /* MockDailySchedules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7281BBDA2C070DD000855655 /* MockDailySchedules.swift */; };
 		7281BBDE2C07B83400855655 /* CustomColours.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7281BBDD2C07B83400855655 /* CustomColours.swift */; };
+		72A7B4702D066D950089B7D2 /* WeeklySchedule+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A7B46F2D066D950089B7D2 /* WeeklySchedule+Extensions.swift */; };
 		72A822542D0428BA002C3356 /* SnappingScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A822532D0428BA002C3356 /* SnappingScrollView.swift */; };
 		72B0D5FB2C48505600C44784 /* CustomFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B0D5FA2C48505600C44784 /* CustomFonts.swift */; };
 		72B0D5FD2C487DA000C44784 /* TaskListsScreen+ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B0D5FC2C487DA000C44784 /* TaskListsScreen+ListView.swift */; };
@@ -104,6 +105,7 @@
 		7281BBD72C06BD4C00855655 /* CoreDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataController.swift; sourceTree = "<group>"; };
 		7281BBDA2C070DD000855655 /* MockDailySchedules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDailySchedules.swift; sourceTree = "<group>"; };
 		7281BBDD2C07B83400855655 /* CustomColours.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomColours.swift; sourceTree = "<group>"; };
+		72A7B46F2D066D950089B7D2 /* WeeklySchedule+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WeeklySchedule+Extensions.swift"; sourceTree = "<group>"; };
 		72A822532D0428BA002C3356 /* SnappingScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnappingScrollView.swift; sourceTree = "<group>"; };
 		72B0D5FA2C48505600C44784 /* CustomFonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFonts.swift; sourceTree = "<group>"; };
 		72B0D5FC2C487DA000C44784 /* TaskListsScreen+ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TaskListsScreen+ListView.swift"; sourceTree = "<group>"; };
@@ -223,6 +225,7 @@
 				7213417F2B3C9F9A00AACD27 /* DayOfTheWeek.swift */,
 				722A8A462C1B729B00E8C318 /* TaskType.swift */,
 				72B7D2342D02C8EF00B106BB /* DailySchedule+Extensions.swift */,
+				72A7B46F2D066D950089B7D2 /* WeeklySchedule+Extensions.swift */,
 			);
 			path = library;
 			sourceTree = "<group>";
@@ -522,6 +525,7 @@
 				72206B4E2C99E7AB004FE043 /* WeekOverviewViewModel.swift in Sources */,
 				722A8A422C1B6C1100E8C318 /* SelectTasksScreen.swift in Sources */,
 				725AAB8E2C0FAFB2001D8CA8 /* MockListItems.swift in Sources */,
+				72A7B4702D066D950089B7D2 /* WeeklySchedule+Extensions.swift in Sources */,
 				72206B552C9BBAFF004FE043 /* TaskListsViewModel.swift in Sources */,
 				72E474232C82AAA50074FF40 /* EditTaskViewModel.swift in Sources */,
 				72B0D6022C487FC800C44784 /* TaskListsTabBarItem.swift in Sources */,

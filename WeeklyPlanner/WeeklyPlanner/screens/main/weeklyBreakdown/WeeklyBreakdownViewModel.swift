@@ -19,17 +19,19 @@ class WeeklyBreakdownViewModel: ObservableObject {
     @Published var selectTasksViewModel: SelectTasksViewModel?
     @Published var addTaskViewModel: AddTaskViewModel?
     
-    @Published var dailySchedules: [DailySchedule] = []
-    
-    func updateWeekdayName() {
-        weekdayName = DayOfTheWeek.getDayFromIndex(weekdayIndex)?.capitalizedName ?? "Weekday"
+    @Published var weeklySchedule: WeeklySchedule
+    var dailySchedules: [DailySchedule] {
+        return weeklySchedule.sortedDailySchedules ?? []
     }
     
     
-    func setDailySchedulesFromWeeklySchedule(_ weeklySchedule: WeeklySchedule) {
-        if let schedules = weeklySchedule.dailySchedules {
-            self.dailySchedules = Array(_immutableCocoaArray: schedules).sorted(by: { $0.dayIndex < $1.dayIndex })
-        }
+    init(weeklySchedule: WeeklySchedule) {
+        self.weeklySchedule = weeklySchedule
+    }
+    
+    
+    func updateWeekdayName() {
+        weekdayName = DayOfTheWeek.getDayFromIndex(weekdayIndex)?.capitalizedName ?? "Weekday"
     }
     
     

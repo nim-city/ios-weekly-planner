@@ -25,23 +25,27 @@ struct MainScreen: View {
         NavigationView {
             VStack {
                 TabView(selection: $viewModel.selectedIndex) {
-                    WeekOverviewScreen(weeklyScheduleName: "Default")
-                        .tabItem {
-                            Label(
-                                "Week Overview",
-                                systemImage: "doc.text.magnifyingglass"
-                            )
-                        }
-                        .tag(0)
+                    if let weeklySchedule = viewModel.weeklySchedules.first {
+                        WeekOverviewScreen(viewModel: WeekOverviewViewModel(weeklySchedule: weeklySchedule))
+                            .tabItem {
+                                Label(
+                                    "Week Overview",
+                                    systemImage: "doc.text.magnifyingglass"
+                                )
+                            }
+                            .tag(0)
+                    }
 
-                    WeeklyBreakdownScreen(weeklyScheduleName: "Default")
-                        .tabItem {
-                            Label(
-                                "Daily Breakdown",
-                                systemImage: "calendar"
-                            )
-                        }
-                        .tag(1)
+                    if let weeklySchedule = viewModel.weeklySchedules.first {
+                        WeeklyBreakdownScreen(viewModel: WeeklyBreakdownViewModel(weeklySchedule: weeklySchedule))
+                            .tabItem {
+                                Label(
+                                    "Daily Breakdown",
+                                    systemImage: "calendar"
+                                )
+                            }
+                            .tag(1)
+                    }
 
                     TaskListsScreen()
                         .tabItem {

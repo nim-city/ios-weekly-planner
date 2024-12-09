@@ -10,26 +10,15 @@ import CoreData
 
 struct WeeklyBreakdownScreen: View {
     @Environment(\.managedObjectContext) var moc
-    @FetchRequest var weeklySchedules: FetchedResults<WeeklySchedule>
-    
-    @StateObject private var viewModel = WeeklyBreakdownViewModel()
-    @FocusState private var isFocused: Bool
+    @ObservedObject var viewModel: WeeklyBreakdownViewModel
     
     // UI variables
-    private let offsetInterval = UIScreen.main.bounds.size.width
+    @FocusState private var isFocused: Bool
     @State private var dragAmount: CGFloat = 0
+    
+    private let offsetInterval = UIScreen.main.bounds.size.width
     private var xOffset: CGFloat {
         (-(CGFloat(viewModel.weekdayIndex) * offsetInterval)) + dragAmount
-    }
-    
-    
-    init(weeklyScheduleName: String) {
-        let predicate = NSPredicate(format: "name == %@", weeklyScheduleName)
-        self._weeklySchedules = FetchRequest(
-            entity: WeeklySchedule.entity(),
-            sortDescriptors: [],
-            predicate: predicate
-        )
     }
     
     
@@ -114,10 +103,6 @@ struct WeeklyBreakdownScreen: View {
             )
         }
         .onAppear {
-            if let weeklySchedule = weeklySchedules.first {
-                viewModel.setDailySchedulesFromWeeklySchedule(weeklySchedule)
-                viewModel.updateWeekdayName()
-            }
             viewModel.updateWeekdayName()
         }
         
