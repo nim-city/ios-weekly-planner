@@ -61,7 +61,9 @@ struct TaskItemCell: View {
                         
                         AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
                         
-                        viewModel.isShowingDeleteAlert = true
+                        viewModel.selectDeleteItem()
+                        
+                        viewModel.offset = 0
                     }
                     viewModel.offset = dragWidth
                 }
@@ -70,28 +72,6 @@ struct TaskItemCell: View {
                         viewModel.offset = 0
                     }
                 }
-        )
-        
-        .alert(
-            "Delete \(viewModel.taskItem.name ?? "task item")?",
-            isPresented: $viewModel.isShowingDeleteAlert,
-            presenting: viewModel.taskItem,
-            actions: { taskItem in
-                Button(role: .cancel) {
-                    viewModel.offset = 0
-                    viewModel.isShowingDeleteAlert = false
-                } label: {
-                    Text("No")
-                }
-                
-                Button(role: .destructive) {
-                    viewModel.selectDeleteItem()
-                    viewModel.isShowingDeleteAlert = false
-                } label: {
-                    Text("Yes")
-                }
-            },
-            message: { _ in }
         )
     }
     

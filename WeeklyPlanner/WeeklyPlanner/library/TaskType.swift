@@ -13,4 +13,20 @@ enum TaskType {
     case toBuy
     case meal
     case workout
+    
+    func getPluralizedTitle() -> String {
+        switch self {
+        case .goal:
+            return "Goals"
+        case .toDo:
+            return "To do items"
+        case .toBuy:
+            return "To buy items"
+        case .meal:
+            return "Meals"
+        case .workout:
+            return "Workouts"
+        }
+    }
 }
+

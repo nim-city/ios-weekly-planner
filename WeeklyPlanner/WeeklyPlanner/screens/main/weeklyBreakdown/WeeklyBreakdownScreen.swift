@@ -29,25 +29,7 @@ struct WeeklyBreakdownScreen: View {
                 ForEach(viewModel.dailySchedules) { dailySchedule in
                     WeeklyBreakdownDayView(
                         dailySchedule: dailySchedule,
-                        isFocused: $isFocused,
-                        selectTaskType: { taskType in
-                            // Create the view model
-                            viewModel.selectTasksViewModel = SelectTasksViewModel(
-                                dailySchedule: dailySchedule,
-                                taskType: taskType
-                            )
-                            // Show the popup
-                            viewModel.isShowingSelectItemsScreen = true
-                        },
-                        addNewTask: { taskType in
-                            viewModel.addTaskViewModel = AddTaskViewModel(
-                                taskItemType: taskType,
-                                dailySchedule: dailySchedule
-                            )
-                            
-                            // Show the popup
-                            viewModel.isShowingAddTaskScreen = true
-                        }
+                        isFocused: $isFocused
                     )
                 }
             }
@@ -104,20 +86,6 @@ struct WeeklyBreakdownScreen: View {
         }
         .onAppear {
             viewModel.updateWeekdayName()
-        }
-        
-        // Select items sheet
-        .sheet(isPresented: $viewModel.isShowingSelectItemsScreen) {
-            if let selectTasksViewModel = viewModel.selectTasksViewModel {
-                SelectTasksScreen(viewModel: selectTasksViewModel)
-            }
-        }
-        
-        // Add item sheet
-        .sheet(isPresented: $viewModel.isShowingAddTaskScreen) {
-            if let addTaskViewModel = viewModel.addTaskViewModel {
-                AddTaskScreen(viewModel: addTaskViewModel)
-            }
         }
     }
     

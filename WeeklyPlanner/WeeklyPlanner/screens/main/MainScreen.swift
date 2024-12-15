@@ -47,7 +47,7 @@ struct MainScreen: View {
                             .tag(1)
                     }
 
-                    TaskListsScreen()
+                    TaskListsScreen(viewModel: TaskListsViewModel())
                         .tabItem {
                             Label(
                                 "Lists",

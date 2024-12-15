@@ -15,7 +15,7 @@ struct TaskListsScreen: View {
     @FetchRequest(sortDescriptors: []) var meals: FetchedResults<Meal>
     @FetchRequest(sortDescriptors: []) var workouts: FetchedResults<Workout>
     
-    @StateObject private var viewModel = TaskListsViewModel()
+    @ObservedObject var viewModel: TaskListsViewModel
     
     var body: some View {
         NavigationView {
@@ -33,20 +33,10 @@ struct TaskListsScreen: View {
                 
                 ScrollView(showsIndicators: false) {
                     VStack {
-                        TaskListView(
-                            tasksType: viewModel.selectedTaskType,
+                        TaskListView(viewModel: TaskListViewModel(
                             taskItems: getSelectedTaskList(),
-                            editTaskItem: { taskToEdit in
-                                // Create the view model
-                                viewModel.taskItemViewModel = EditTaskViewModel(
-                                    taskItemType: viewModel.selectedTaskType,
-                                    taskItem: taskToEdit
-                                )
-                                
-                                // Show the popup
-                                viewModel.isShowingEditScreen = true
-                            }
-                        )
+                            tasksType: viewModel.selectedTaskType
+                        ))
                     }
                     .padding(20)
                 }
@@ -59,11 +49,8 @@ struct TaskListsScreen: View {
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
-                        // Create the view model
-                        viewModel.taskItemViewModel = AddTaskViewModel(taskItemType: viewModel.selectedTaskType)
                         
-                        // Show the popup
-                        viewModel.isShowingEditScreen = true
+                        viewModel.isShowingAddScreen = true
                     } label: {
                         Image(systemName: "plus")
                             .tint(CustomColours.ctaGold)
@@ -74,14 +61,11 @@ struct TaskListsScreen: View {
             .navigationBarTitleDisplayMode(.inline)
 
             // Add/edit item modal
-            .sheet(isPresented: $viewModel.isShowingEditScreen) {
-                if let taskItemViewModel = viewModel.taskItemViewModel {
-                    AddTaskScreen(viewModel: taskItemViewModel)
-                }
+            .sheet(isPresented: $viewModel.isShowingAddScreen) {
+                AddTaskScreen(viewModel: AddTaskViewModel(taskItemType: viewModel.selectedTaskType))
             }
         }
     }
-    
     
     private func getSelectedTaskList() -> [TaskItem] {
         switch viewModel.selectedTaskType {
@@ -99,13 +83,13 @@ struct TaskListsScreen: View {
     }
 }
 
-struct ListsScreen_Preview: PreviewProvider {
-    static var previews: some View {
-        // Add mock items to CoreData
-        let moc = CoreDataController().moc
-        let _ = MockListItems(moc: moc)
-
-        TaskListsScreen()
-            .environment(\.managedObjectContext, moc)
-    }
-}
+//struct ListsScreen_Preview: PreviewProvider {
+//    static var previews: some View {
+//        // Add mock items to CoreData
+//        let moc = CoreDataController().moc
+//        let _ = MockListItems(moc: moc)
+//
+//        TaskListsScreen()
+//            .environment(\.managedObjectContext, moc)
+//    }
+//}
