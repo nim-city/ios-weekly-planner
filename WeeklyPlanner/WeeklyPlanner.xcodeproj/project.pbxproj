@@ -23,6 +23,7 @@
 		72206B5A2C9BD59D004FE043 /* SelectTasksViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72206B592C9BD59D004FE043 /* SelectTasksViewModel.swift */; };
 		722A8A422C1B6C1100E8C318 /* SelectTasksScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 722A8A412C1B6C1100E8C318 /* SelectTasksScreen.swift */; };
 		722A8A472C1B729B00E8C318 /* TaskType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 722A8A462C1B729B00E8C318 /* TaskType.swift */; };
+		724ADD182D0FD69000F2D54C /* DateFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724ADD172D0FD69000F2D54C /* DateFunctions.swift */; };
 		725AAB8A2C0AB3AC001D8CA8 /* Labels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725AAB892C0AB3AC001D8CA8 /* Labels.swift */; };
 		725AAB8E2C0FAFB2001D8CA8 /* MockListItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725AAB8D2C0FAFB2001D8CA8 /* MockListItems.swift */; };
 		725AAB912C10EDA6001D8CA8 /* AddTaskScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725AAB902C10EDA6001D8CA8 /* AddTaskScreen.swift */; };
@@ -34,6 +35,7 @@
 		7281BBD82C06BD4C00855655 /* CoreDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7281BBD72C06BD4C00855655 /* CoreDataController.swift */; };
 		7281BBDB2C070DD000855655 /* MockDailySchedules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7281BBDA2C070DD000855655 /* MockDailySchedules.swift */; };
 		7281BBDE2C07B83400855655 /* CustomColours.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7281BBDD2C07B83400855655 /* CustomColours.swift */; };
+		728B72482D3C4C5900B4054F /* CollapsibleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728B72472D3C4C5900B4054F /* CollapsibleView.swift */; };
 		72A7B4702D066D950089B7D2 /* WeeklySchedule+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A7B46F2D066D950089B7D2 /* WeeklySchedule+Extensions.swift */; };
 		72A822542D0428BA002C3356 /* SnappingScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A822532D0428BA002C3356 /* SnappingScrollView.swift */; };
 		72B0D5FB2C48505600C44784 /* CustomFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B0D5FA2C48505600C44784 /* CustomFonts.swift */; };
@@ -96,6 +98,7 @@
 		72206B592C9BD59D004FE043 /* SelectTasksViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTasksViewModel.swift; sourceTree = "<group>"; };
 		722A8A412C1B6C1100E8C318 /* SelectTasksScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTasksScreen.swift; sourceTree = "<group>"; };
 		722A8A462C1B729B00E8C318 /* TaskType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskType.swift; sourceTree = "<group>"; };
+		724ADD172D0FD69000F2D54C /* DateFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFunctions.swift; sourceTree = "<group>"; };
 		725AAB892C0AB3AC001D8CA8 /* Labels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Labels.swift; sourceTree = "<group>"; };
 		725AAB8D2C0FAFB2001D8CA8 /* MockListItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockListItems.swift; sourceTree = "<group>"; };
 		725AAB902C10EDA6001D8CA8 /* AddTaskScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskScreen.swift; sourceTree = "<group>"; };
@@ -107,6 +110,7 @@
 		7281BBD72C06BD4C00855655 /* CoreDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataController.swift; sourceTree = "<group>"; };
 		7281BBDA2C070DD000855655 /* MockDailySchedules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDailySchedules.swift; sourceTree = "<group>"; };
 		7281BBDD2C07B83400855655 /* CustomColours.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomColours.swift; sourceTree = "<group>"; };
+		728B72472D3C4C5900B4054F /* CollapsibleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollapsibleView.swift; sourceTree = "<group>"; };
 		72A7B46F2D066D950089B7D2 /* WeeklySchedule+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WeeklySchedule+Extensions.swift"; sourceTree = "<group>"; };
 		72A822532D0428BA002C3356 /* SnappingScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnappingScrollView.swift; sourceTree = "<group>"; };
 		72B0D5FA2C48505600C44784 /* CustomFonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFonts.swift; sourceTree = "<group>"; };
@@ -230,6 +234,7 @@
 				722A8A462C1B729B00E8C318 /* TaskType.swift */,
 				72B7D2342D02C8EF00B106BB /* DailySchedule+Extensions.swift */,
 				72A7B46F2D066D950089B7D2 /* WeeklySchedule+Extensions.swift */,
+				724ADD172D0FD69000F2D54C /* DateFunctions.swift */,
 			);
 			path = library;
 			sourceTree = "<group>";
@@ -260,6 +265,7 @@
 				725AAB892C0AB3AC001D8CA8 /* Labels.swift */,
 				72D107F82CBDBEE300A777EC /* NotesView.swift */,
 				72A822532D0428BA002C3356 /* SnappingScrollView.swift */,
+				728B72472D3C4C5900B4054F /* CollapsibleView.swift */,
 			);
 			path = universalViews;
 			sourceTree = "<group>";
@@ -549,6 +555,7 @@
 				72B376BF2D0F855D0046B957 /* TaskListViewModel.swift in Sources */,
 				72206B512C9A3412004FE043 /* WeeklyBreakdownViewModel.swift in Sources */,
 				725AAB8A2C0AB3AC001D8CA8 /* Labels.swift in Sources */,
+				724ADD182D0FD69000F2D54C /* DateFunctions.swift in Sources */,
 				722A8A472C1B729B00E8C318 /* TaskType.swift in Sources */,
 				72B0D6062C48812B00C44784 /* WeekOverviewListCell.swift in Sources */,
 				72D107F72CBDB7EC00A777EC /* TaskItemCellViewModel.swift in Sources */,
@@ -559,6 +566,7 @@
 				72B376BD2D0E70900046B957 /* WeeklyBreadownTaskListViewModel.swift in Sources */,
 				721341532B3B55D200AACD27 /* WeeklyPlanner.xcdatamodeld in Sources */,
 				72B7D2352D02C8EF00B106BB /* DailySchedule+Extensions.swift in Sources */,
+				728B72482D3C4C5900B4054F /* CollapsibleView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

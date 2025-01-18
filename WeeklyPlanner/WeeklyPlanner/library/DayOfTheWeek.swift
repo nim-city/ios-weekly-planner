@@ -7,6 +7,7 @@
 
 import Foundation
 
+// TODO: Replace most of this with Calendar.current.weekdaySymbols
 enum DayOfTheWeek: String, CaseIterable {
     case monday
     case tuesday

@@ -29,7 +29,7 @@ struct MainScreen: View {
                         WeekOverviewScreen(viewModel: WeekOverviewViewModel(weeklySchedule: weeklySchedule))
                             .tabItem {
                                 Label(
-                                    "Week Overview",
+                                    "My week",
                                     systemImage: "doc.text.magnifyingglass"
                                 )
                             }
@@ -40,7 +40,7 @@ struct MainScreen: View {
                         WeeklyBreakdownScreen(viewModel: WeeklyBreakdownViewModel(weeklySchedule: weeklySchedule))
                             .tabItem {
                                 Label(
-                                    "Daily Breakdown",
+                                    "Day to day",
                                     systemImage: "calendar"
                                 )
                             }
@@ -50,7 +50,7 @@ struct MainScreen: View {
                     TaskListsScreen(viewModel: TaskListsViewModel())
                         .tabItem {
                             Label(
-                                "Lists",
+                                "All tasks",
                                 systemImage: "list.bullet"
                             )
                         }

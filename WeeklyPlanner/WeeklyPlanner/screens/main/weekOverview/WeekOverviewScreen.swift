@@ -10,49 +10,22 @@ import SwiftUI
 
 
 struct WeekOverviewScreen: View {
+    
     @ObservedObject var viewModel: WeekOverviewViewModel
     
     @FocusState var isFocused
         
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ScrollView(showsIndicators: false) {
-                VStack(spacing: 40) {
-                    // TODO: Fix this
-//                    // Goals
-//                    WeekItemsListView(
-//                        tasksType: .goal,
-//                        taskItems: viewModel.goals
-//                    )
-                    // To do list
-                    WeekItemsListView(
-                        tasksType: .toDo,
-                        taskItems: viewModel.toDoItems
-                    )
-                    // To buy list
-                    WeekItemsListView(
-                        tasksType: .toBuy,
-                        taskItems: viewModel.toBuyItems
-                    )
-                    // Meals
-                    WeekItemsListView(
-                        tasksType: .meal,
-                        taskItems: viewModel.meals
-                    )
-                    // Workouts
-                    WeekItemsListView(
-                        tasksType: .workout,
-                        taskItems: viewModel.workouts
-                    )
-                    // Notes
-                    NotesView(
-                        text: $viewModel.notes,
-                        isFocused: $isFocused
-                    )
+                VStack(alignment: .leading, spacing: 40) {
+                    subheading
+                    
+                    mainContent
                 }
-                .padding(20)
+                .padding(.horizontal, 20)
+                .padding(.vertical, 20)
             }
-            
             // Sizing and positioning
             .frame(
                 minWidth: 0,
@@ -61,16 +34,8 @@ struct WeekOverviewScreen: View {
                 maxHeight: .infinity,
                 alignment: .leading
             )
-            
             // Navigation toolbar
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .principal) {
-                    ScreenTitleLabel(text: "Week overview")
-                }
-            }
-            .toolbarBackground(.visible, for: .navigationBar)
-            
+            .navigationTitle("Week overview")
             // Keyboard done button for saving notes
             .toolbar {
                 ToolbarItemGroup(placement: .keyboard) {
@@ -87,6 +52,66 @@ struct WeekOverviewScreen: View {
             }
         }
     }
+    
+    private var subheading: some View {
+        VStack(alignment: .leading, spacing: 20) {
+            SubheadingLabel(text: "All of your goals, to do items, meals, and workouts for the week.")
+            Text(viewModel.dateString)
+        }
+    }
+    
+    private var mainContent: some View {
+        VStack(spacing: 40) {
+            // TODO: Fix this
+//                    // Goals
+//                    WeekItemsListView(
+//                        tasksType: .goal,
+//                        taskItems: viewModel.goals
+//                    )
+            
+            // To do list
+            WeekItemsListView(
+                tasksType: .toDo,
+                taskItems: viewModel.toDoItems
+            )
+            // To buy list
+            WeekItemsListView(
+                tasksType: .toBuy,
+                taskItems: viewModel.toBuyItems
+            )
+            // Meals
+            WeekItemsListView(
+                tasksType: .meal,
+                taskItems: viewModel.meals
+            )
+            // Workouts
+            WeekItemsListView(
+                tasksType: .workout,
+                taskItems: viewModel.workouts
+            )
+            // Notes
+            NotesView(
+                text: $viewModel.notes,
+                isFocused: $isFocused
+            )
+        }
+    }
+    
+    // TODO: Move text styling into a helper class
+    private var startDateString: AttributedString {
+        var string = AttributedString(viewModel.startDateString)
+        string.font = .callout.bold()
+        return string
+    }
+    
+    // TODO: Move text styling into a helper class
+    private var endDateString: AttributedString {
+        var string = AttributedString(viewModel.endDateString)
+        string.font = .callout.bold()
+        return string
+    }
+    
+    
 }
 
 //struct WeekOverviewScreen_Preview: PreviewProvider {

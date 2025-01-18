@@ -29,47 +29,26 @@ struct WeekItemsListView: View {
     }
 
     var body: some View {
-        VStack(spacing: 0) {
-            // Heading with title label and expand/collapse button
-            HStack {
-                SubtitleLabel(text: listTitle)
-                Button(
-                    action: {
-                        isExpanded.toggle()
-                    },
-                    label: {
-                        Image(systemName: isExpanded ? "chevron.down.circle" : "chevron.right.circle")
-                            .tint(CustomColours.ctaGold)
-                    }
-                )
-                .padding(.leading, 5)
-                Spacer()
-            }
-            .padding(.leading, 10)
-            .padding(.bottom, 15)
-            
-            // List of tasks, only shown when in expanded state
-            if isExpanded {
-                VStack {
-                    VStack(spacing: 0) {
-                        ForEach(taskItems) { taskItem in
-                            WeekOverviewListCell(
-                                taskItem: taskItem,
-                                shouldShowDivider: taskItem != taskItems.last
-                            )
-                        }
+        CollapsibleView(title: listTitle) {
+            VStack {
+                VStack(spacing: 0) {
+                    ForEach(taskItems) { taskItem in
+                        WeekOverviewListCell(
+                            taskItem: taskItem,
+                            shouldShowDivider: taskItem != taskItems.last
+                        )
                     }
                 }
-                .background(CustomColours.getColourForTaskType(tasksType).opacity(0.3))
-                .clipShape(RoundedRectangle(cornerRadius: 20))
-                .overlay(
-                    RoundedRectangle(cornerRadius: 20)
-                        .stroke(
-                            CustomColours.getColourForTaskType(tasksType),
-                            lineWidth: 4
-                        )
-                )
             }
+            .background(CustomColours.getColourForTaskType(tasksType).opacity(0.3))
+            .clipShape(RoundedRectangle(cornerRadius: 20))
+            .overlay(
+                RoundedRectangle(cornerRadius: 20)
+                    .stroke(
+                        CustomColours.getColourForTaskType(tasksType),
+                        lineWidth: 4
+                    )
+            )
         }
     }
 }
