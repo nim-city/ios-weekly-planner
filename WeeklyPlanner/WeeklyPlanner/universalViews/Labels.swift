@@ -28,3 +28,25 @@ struct SubtitleLabel: View {
             .foregroundColor(CustomColours.textDarkGray)
     }
 }
+
+struct HeadingLabel: View {
+    let text: String
+    
+    var body: some View {
+        Text(text)
+            .font(.headline)
+            .fontWeight(.bold)
+            .foregroundColor(CustomColours.textDarkGray)
+    }
+}
+
+struct SubheadingLabel: View {
+    let text: String
+    
+    var body: some View {
+        Text(text)
+            .font(.callout)
+            .fontWeight(.regular)
+            .foregroundColor(CustomColours.textDarkGray)
+    }
+}

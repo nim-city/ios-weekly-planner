@@ -9,46 +9,27 @@ import SwiftUI
 import CoreData
 
 struct WeeklyBreakdownScreen: View {
-    @Environment(\.managedObjectContext) var moc
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \DailySchedule.dayIndex, ascending: true)]) var dailySchedules: FetchedResults<DailySchedule>
     
-    @StateObject private var viewModel = WeeklyBreakdownViewModel()
-    @FocusState private var isFocused: Bool
+    @Environment(\.managedObjectContext) var moc
+    @ObservedObject var viewModel: WeeklyBreakdownViewModel
     
     // UI variables
-    private let offsetInterval = UIScreen.main.bounds.size.width
+    @FocusState private var isFocused: Bool
     @State private var dragAmount: CGFloat = 0
+    
+    private let offsetInterval = UIScreen.main.bounds.size.width
     private var xOffset: CGFloat {
         (-(CGFloat(viewModel.weekdayIndex) * offsetInterval)) + dragAmount
     }
-    
     
     var body: some View {
         NavigationView {
             // Sideways list of Weekday views
             HStack(spacing: 0) {
-                ForEach(dailySchedules) { dailySchedule in
+                ForEach(viewModel.dailySchedules) { dailySchedule in
                     WeeklyBreakdownDayView(
-                        dailySchedule: dailySchedule,
-                        isFocused: $isFocused,
-                        selectTaskType: { taskType in
-                            // Create the view model
-                            viewModel.selectTasksViewModel = SelectTasksViewModel(
-                                dailySchedule: dailySchedule,
-                                taskType: taskType
-                            )
-                            // Show the popup
-                            viewModel.isShowingSelectItemsScreen = true
-                        },
-                        addNewTask: { taskType in
-                            viewModel.addTaskViewModel = AddTaskViewModel(
-                                taskItemType: taskType,
-                                dailySchedule: dailySchedule
-                            )
-                            
-                            // Show the popup
-                            viewModel.isShowingAddTaskScreen = true
-                        }
+                        viewModel: WeeklyBreakdownDayViewModel(dailySchedule: dailySchedule),
+                        isFocused: $isFocused
                     )
                 }
             }
@@ -106,20 +87,6 @@ struct WeeklyBreakdownScreen: View {
         .onAppear {
             viewModel.updateWeekdayName()
         }
-        
-        // Select items sheet
-        .sheet(isPresented: $viewModel.isShowingSelectItemsScreen) {
-            if let selectTasksViewModel = viewModel.selectTasksViewModel {
-                SelectTasksScreen(viewModel: selectTasksViewModel)
-            }
-        }
-        
-        // Add item sheet
-        .sheet(isPresented: $viewModel.isShowingAddTaskScreen) {
-            if let addTaskViewModel = viewModel.addTaskViewModel {
-                AddTaskScreen(viewModel: addTaskViewModel)
-            }
-        }
     }
     
     
@@ -160,12 +127,12 @@ struct WeeklyBreakdownScreen: View {
 }
 
 
-struct WeekBreakdownScreen_Preview: PreviewProvider {
-    static var previews: some View {
-        // Add mock items to CoreData
-        let moc = CoreDataController().moc
-        let _ = MockDailySchedules(moc: moc)
-        
-        return WeeklyBreakdownScreen()
-    }
-}
+//struct WeekBreakdownScreen_Preview: PreviewProvider {
+//    static var previews: some View {
+//        // Add mock items to CoreData
+//        let moc = CoreDataController().moc
+//        let _ = MockDailySchedules(moc: moc)
+//        
+//        return WeeklyBreakdownScreen()
+//    }
+//}

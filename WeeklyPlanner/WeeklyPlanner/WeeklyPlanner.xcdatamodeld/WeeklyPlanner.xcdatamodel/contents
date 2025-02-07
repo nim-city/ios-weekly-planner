@@ -4,30 +4,36 @@
         <attribute name="dayIndex" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="dayName" optional="YES" attributeType="String"/>
         <attribute name="notes" optional="YES" attributeType="String"/>
-        <relationship name="goals" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Goal" inverseName="goals" inverseEntity="Goal"/>
-        <relationship name="meals" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Meal" inverseName="meals" inverseEntity="Meal" elementID="meals"/>
-        <relationship name="toBuyItems" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="ToBuyItem" inverseName="dailySchedule" inverseEntity="ToBuyItem"/>
-        <relationship name="toDoItems" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="ToDoItem" inverseName="dailySchedule" inverseEntity="ToDoItem"/>
-        <relationship name="workouts" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Workout" inverseName="workouts" inverseEntity="Workout" elementID="workouts"/>
+        <relationship name="meals" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Meal" inverseName="dailySchedules" inverseEntity="Meal" elementID="meals"/>
+        <relationship name="toBuyItems" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="ToBuyItem" inverseName="dailySchedules" inverseEntity="ToBuyItem"/>
+        <relationship name="toDoItems" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="ToDoItem" inverseName="dailySchedules" inverseEntity="ToDoItem"/>
+        <relationship name="weeklySchedule" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WeeklySchedule" inverseName="dailySchedules" inverseEntity="WeeklySchedule"/>
+        <relationship name="workouts" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Workout" inverseName="dailySchedules" inverseEntity="Workout" elementID="workouts"/>
     </entity>
     <entity name="Goal" representedClassName="Goal" parentEntity="TaskItem" syncable="YES" codeGenerationType="class">
-        <relationship name="goals" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DailySchedule" inverseName="goals" inverseEntity="DailySchedule"/>
+        <relationship name="weeklySchedules" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="WeeklySchedule" inverseName="goals" inverseEntity="WeeklySchedule"/>
     </entity>
     <entity name="Meal" representedClassName="Meal" parentEntity="TaskItem" syncable="YES" codeGenerationType="class">
-        <relationship name="meals" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DailySchedule" inverseName="meals" inverseEntity="DailySchedule"/>
+        <relationship name="dailySchedules" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DailySchedule" inverseName="meals" inverseEntity="DailySchedule"/>
     </entity>
     <entity name="TaskItem" representedClassName="TaskItem" syncable="YES" codeGenerationType="class">
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="notes" optional="YES" attributeType="String"/>
     </entity>
     <entity name="ToBuyItem" representedClassName="ToBuyItem" parentEntity="TaskItem" syncable="YES" codeGenerationType="class">
-        <relationship name="dailySchedule" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DailySchedule" inverseName="toBuyItems" inverseEntity="DailySchedule"/>
+        <relationship name="dailySchedules" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DailySchedule" inverseName="toBuyItems" inverseEntity="DailySchedule"/>
     </entity>
     <entity name="ToDoItem" representedClassName="ToDoItem" parentEntity="TaskItem" syncable="YES" codeGenerationType="class">
         <attribute name="categoryName" optional="YES" attributeType="String" customClassName="ToDoItemCategory"/>
-        <relationship name="dailySchedule" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DailySchedule" inverseName="toDoItems" inverseEntity="DailySchedule"/>
+        <relationship name="dailySchedules" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DailySchedule" inverseName="toDoItems" inverseEntity="DailySchedule"/>
+    </entity>
+    <entity name="WeeklySchedule" representedClassName="WeeklySchedule" syncable="YES" codeGenerationType="class">
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="notes" optional="YES" attributeType="String"/>
+        <relationship name="dailySchedules" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="DailySchedule" inverseName="weeklySchedule" inverseEntity="DailySchedule"/>
+        <relationship name="goals" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Goal" inverseName="weeklySchedules" inverseEntity="Goal"/>
     </entity>
     <entity name="Workout" representedClassName="Workout" parentEntity="TaskItem" syncable="YES" codeGenerationType="class">
-        <relationship name="workouts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DailySchedule" inverseName="workouts" inverseEntity="DailySchedule"/>
+        <relationship name="dailySchedules" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DailySchedule" inverseName="workouts" inverseEntity="DailySchedule"/>
     </entity>
 </model>

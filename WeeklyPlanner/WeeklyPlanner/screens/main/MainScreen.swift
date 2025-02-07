@@ -11,7 +11,7 @@ import SwiftUI
 struct MainScreen: View {
     // To add default empty daily schedules if necessary
     @Environment(\.managedObjectContext) var moc
-    @FetchRequest(sortDescriptors: []) var dailySchedules: FetchedResults<DailySchedule>
+    @FetchRequest(sortDescriptors: []) var weeklySchedules: FetchedResults<WeeklySchedule>
     
     @StateObject private var viewModel = MainViewModel()
     
@@ -25,28 +25,32 @@ struct MainScreen: View {
         NavigationView {
             VStack {
                 TabView(selection: $viewModel.selectedIndex) {
-                    WeekOverviewScreen()
-                        .tabItem {
-                            Label(
-                                "Week Overview",
-                                systemImage: "doc.text.magnifyingglass"
-                            )
-                        }
-                        .tag(0)
+                    if let weeklySchedule = viewModel.weeklySchedules.first {
+                        WeekOverviewScreen(viewModel: WeekOverviewViewModel(weeklySchedule: weeklySchedule))
+                            .tabItem {
+                                Label(
+                                    "My week",
+                                    systemImage: "doc.text.magnifyingglass"
+                                )
+                            }
+                            .tag(0)
+                    }
 
-                    WeeklyBreakdownScreen()
-                        .tabItem {
-                            Label(
-                                "Daily Breakdown",
-                                systemImage: "calendar"
-                            )
-                        }
-                        .tag(1)
+                    if let weeklySchedule = viewModel.weeklySchedules.first {
+                        WeeklyBreakdownScreen(viewModel: WeeklyBreakdownViewModel(weeklySchedule: weeklySchedule))
+                            .tabItem {
+                                Label(
+                                    "Day to day",
+                                    systemImage: "calendar"
+                                )
+                            }
+                            .tag(1)
+                    }
 
-                    TaskListsScreen()
+                    TaskListsScreen(viewModel: TaskListsViewModel())
                         .tabItem {
                             Label(
-                                "Lists",
+                                "All tasks",
                                 systemImage: "list.bullet"
                             )
                         }
@@ -55,11 +59,10 @@ struct MainScreen: View {
                 .tint(CustomColours.ctaGold)
             }
         }
-        // Load default daily schedules if appropriate
-        .onReceive(dailySchedules.publisher.collect()) { schedules in
-            if schedules.isEmpty {
-                viewModel.addDefaultDailySchedules(moc: moc)
-            }
+        
+        // Load default weekly schedules if appropriate
+        .onAppear {
+            viewModel.assignWeeklySchedules(Array(weeklySchedules), moc: moc)
         }
     }
 }

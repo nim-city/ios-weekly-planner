@@ -13,28 +13,20 @@ class WeeklyBreakdownViewModel: ObservableObject {
     
     @Published var weekdayIndex: Int = 0
     @Published private(set) var weekdayName = ""
-    @Published var isShowingSelectItemsScreen = false
-    @Published var isShowingAddTaskScreen = false
     
-    @Published var selectTasksViewModel: SelectTasksViewModel?
-    @Published var addTaskViewModel: AddTaskViewModel?
+    @Published var weeklySchedule: WeeklySchedule
+    var dailySchedules: [DailySchedule] {
+        return weeklySchedule.sortedDailySchedules ?? []
+    }
+    
+    
+    init(weeklySchedule: WeeklySchedule) {
+        self.weeklySchedule = weeklySchedule
+    }
     
     func updateWeekdayName() {
         weekdayName = DayOfTheWeek.getDayFromIndex(weekdayIndex)?.capitalizedName ?? "Weekday"
     }
-    
-    
-    func addDefaultDailySchedules(moc: NSManagedObjectContext) -> Bool {
-        var dayIndex: Int16 = 0
-        DayOfTheWeek.ordered().forEach({ dayOfTheWeek in
-            let dailySchedule = DailySchedule(context: moc)
-            dailySchedule.dayName = dayOfTheWeek.capitalizedName
-            dailySchedule.dayIndex = dayIndex
-            dayIndex += 1
-        })
-        return saveMOC(moc: moc)
-    }
-    
     
     func goToPreviousWeekday() {
         if weekdayIndex > 0 {
@@ -42,18 +34,15 @@ class WeeklyBreakdownViewModel: ObservableObject {
         }
     }
     
-    
     func goToNextWeekday() {
         if weekdayIndex < 6 {
             weekdayIndex += 1
         }
     }
     
-    
     func saveNotes(moc: NSManagedObjectContext) -> Bool{
         saveMOC(moc: moc)
     }
-    
     
     private func saveMOC(moc: NSManagedObjectContext) -> Bool {
         do {

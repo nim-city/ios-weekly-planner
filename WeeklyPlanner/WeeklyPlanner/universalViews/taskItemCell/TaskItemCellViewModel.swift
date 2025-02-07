@@ -17,7 +17,6 @@ class TaskItemCellViewModel: ObservableObject {
     private var editItem: (TaskItem) -> Void
     
     @Published var isExpanded = false
-    @Published var isShowingDeleteAlert = false
     @Published var offset: CGFloat = 0
     
     var taskNotes: String {

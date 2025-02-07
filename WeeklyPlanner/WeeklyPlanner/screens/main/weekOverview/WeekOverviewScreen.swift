@@ -8,52 +8,24 @@
 import Foundation
 import SwiftUI
 
-// TODO: Optimize this screen by moving items lists to view model and refactoring view code
+
 struct WeekOverviewScreen: View {
-    @FetchRequest(sortDescriptors: []) var dailySchedules: FetchedResults<DailySchedule>
     
-    @StateObject private var viewModel = WeekOverviewViewModel()
+    @ObservedObject var viewModel: WeekOverviewViewModel
+    
     @FocusState var isFocused
-    
         
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ScrollView(showsIndicators: false) {
-                VStack(spacing: 40) {
-                    // Goals
-                    WeekItemsListView(
-                        tasksType: .goal,
-                        taskItems: viewModel.goals
-                    )
-                    // To do list
-                    WeekItemsListView(
-                        tasksType: .toDo,
-                        taskItems: viewModel.toDoItems
-                    )
-                    // To buy list
-                    WeekItemsListView(
-                        tasksType: .toBuy,
-                        taskItems: viewModel.toBuyItems
-                    )
-                    // Meals
-                    WeekItemsListView(
-                        tasksType: .meal,
-                        taskItems: viewModel.meals
-                    )
-                    // Workouts
-                    WeekItemsListView(
-                        tasksType: .workout,
-                        taskItems: viewModel.workouts
-                    )
-                    // Notes
-                    NotesView(
-                        text: $viewModel.notes,
-                        isFocused: $isFocused
-                    )
+                VStack(alignment: .leading, spacing: 40) {
+                    subheading
+                    
+                    mainContent
                 }
-                .padding(20)
+                .padding(.horizontal, 20)
+                .padding(.vertical, 20)
             }
-            
             // Sizing and positioning
             .frame(
                 minWidth: 0,
@@ -62,16 +34,8 @@ struct WeekOverviewScreen: View {
                 maxHeight: .infinity,
                 alignment: .leading
             )
-            
             // Navigation toolbar
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .principal) {
-                    ScreenTitleLabel(text: "Week overview")
-                }
-            }
-            .toolbarBackground(.visible, for: .navigationBar)
-            
+            .navigationTitle("Week overview")
             // Keyboard done button for saving notes
             .toolbar {
                 ToolbarItemGroup(placement: .keyboard) {
@@ -86,22 +50,89 @@ struct WeekOverviewScreen: View {
                     }
                 }
             }
-            
-            // Set daily schedules in view model to populate tasks lists
-            .onAppear {
-                viewModel.setDailySchedules(dailySchedules: Array(dailySchedules))
+            // Add/edit alert
+            .alert("Add an item?", isPresented: $viewModel.isShowingAddOrSelectAlert) {
+                Button("Select item") {
+                    
+                    viewModel.isShowingAddOrSelectAlert = false
+                    
+                    viewModel.isShowingSelectScreen = true
+                }
+                Button("Add new item") {
+                    
+                    viewModel.isShowingAddOrSelectAlert = false
+                    
+                    viewModel.isShowingAddScreen = true
+                }
+                Button("Cancel") {
+                    
+                    viewModel.isShowingAddOrSelectAlert = false
+                }
             }
+            // Select items sheet
+            .sheet(isPresented: $viewModel.isShowingSelectScreen) {
+                SelectTasksScreen(viewModel: SelectTasksViewModel(taskType: .goal, weeklySchedule: viewModel.weeklySchedule))
+            }
+        }
+    }
+    
+    private var subheading: some View {
+        VStack(alignment: .leading, spacing: 20) {
+            SubheadingLabel(text: "All of your goals, to do items, meals, and workouts for the week.")
+            Text(viewModel.dateString)
+        }
+    }
+    
+    private var mainContent: some View {
+        VStack(spacing: 40) {
+
+            // Goals
+            WeekItemsListView(
+                tasksType: .goal,
+                taskItems: viewModel.weeklySchedule.allGoals
+            ) {
+                Button {
+                    viewModel.isShowingSelectScreen = true
+                } label: {
+                    Image(systemName: "plus")
+                        .tint(CustomColours.ctaGold)
+                }
+            }
+            
+            // To do list
+            WeekItemsListView(
+                tasksType: .toDo,
+                taskItems: viewModel.weeklySchedule.allToDoItems
+            )
+            
+            // Meals
+            WeekItemsListView(
+                tasksType: .meal,
+                taskItems: viewModel.weeklySchedule.allToBuyItems
+            )
+            
+            // Workouts
+            WeekItemsListView(
+                tasksType: .workout,
+                taskItems: viewModel.weeklySchedule.allWorkouts
+            )
+            
+            // Notes
+            NotesView(
+                text: $viewModel.notes,
+                isFocused: $isFocused
+            )
         }
     }
 }
 
-struct WeekOverviewScreen_Preview: PreviewProvider {
-    static var previews: some View {
-        // Add mock items to CoreData
-        let moc = CoreDataController().moc
-        let _ = MockListItems(moc: moc)
-
-        return WeekOverviewScreen()
-//            .environment(\.managedObjectContext, moc)
-    }
-}
+//struct WeekOverviewScreen_Preview: PreviewProvider {
+//    static var previews: some View {
+//        // Add mock items to CoreData
+//        let moc = CoreDataController().moc
+//        let _ = MockListItems(moc: moc)
+//
+//        return WeekOverviewScreen()
+////            .environment(\.managedObjectContext, moc)
+//    }
+//}

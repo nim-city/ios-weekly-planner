@@ -15,10 +15,7 @@ extension DailySchedule {
     
     
     func addTaskItem(_ taskItem: TaskItem, ofType taskItemType: TaskType) -> Bool {
-        if let goal = taskItem as? Goal {
-            addToGoals(goal)
-            
-        } else if let toDoItem = taskItem as? ToDoItem {
+        if let toDoItem = taskItem as? ToDoItem {
             addToToDoItems(toDoItem)
             
         } else if let toBuyItem = taskItem as? ToBuyItem {
@@ -43,8 +40,6 @@ extension DailySchedule {
     
     func selectTaskItems(_ taskItems: [TaskItem], ofType taskItemType: TaskType) {
         switch taskItemType {
-        case .goal:
-            goals = NSOrderedSet(array: taskItems)
         case .toDo:
             toDoItems = NSOrderedSet(array: taskItems)
         case .toBuy:
@@ -53,16 +48,14 @@ extension DailySchedule {
             meals = NSOrderedSet(array: taskItems)
         case .workout:
             workouts = NSOrderedSet(array: taskItems)
+        default:
+            return
         }
     }
     
     
-    func getSelectedTaskItems(ofType taskItemType: TaskType) -> [TaskItem] {
+    func getTaskItems(ofType taskItemType: TaskType) -> [TaskItem] {
         switch taskItemType {
-        case .goal:
-            if let goals {
-                return Array(_immutableCocoaArray: goals)
-            }
         case .toDo:
             if let toDoItems {
                 return Array(_immutableCocoaArray: toDoItems)
@@ -79,6 +72,8 @@ extension DailySchedule {
             if let workouts{
                 return Array(_immutableCocoaArray: workouts)
             }
+        default:
+            return []
         }
         
         return []
@@ -89,10 +84,7 @@ extension DailySchedule {
     
     
     func removeTaskItemFromList(_ taskItem: TaskItem) -> Bool {
-        if let goal = taskItem as? Goal {
-            removeFromGoals(goal)
-            
-        } else if let toDoItem = taskItem as? ToDoItem {
+        if let toDoItem = taskItem as? ToDoItem {
             removeFromToDoItems(toDoItem)
             
         } else if let toBuyItem = taskItem as? ToBuyItem {

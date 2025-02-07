@@ -8,68 +8,52 @@
 import Foundation
 import SwiftUI
 
-struct WeekItemsListView: View {
+struct WeekItemsListView<TrailingView: View>: View {
+    
     let tasksType: TaskType
     var taskItems: [TaskItem]
+    let trailingView: () -> TrailingView
     
-    @State private var isExpanded = true
-    private var listTitle: String {
-        switch tasksType {
-        case .goal:
-            return "Goals"
-        case .toDo:
-            return "To do items"
-        case .toBuy:
-            return "To buy items"
-        case .meal:
-            return "Meals"
-        case .workout:
-            return "Workouts"
-        }
+    var title: String {
+        tasksType.getPluralizedTitle()
     }
+    
+    init(
+        tasksType: TaskType,
+        taskItems: [TaskItem],
+        @ViewBuilder trailingView: @escaping () -> TrailingView = { EmptyView() }
+    ) {
+        self.tasksType = tasksType
+        self.taskItems = taskItems
+        self.trailingView = trailingView
+    }
+    
 
     var body: some View {
-        VStack(spacing: 0) {
-            // Heading with title label and expand/collapse button
-            HStack {
-                SubtitleLabel(text: listTitle)
-                Button(
-                    action: {
-                        isExpanded.toggle()
-                    },
-                    label: {
-                        Image(systemName: isExpanded ? "chevron.down.circle" : "chevron.right.circle")
-                            .tint(CustomColours.ctaGold)
-                    }
-                )
-                .padding(.leading, 5)
-                Spacer()
-            }
-            .padding(.leading, 10)
-            .padding(.bottom, 15)
+        CollapsibleView(title: title) {
             
-            // List of tasks, only shown when in expanded state
-            if isExpanded {
-                VStack {
-                    VStack(spacing: 0) {
-                        ForEach(taskItems) { taskItem in
-                            WeekOverviewListCell(
-                                taskItem: taskItem,
-                                shouldShowDivider: taskItem != taskItems.last
-                            )
-                        }
+            VStack {
+                VStack(spacing: 0) {
+                    ForEach(taskItems) { taskItem in
+                        
+                        TaskItemCell(
+                            taskItem: taskItem,
+                            shouldShowDivider: taskItem != taskItems.last
+                        )
                     }
                 }
-                .background(CustomColours.getColourForTaskType(tasksType).opacity(0.3))
-                .clipShape(RoundedRectangle(cornerRadius: 20))
-                .overlay(
-                    RoundedRectangle(cornerRadius: 20)
-                        .stroke(
-                            CustomColours.getColourForTaskType(tasksType),
-                            lineWidth: 4
-                        )
-                )
             }
+            .background(CustomColours.getColourForTaskType(tasksType).opacity(0.3))
+            .clipShape(RoundedRectangle(cornerRadius: 20))
+            .overlay(
+                RoundedRectangle(cornerRadius: 20)
+                    .stroke(
+                        CustomColours.getColourForTaskType(tasksType),
+                        lineWidth: 4
+                    )
+            )
+        } trailingView: {
+            trailingView()
         }
     }
 }
