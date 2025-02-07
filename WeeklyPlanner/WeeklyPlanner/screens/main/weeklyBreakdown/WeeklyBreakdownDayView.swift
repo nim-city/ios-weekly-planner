@@ -9,7 +9,9 @@ import SwiftUI
 
 struct WeeklyBreakdownDayView: View {
     
-    @ObservedObject var dailySchedule: DailySchedule
+    @Environment(\.managedObjectContext) var moc
+    
+    @ObservedObject var viewModel: WeeklyBreakdownDayViewModel
     
     var isFocused: FocusState<Bool>.Binding
     
@@ -17,47 +19,25 @@ struct WeeklyBreakdownDayView: View {
         VStack {
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 40) {
+                    
+                    ForEach(viewModel.taskTypes, id: \.self) { tasksType in
+                        WeekdayTaskListView(
+                            taskItems: viewModel.dailySchedule.getTaskItems(ofType: tasksType),
+                            tasksType: tasksType,
+                            editTaskItem: viewModel.selectItemToEdit(taskItem:),
+                            deleteTaskItem: viewModel.selectItemToDelete(taskItem:),
+                            selectTaskItems: viewModel.selectMoreItems(ofType:)
+                        )
+                    }
 
-                    // To do items
-                    WeekdayTaskListView(
-                        viewModel: WeeklyBreadownTaskListViewModel(
-                            dailySchedule: dailySchedule,
-                            taskType: .toDo
-                        )
-                    )
-                    
-                    // To buy items
-                    WeekdayTaskListView(
-                        viewModel: WeeklyBreadownTaskListViewModel(
-                            dailySchedule: dailySchedule,
-                            taskType: .toBuy
-                        )
-                    )
-                    
-                    // Meals
-                    WeekdayTaskListView(
-                        viewModel: WeeklyBreadownTaskListViewModel(
-                            dailySchedule: dailySchedule,
-                            taskType: .meal
-                        )
-                    )
-                    
-                    // Workouts
-                    WeekdayTaskListView(
-                        viewModel: WeeklyBreadownTaskListViewModel(
-                            dailySchedule: dailySchedule,
-                            taskType: .workout
-                        )
-                    )
-                    
                     // Notes
                     NotesView(
                         text: Binding(
                             get: {
-                                return dailySchedule.notes ?? ""
+                                return viewModel.dailySchedule.notes ?? ""
                             },
                             set: { newValue in
-                                dailySchedule.notes = newValue
+                                viewModel.dailySchedule.notes = newValue
                             }
                         ),
                         isFocused: isFocused
@@ -70,5 +50,25 @@ struct WeeklyBreakdownDayView: View {
         }
         .frame(width: UIScreen.main.bounds.size.width)
         .background(Color.white)
+
+        // Select sheet
+        .sheet(isPresented: $viewModel.isShowingSelectScreen) {
+            if let tasksType = viewModel.selectedTasksType {
+                SelectTasksScreen(viewModel: SelectTasksViewModel(
+                    dailySchedule: viewModel.dailySchedule,
+                    taskType: tasksType
+                ))
+            }
+        }
+
+        // Delete alert
+        .removeOrDeleteItemsAlert(
+            isShowingAlert: $viewModel.isShowingDeleteAlert,
+            removeItemAction: {
+                _ = viewModel.removeSelectedItem(moc: moc)
+            },
+            deleteItemAction: {
+                _ = viewModel.deleteSelectedItem(moc: moc)
+            })
     }
 }

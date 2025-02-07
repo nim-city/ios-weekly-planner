@@ -12,9 +12,16 @@ import CoreData
 class SelectTasksViewModel: ObservableObject {
     // TODO: update this to ordered set instead of list
     @Published var selectedTasks = [TaskItem]()
-    @Published var dailySchedule: DailySchedule
+    @Published var dailySchedule: DailySchedule?
+    @Published var weeklySchedule: WeeklySchedule?
     
     var taskType: TaskType
+    
+    init(taskType: TaskType, dailySchedule: DailySchedule? = nil, weeklySchedule: WeeklySchedule? = nil) {
+        self.taskType = taskType
+        self.dailySchedule = dailySchedule
+        self.weeklySchedule = weeklySchedule
+    }
     
     var screenTitle: String {
         switch taskType {
@@ -39,7 +46,11 @@ class SelectTasksViewModel: ObservableObject {
     
     
     func setSelectedTasks() {
-        selectedTasks = dailySchedule.getSelectedTaskItems(ofType: taskType)
+        if let dailySchedule {
+            selectedTasks = dailySchedule.getTaskItems(ofType: taskType)
+        } else if let weeklySchedule {
+            selectedTasks = weeklySchedule.goals?.array as? [TaskItem] ?? []
+        }
     }
     
     
@@ -53,7 +64,13 @@ class SelectTasksViewModel: ObservableObject {
     
     
     func saveSelectedItems(moc: NSManagedObjectContext) -> Bool {
-        dailySchedule.selectTaskItems(selectedTasks, ofType: taskType)
+        if let dailySchedule {
+            dailySchedule.selectTaskItems(selectedTasks, ofType: taskType)
+        } else if let weeklySchedule {
+            weeklySchedule.goals = NSOrderedSet(array: selectedTasks)
+        } else {
+            return false
+        }
         
         do {
             try moc.save()

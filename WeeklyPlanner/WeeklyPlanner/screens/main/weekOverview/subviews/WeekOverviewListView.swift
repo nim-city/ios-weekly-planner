@@ -8,32 +8,35 @@
 import Foundation
 import SwiftUI
 
-struct WeekItemsListView: View {
+struct WeekItemsListView<TrailingView: View>: View {
+    
     let tasksType: TaskType
     var taskItems: [TaskItem]
+    let trailingView: () -> TrailingView
     
-    @State private var isExpanded = true
-    private var listTitle: String {
-        switch tasksType {
-        case .goal:
-            return "Goals"
-        case .toDo:
-            return "To do items"
-        case .toBuy:
-            return "To buy items"
-        case .meal:
-            return "Meals"
-        case .workout:
-            return "Workouts"
-        }
+    var title: String {
+        tasksType.getPluralizedTitle()
     }
+    
+    init(
+        tasksType: TaskType,
+        taskItems: [TaskItem],
+        @ViewBuilder trailingView: @escaping () -> TrailingView = { EmptyView() }
+    ) {
+        self.tasksType = tasksType
+        self.taskItems = taskItems
+        self.trailingView = trailingView
+    }
+    
 
     var body: some View {
-        CollapsibleView(title: listTitle) {
+        CollapsibleView(title: title) {
+            
             VStack {
                 VStack(spacing: 0) {
                     ForEach(taskItems) { taskItem in
-                        WeekOverviewListCell(
+                        
+                        TaskItemCell(
                             taskItem: taskItem,
                             shouldShowDivider: taskItem != taskItems.last
                         )
@@ -49,6 +52,8 @@ struct WeekItemsListView: View {
                         lineWidth: 4
                     )
             )
+        } trailingView: {
+            trailingView()
         }
     }
 }

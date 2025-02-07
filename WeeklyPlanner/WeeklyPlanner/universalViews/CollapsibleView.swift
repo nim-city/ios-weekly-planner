@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CollapsibleView<MainContent: View, TrailingContent: View>: View {
     
-    @State var title: String
+    let title: String
     let contentView: () -> MainContent
     let trailingView: () -> TrailingContent
     

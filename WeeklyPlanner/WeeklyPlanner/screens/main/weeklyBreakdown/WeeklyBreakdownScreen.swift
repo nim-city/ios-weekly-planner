@@ -9,6 +9,7 @@ import SwiftUI
 import CoreData
 
 struct WeeklyBreakdownScreen: View {
+    
     @Environment(\.managedObjectContext) var moc
     @ObservedObject var viewModel: WeeklyBreakdownViewModel
     
@@ -21,14 +22,13 @@ struct WeeklyBreakdownScreen: View {
         (-(CGFloat(viewModel.weekdayIndex) * offsetInterval)) + dragAmount
     }
     
-    
     var body: some View {
         NavigationView {
             // Sideways list of Weekday views
             HStack(spacing: 0) {
                 ForEach(viewModel.dailySchedules) { dailySchedule in
                     WeeklyBreakdownDayView(
-                        dailySchedule: dailySchedule,
+                        viewModel: WeeklyBreakdownDayViewModel(dailySchedule: dailySchedule),
                         isFocused: $isFocused
                     )
                 }

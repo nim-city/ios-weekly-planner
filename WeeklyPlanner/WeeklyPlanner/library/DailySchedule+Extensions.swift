@@ -54,7 +54,7 @@ extension DailySchedule {
     }
     
     
-    func getSelectedTaskItems(ofType taskItemType: TaskType) -> [TaskItem] {
+    func getTaskItems(ofType taskItemType: TaskType) -> [TaskItem] {
         switch taskItemType {
         case .toDo:
             if let toDoItems {

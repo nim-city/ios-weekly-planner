@@ -50,6 +50,29 @@ struct WeekOverviewScreen: View {
                     }
                 }
             }
+            // Add/edit alert
+            .alert("Add an item?", isPresented: $viewModel.isShowingAddOrSelectAlert) {
+                Button("Select item") {
+                    
+                    viewModel.isShowingAddOrSelectAlert = false
+                    
+                    viewModel.isShowingSelectScreen = true
+                }
+                Button("Add new item") {
+                    
+                    viewModel.isShowingAddOrSelectAlert = false
+                    
+                    viewModel.isShowingAddScreen = true
+                }
+                Button("Cancel") {
+                    
+                    viewModel.isShowingAddOrSelectAlert = false
+                }
+            }
+            // Select items sheet
+            .sheet(isPresented: $viewModel.isShowingSelectScreen) {
+                SelectTasksScreen(viewModel: SelectTasksViewModel(taskType: .goal, weeklySchedule: viewModel.weeklySchedule))
+            }
         }
     }
     
@@ -62,33 +85,38 @@ struct WeekOverviewScreen: View {
     
     private var mainContent: some View {
         VStack(spacing: 40) {
-            // TODO: Fix this
-//                    // Goals
-//                    WeekItemsListView(
-//                        tasksType: .goal,
-//                        taskItems: viewModel.goals
-//                    )
+
+            // Goals
+            WeekItemsListView(
+                tasksType: .goal,
+                taskItems: viewModel.weeklySchedule.allGoals
+            ) {
+                Button {
+                    viewModel.isShowingSelectScreen = true
+                } label: {
+                    Image(systemName: "plus")
+                        .tint(CustomColours.ctaGold)
+                }
+            }
             
             // To do list
             WeekItemsListView(
                 tasksType: .toDo,
-                taskItems: viewModel.toDoItems
+                taskItems: viewModel.weeklySchedule.allToDoItems
             )
-            // To buy list
-            WeekItemsListView(
-                tasksType: .toBuy,
-                taskItems: viewModel.toBuyItems
-            )
+            
             // Meals
             WeekItemsListView(
                 tasksType: .meal,
-                taskItems: viewModel.meals
+                taskItems: viewModel.weeklySchedule.allToBuyItems
             )
+            
             // Workouts
             WeekItemsListView(
                 tasksType: .workout,
-                taskItems: viewModel.workouts
+                taskItems: viewModel.weeklySchedule.allWorkouts
             )
+            
             // Notes
             NotesView(
                 text: $viewModel.notes,
@@ -96,22 +124,6 @@ struct WeekOverviewScreen: View {
             )
         }
     }
-    
-    // TODO: Move text styling into a helper class
-    private var startDateString: AttributedString {
-        var string = AttributedString(viewModel.startDateString)
-        string.font = .callout.bold()
-        return string
-    }
-    
-    // TODO: Move text styling into a helper class
-    private var endDateString: AttributedString {
-        var string = AttributedString(viewModel.endDateString)
-        string.font = .callout.bold()
-        return string
-    }
-    
-    
 }
 
 //struct WeekOverviewScreen_Preview: PreviewProvider {

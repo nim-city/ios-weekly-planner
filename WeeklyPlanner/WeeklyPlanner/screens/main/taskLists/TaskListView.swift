@@ -17,7 +17,7 @@ struct TaskListView: View {
     var body: some View {
         VStack(spacing: 0) {
             ForEach(viewModel.taskItems) { taskItem in
-                TaskItemCell(
+                EditableTaskItemCell(
                     viewModel: TaskItemCellViewModel(
                         taskType: viewModel.tasksType,
                         taskItem: taskItem,
@@ -35,6 +35,7 @@ struct TaskListView: View {
                 )
                 if taskItem != viewModel.taskItems.last {
                     Divider()
+                        .background(CustomColours.textDarkGray)
                         .padding(.horizontal, 20)
                 }
             }
