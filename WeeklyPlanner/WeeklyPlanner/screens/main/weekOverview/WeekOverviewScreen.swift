@@ -23,14 +23,11 @@ struct WeekOverviewScreen: View {
                     
                     mainContent
                 }
-                .padding(.horizontal, 20)
-                .padding(.vertical, 20)
+                .padding(20)
             }
             // Sizing and positioning
             .frame(
-                minWidth: 0,
                 maxWidth: .infinity,
-                minHeight: 0,
                 maxHeight: .infinity,
                 alignment: .leading
             )
@@ -50,28 +47,13 @@ struct WeekOverviewScreen: View {
                     }
                 }
             }
-            // Add/edit alert
-            .alert("Add an item?", isPresented: $viewModel.isShowingAddOrSelectAlert) {
-                Button("Select item") {
-                    
-                    viewModel.isShowingAddOrSelectAlert = false
-                    
-                    viewModel.isShowingSelectScreen = true
-                }
-                Button("Add new item") {
-                    
-                    viewModel.isShowingAddOrSelectAlert = false
-                    
-                    viewModel.isShowingAddScreen = true
-                }
-                Button("Cancel") {
-                    
-                    viewModel.isShowingAddOrSelectAlert = false
-                }
-            }
+
             // Select items sheet
             .sheet(isPresented: $viewModel.isShowingSelectScreen) {
-                SelectTasksScreen(viewModel: SelectTasksViewModel(taskType: .goal, weeklySchedule: viewModel.weeklySchedule))
+                SelectTasksScreen(viewModel: SelectTasksViewModel(
+                    taskType: .goal,
+                    weeklySchedule: viewModel.weeklySchedule
+                ))
             }
         }
     }
@@ -87,32 +69,34 @@ struct WeekOverviewScreen: View {
         VStack(spacing: 40) {
 
             // Goals
-            WeekItemsListView(
+            EditableTaskItemList(
+                taskItems: viewModel.weeklySchedule.allGoals,
                 tasksType: .goal,
-                taskItems: viewModel.weeklySchedule.allGoals
-            ) {
-                Button {
+                editTaskItem: { taskItem in
+                    
+                }, 
+                deleteTaskItem: { taskItem in
+                    
+                }, 
+                selectTaskItems: { taskItem in
                     viewModel.isShowingSelectScreen = true
-                } label: {
-                    Image(systemName: "plus")
-                        .tint(CustomColours.ctaGold)
                 }
-            }
+            )
             
             // To do list
-            WeekItemsListView(
+            TaskItemList(
                 tasksType: .toDo,
                 taskItems: viewModel.weeklySchedule.allToDoItems
             )
             
             // Meals
-            WeekItemsListView(
+            TaskItemList(
                 tasksType: .meal,
                 taskItems: viewModel.weeklySchedule.allToBuyItems
             )
             
             // Workouts
-            WeekItemsListView(
+            TaskItemList(
                 tasksType: .workout,
                 taskItems: viewModel.weeklySchedule.allWorkouts
             )

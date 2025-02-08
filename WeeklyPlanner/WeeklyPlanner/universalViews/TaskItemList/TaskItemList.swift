@@ -1,18 +1,16 @@
 //
-//  WeekOverviewListView.swift
+//  TaskItemList.swift
 //  WeeklyPlanner
 //
-//  Created by Nimish Narang on 2024-07-17.
+//  Created by Nimish Narang on 2025-02-06.
 //
 
-import Foundation
 import SwiftUI
 
-struct WeekItemsListView<TrailingView: View>: View {
+struct TaskItemList: View {
     
     let tasksType: TaskType
     var taskItems: [TaskItem]
-    let trailingView: () -> TrailingView
     
     var title: String {
         tasksType.getPluralizedTitle()
@@ -20,12 +18,10 @@ struct WeekItemsListView<TrailingView: View>: View {
     
     init(
         tasksType: TaskType,
-        taskItems: [TaskItem],
-        @ViewBuilder trailingView: @escaping () -> TrailingView = { EmptyView() }
+        taskItems: [TaskItem]
     ) {
         self.tasksType = tasksType
         self.taskItems = taskItems
-        self.trailingView = trailingView
     }
     
 
@@ -52,8 +48,7 @@ struct WeekItemsListView<TrailingView: View>: View {
                         lineWidth: 4
                     )
             )
-        } trailingView: {
-            trailingView()
         }
     }
 }
+

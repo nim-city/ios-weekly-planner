@@ -39,9 +39,7 @@ class WeekOverviewViewModel: ObservableObject {
     
     @Published var weeklySchedule: WeeklySchedule
 
-    @Published var isShowingAddOrSelectAlert = false
     @Published var isShowingSelectScreen = false
-    @Published var isShowingAddScreen = false
     @Published var notes = ""
     private let notesDataController = WeeklyNotesDataController()
     

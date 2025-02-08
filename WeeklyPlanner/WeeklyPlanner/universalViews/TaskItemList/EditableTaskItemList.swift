@@ -1,14 +1,13 @@
 //
-//  WeeklyBreakdownTaskListView.swift
+//  EditableTaskItemList.swift
 //  WeeklyPlanner
 //
-//  Created by Nimish Narang on 2024-12-14.
+//  Created by Nimish Narang on 2025-02-06.
 //
 
 import SwiftUI
 
-
-struct WeekdayTaskListView: View {
+struct EditableTaskItemList: View {
     
     var taskItems: [TaskItem]
     var tasksType: TaskType
@@ -56,4 +55,3 @@ struct WeekdayTaskListView: View {
         }
     }
 }
-

@@ -21,7 +21,7 @@ struct WeeklyBreakdownDayView: View {
                 VStack(spacing: 40) {
                     
                     ForEach(viewModel.taskTypes, id: \.self) { tasksType in
-                        WeekdayTaskListView(
+                        EditableTaskItemList(
                             taskItems: viewModel.dailySchedule.getTaskItems(ofType: tasksType),
                             tasksType: tasksType,
                             editTaskItem: viewModel.selectItemToEdit(taskItem:),
