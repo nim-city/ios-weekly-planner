@@ -18,14 +18,14 @@ class AddTaskViewModel: TaskItemViewModel {
     }
     
     
-    init(taskItemType: TaskType, dailySchedule: DailySchedule? = nil) {
+    init(taskItemType: TaskType, dailySchedule: DailySchedule? = nil, moc: NSManagedObjectContext) {
         self.dailySchedule = dailySchedule
         
-        super.init(taskItemType: taskItemType, taskItem: nil)
+        super.init(taskItemType: taskItemType, taskItem: nil, moc: moc)
     }
     
     
-    override func saveTaskItem(moc: NSManagedObjectContext) -> Bool {
+    override func saveTaskItem() -> Bool {
         // Create item
         taskItem = createNewTaskItem(moc: moc)
         
@@ -38,7 +38,7 @@ class AddTaskViewModel: TaskItemViewModel {
         }
         
         // Save
-        return super.saveTaskItem(moc: moc)
+        return super.saveTaskItem()
     }
     
     

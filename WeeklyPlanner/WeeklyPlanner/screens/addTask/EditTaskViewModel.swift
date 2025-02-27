@@ -16,18 +16,18 @@ class EditTaskViewModel: TaskItemViewModel {
     }
     
     
-    init(taskItemType: TaskType, taskItem: TaskItem) {
-        super.init(taskItemType: taskItemType, taskItem: taskItem)
+    init(taskItemType: TaskType, taskItem: TaskItem, moc: NSManagedObjectContext) {
+        super.init(taskItemType: taskItemType, taskItem: taskItem, moc: moc)
         self.taskName = taskItem.name ?? ""
         self.taskNotes = taskItem.notes ?? ""
     }
     
     
-    override func saveTaskItem(moc: NSManagedObjectContext) -> Bool {
+    override func saveTaskItem() -> Bool {
         taskItem?.name = taskName
         taskItem?.notes = taskNotes
         
         // Try to save
-        return super.saveTaskItem(moc: moc)
+        return super.saveTaskItem()
     }
 }

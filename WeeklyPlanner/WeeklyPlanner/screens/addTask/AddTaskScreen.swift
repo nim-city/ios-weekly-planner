@@ -2,121 +2,38 @@
 //  AddTaskScreen.swift
 //  WeeklyPlanner
 //
-//  Created by Nimish Narang on 2024-06-05.
+//  Created by Nimish Narang on 2025-02-19.
 //
 
 import SwiftUI
 
 
-struct AddTaskScreen: View {
-    @Environment(\.managedObjectContext) var moc
-    // To allow for manual dismiss
-    @Environment(\.dismiss) var dismiss
+class AddTaskScreen {
     
-    @FocusState private var isFocused: Bool
-    @ObservedObject var viewModel: TaskItemViewModel
+    static let shared = AddTaskScreen()
     
+    private var window: UIWindow?
     
-    var body: some View {
-        NavigationSplitView {
-            ScrollView {
-                VStack {
-                    VStack(spacing: 40) {
-                        // Task name
-                        AddTaskNameInput(
-                            itemName: $viewModel.taskName,
-                            isFocused: $isFocused,
-                            colour: CustomColours.getColourForTaskType(viewModel.taskItemType)
-                        )
-                        
-                        // Task notes
-                        AddTaskNotesView(
-                            text: $viewModel.taskNotes,
-                            isFocused: $isFocused,
-                            colour: CustomColours.getColourForTaskType(viewModel.taskItemType)
-                        )
-                        
-                        // Save and cancel buttons
-                        buttonsStack
-                            .padding(.top, 40)
-                    }
-                    .padding(20)
-                }
-                .toolbar {
-                    ToolbarItemGroup(placement: .keyboard) {
-                        Spacer()
-                        Button {
-                            isFocused = false
-                        } label: {
-                            Text("Done")
-                                .font(CustomFonts.buttonFont)
-                                .foregroundStyle(CustomColours.ctaGold)
-                        }
-                    }
-                }
-            }
-            .toolbar {
-                ToolbarItem(placement: .principal) {
-                    ScreenTitleLabel(text: viewModel.itemTypeLabel)
-                }
-            }
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbarBackground(.visible, for: .navigationBar)
-            .navigationBarBackButtonHidden(true)
-        } detail: {
-            Text("Add task screen")
+    private init() {}
+    
+    func show(withViewModel viewModel: TaskItemViewModel) {
+        guard window == nil,
+              let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
+            return
         }
+        
+        let hostingVC = UIHostingController(rootView: AddTaskScreen.AddTaskView(viewModel: viewModel))
+        hostingVC.view.backgroundColor = .clear
+        
+        window = UIWindow(windowScene: scene)
+        window?.rootViewController = hostingVC
+        window?.backgroundColor = .clear
+        window?.windowLevel = .alert + 1
+        window?.makeKeyAndVisible()
     }
-}
-
-
-// MARK: Bottom buttons
-
-
-extension AddTaskScreen {
-    var buttonsStack: some View {
-        VStack(spacing: 10) {
-            // Save button
-            Button {
-                let _ = viewModel.saveTaskItem(moc: moc)
-                dismiss()
-            } label: {
-                Text("Save")
-                    .frame(
-                        maxWidth: .infinity,
-                        minHeight: 50,
-                        maxHeight: 50
-                    )
-                    .foregroundColor(CustomColours.textDarkGray)
-                    .background(CustomColours.getColourForTaskType(viewModel.taskItemType))
-                    .font(CustomFonts.buttonFont)
-                    .clipShape(RoundedRectangle(cornerRadius: 25))
-                    .overlay {
-                        RoundedRectangle(cornerRadius: 25)
-                            .stroke(CustomColours.veryLightGray, lineWidth: 1)
-                    }
-            }
-            
-            // Cancel button
-            Button {
-                dismiss()
-            } label: {
-                Text("Cancel")
-                    .frame(
-                        maxWidth: .infinity,
-                        minHeight: 50,
-                        maxHeight: 50
-                    )
-                    .foregroundColor(CustomColours.textDarkGray)
-                    .font(CustomFonts.buttonFont)
-            }
-        }
-    }
-}
-
-
-struct AddItemView_Preview: PreviewProvider {
-    static var previews: some View {
-        AddTaskScreen(viewModel: AddTaskViewModel(taskItemType: .goal))
+    
+    func dismiss() {
+        window?.isHidden = true
+        window = nil
     }
 }

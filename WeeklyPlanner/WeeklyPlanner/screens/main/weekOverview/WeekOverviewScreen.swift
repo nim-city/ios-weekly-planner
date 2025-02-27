@@ -8,8 +8,9 @@
 import Foundation
 import SwiftUI
 
-
 struct WeekOverviewScreen: View {
+    
+    @Environment(\.managedObjectContext) var moc
     
     @ObservedObject var viewModel: WeekOverviewViewModel
     
@@ -39,7 +40,7 @@ struct WeekOverviewScreen: View {
                     Spacer()
                     Button {
                         isFocused = false
-                        viewModel.saveNotes()
+                        let _ = viewModel.saveNotes(moc: moc)
                     } label: {
                         Text("Done")
                             .font(CustomFonts.buttonFont)
@@ -55,13 +56,23 @@ struct WeekOverviewScreen: View {
                     weeklySchedule: viewModel.weeklySchedule
                 ))
             }
+            
+            // Delete alert
+            .removeOrDeleteItemsAlert(
+                isShowingAlert: $viewModel.isShowingDeleteAlert,
+                removeItemAction: {
+                    _ = viewModel.removeSelectedItem(moc: moc)
+                },
+                deleteItemAction: {
+                    _ = viewModel.deleteSelectedItem(moc: moc)
+                })
         }
     }
     
     private var subheading: some View {
         VStack(alignment: .leading, spacing: 20) {
-            SubheadingLabel(text: "All of your goals, to do items, meals, and workouts for the week.")
             Text(viewModel.dateString)
+            SubheadingLabel(text: "All of your goals, to do items, meals, and workouts for the week.")
         }
     }
     
@@ -74,11 +85,15 @@ struct WeekOverviewScreen: View {
                 tasksType: .goal,
                 editTaskItem: { taskItem in
                     
-                }, 
+                    AddTaskScreen.shared.show(withViewModel: EditTaskViewModel(taskItemType: .goal, taskItem: taskItem, moc: moc))
+                },
                 deleteTaskItem: { taskItem in
                     
-                }, 
+                    viewModel.goalToDelete = taskItem as? Goal
+                    viewModel.isShowingDeleteAlert = true
+                },
                 selectTaskItems: { taskItem in
+                    
                     viewModel.isShowingSelectScreen = true
                 }
             )

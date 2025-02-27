@@ -22,14 +22,17 @@ struct TaskListView: View {
                         taskType: viewModel.tasksType,
                         taskItem: taskItem,
                         deleteItem: { item in
-                            viewModel.itemToEditOrDelete = item
+                            viewModel.itemToDelete = item
                             
                             viewModel.isShowingDeleteAlert = true
                         },
                         editItem: { item in
-                            viewModel.itemToEditOrDelete = item
                             
-                            viewModel.isShowingEditScreen = true
+                            AddTaskScreen.shared.show(withViewModel: EditTaskViewModel(
+                                taskItemType: viewModel.tasksType,
+                                taskItem: item,
+                                moc: moc
+                            ))
                         }
                     )
                 )
@@ -48,16 +51,6 @@ struct TaskListView: View {
                     lineWidth: 4
                 )
         )
-        // Edit screen
-        // TODO: show a default error screen if something goes wrong
-        .sheet(isPresented: $viewModel.isShowingEditScreen) {
-            if let item = viewModel.itemToEditOrDelete {
-                AddTaskScreen(viewModel: EditTaskViewModel(
-                    taskItemType: viewModel.tasksType,
-                    taskItem: item
-                ))
-            }
-        }
         // Delete alert
         .alert("Delete item?", isPresented: $viewModel.isShowingDeleteAlert) {
             Button("Yes") {

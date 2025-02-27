@@ -9,6 +9,9 @@ import SwiftUI
 
 
 struct TaskListsScreen: View {
+    
+    @Environment(\.managedObjectContext) var moc
+    
     @FetchRequest(sortDescriptors: []) var goals: FetchedResults<Goal>
     @FetchRequest(sortDescriptors: []) var toDoItems: FetchedResults<ToDoItem>
     @FetchRequest(sortDescriptors: []) var toBuyItems: FetchedResults<ToBuyItem>
@@ -50,7 +53,7 @@ struct TaskListsScreen: View {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
                         
-                        viewModel.isShowingAddScreen = true
+                        AddTaskScreen.shared.show(withViewModel: AddTaskViewModel(taskItemType: viewModel.selectedTaskType, moc: moc))
                     } label: {
                         Image(systemName: "plus")
                             .tint(CustomColours.ctaGold)
@@ -59,11 +62,6 @@ struct TaskListsScreen: View {
             }
             .toolbarBackground(.visible, for: .navigationBar)
             .navigationBarTitleDisplayMode(.inline)
-
-            // Add/edit item modal
-            .sheet(isPresented: $viewModel.isShowingAddScreen) {
-                AddTaskScreen(viewModel: AddTaskViewModel(taskItemType: viewModel.selectedTaskType))
-            }
         }
     }
     

@@ -43,38 +43,25 @@ struct SelectTasksScreen: View {
                 tasksList
             }
             .frame(
-                minWidth: 0,
-                maxWidth: UIScreen.main.bounds.size.width,
-                minHeight: 0,
+                maxWidth: .infinity,
                 maxHeight: .infinity,
                 alignment: .leading
             )
             
             // Navigation toolbar
             .toolbar {
-                
-                // Screen title
-                ToolbarItem(placement: .principal) {
-                    ScreenTitleLabel(text: viewModel.screenTitle)
+                // Add button
+                ToolbarItem(placement: .topBarLeading) {
+                    addButton
                 }
                 
                 // Save button
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        let wasSaveSuccessful = viewModel.saveSelectedItems(moc: moc)
-                        if wasSaveSuccessful {
-                            dismiss()
-                        }
-                    } label: {
-                        Text("Save")
-                            .foregroundStyle(CustomColours.ctaGold)
-                            .font(CustomFonts.toolbarButtonFont)
-                    }
+                    saveButton
                 }
             }
-            .toolbarBackground(.visible, for: .navigationBar)
-            .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden(true)
+            .navigationTitle(viewModel.screenTitle)
             
             // Set the tasks currently selected for the day and task type
             .onAppear {
@@ -82,6 +69,29 @@ struct SelectTasksScreen: View {
             }
         } detail: {
             Text("Select Tasks Screen")
+        }
+    }
+    
+    private var addButton: some View {
+        Button {
+            
+            AddTaskScreen.shared.show(withViewModel: AddTaskViewModel(taskItemType: viewModel.taskType, moc: moc))
+        } label: {
+            Image(systemName: "plus")
+                .tint(CustomColours.ctaGold)
+        }
+    }
+    
+    private var saveButton: some View {
+        Button {
+            let wasSaveSuccessful = viewModel.saveSelectedItems(moc: moc)
+            if wasSaveSuccessful {
+                dismiss()
+            }
+        } label: {
+            Text("Save")
+                .foregroundStyle(CustomColours.ctaGold)
+                .font(CustomFonts.toolbarButtonFont)
         }
     }
 }

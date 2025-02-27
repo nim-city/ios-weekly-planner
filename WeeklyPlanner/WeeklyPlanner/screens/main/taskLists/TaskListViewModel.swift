@@ -14,10 +14,9 @@ class TaskListViewModel: ObservableObject {
     // Model related
     @Published var taskItems: [TaskItem]
     let tasksType: TaskType
-    var itemToEditOrDelete: TaskItem?
+    var itemToDelete: TaskItem?
     
     // UI related
-    @Published var isShowingEditScreen = false
     @Published var isShowingDeleteAlert = false
     
     init(taskItems: [TaskItem], tasksType: TaskType) {
@@ -26,7 +25,7 @@ class TaskListViewModel: ObservableObject {
     }
     
     func deleteSelectedItem(moc: NSManagedObjectContext) -> Bool {
-        guard let item = itemToEditOrDelete else {
+        guard let item = itemToDelete else {
             return false
         }
         

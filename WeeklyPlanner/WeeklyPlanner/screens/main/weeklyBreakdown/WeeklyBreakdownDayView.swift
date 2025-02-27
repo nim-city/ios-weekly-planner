@@ -24,7 +24,11 @@ struct WeeklyBreakdownDayView: View {
                         EditableTaskItemList(
                             taskItems: viewModel.dailySchedule.getTaskItems(ofType: tasksType),
                             tasksType: tasksType,
-                            editTaskItem: viewModel.selectItemToEdit(taskItem:),
+                            editTaskItem: { taskItem in
+                                
+                                viewModel.selectedTaskItem = taskItem
+                                
+                            },
                             deleteTaskItem: viewModel.selectItemToDelete(taskItem:),
                             selectTaskItems: viewModel.selectMoreItems(ofType:)
                         )

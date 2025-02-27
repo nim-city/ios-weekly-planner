@@ -16,6 +16,7 @@ class TaskItemViewModel: ObservableObject {
     
     let taskItemType: TaskType
     var taskItem: TaskItem?
+    var moc: NSManagedObjectContext
     
     var itemTypeLabel: String {
         switch taskItemType {
@@ -33,13 +34,14 @@ class TaskItemViewModel: ObservableObject {
     }
     
     
-    init(taskItemType: TaskType, taskItem: TaskItem?) {
+    init(taskItemType: TaskType, taskItem: TaskItem?, moc: NSManagedObjectContext) {
         self.taskItemType = taskItemType
         self.taskItem = taskItem
+        self.moc = moc
     }
     
     
-    func saveTaskItem(moc: NSManagedObjectContext) -> Bool {
+    func saveTaskItem() -> Bool {
         guard taskItem != nil else { return false }
         
         do {

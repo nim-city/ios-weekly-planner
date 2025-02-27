@@ -8,6 +8,16 @@
 import Foundation
 import SwiftUI
 
+struct LargeTitleLabel: View {
+    let text: String
+    
+    var body: some View {
+        Text(text)
+            .font(CustomFonts.largeTitleFont)
+            .foregroundColor(CustomColours.textDarkGray)
+    }
+}
+
 struct ScreenTitleLabel: View {
     let text: String
     
