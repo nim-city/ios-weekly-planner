@@ -13,22 +13,28 @@ struct AddTaskNotesView: View {
     let colour: Color
     
     var body: some View {
-        VStack(alignment: .leading) {
-            SubtitleLabel(text: "Notes")
-                .padding(.leading, 10)
-            VStack(spacing: 0) {
+        VStack(alignment: .leading, spacing: 5) {
+            Text("Notes")
+                .font(.title3)
+                .fontWeight(.bold)
+                .foregroundColor(CustomColours.textDarkGray)
+                .padding(.leading, 5)
+            
+            VStack {
                 TextEditor(text: $text)
                     .scrollContentBackground(.hidden)
-                    .padding(10)
+                    .padding(.vertical, 5)
+                    .padding(.horizontal, 10)
                     .focused(isFocused)
                     .font(CustomFonts.textInputFont)
+                    .tint(CustomColours.textMediumGray)
             }
             .background(colour.opacity(0.3))
-            .clipShape(RoundedRectangle(cornerRadius: 20))
             .frame(height: 200)
+            .clipShape(RoundedRectangle(cornerRadius: 5))
             .overlay(
-                RoundedRectangle(cornerRadius: 20)
-                    .stroke(colour, lineWidth: 4)
+                RoundedRectangle(cornerRadius: 5)
+                    .stroke(colour, lineWidth: 1)
             )
         }
     }

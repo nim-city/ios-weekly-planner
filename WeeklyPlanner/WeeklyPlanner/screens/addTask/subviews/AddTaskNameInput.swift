@@ -13,27 +13,27 @@ struct AddTaskNameInput: View {
     let colour: Color
     
     var body: some View {
-        VStack(alignment: .leading) {
-            SubtitleLabel(text: "Name")
-                .padding(.leading, 10)
+        VStack(alignment: .leading, spacing: 0) {
             HStack {
                 TextField(
                     "Task name",
                     text: $itemName
                 )
-                .padding(.vertical, 10)
-                .padding(.horizontal, 15)
+                .padding(.vertical, 5)
+                .padding(.horizontal, 10)
                 .focused(isFocused)
                 .foregroundStyle(CustomColours.textDarkGray)
                 .font(CustomFonts.textInputFont)
+                .tint(CustomColours.textMediumGray)
             }
-            .frame(height: 50)
-            .background(colour.opacity(0.3))
-            .clipShape(RoundedRectangle(cornerRadius: 20))
-            .overlay(
-                RoundedRectangle(cornerRadius: 20)
-                    .stroke(colour, lineWidth: 4)
-            )
+            
+            Divider()
+                .frame(height: 2)
+                .background(colour)
+                .padding(.horizontal, 5)
         }
+        .frame(height: 45)
+        .background(colour.opacity(0.3))
+        .clipShape(RoundedRectangle(cornerRadius: 5))
     }
 }
