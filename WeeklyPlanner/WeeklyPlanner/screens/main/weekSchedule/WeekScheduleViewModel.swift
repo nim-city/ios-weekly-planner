@@ -1,5 +1,5 @@
 //
-//  WeeklyBreakdownViewModel.swift
+//  WeekScheduleViewModel.swift
 //  WeeklyPlanner
 //
 //  Created by Nimish Narang on 2024-09-17.
@@ -9,14 +9,14 @@ import Foundation
 import CoreData
 
 
-class WeeklyBreakdownViewModel: ObservableObject {
+class WeekScheduleViewModel: ObservableObject {
     
     @Published var weekdayIndex: Int = 0
     @Published private(set) var weekdayName = ""
     
     @Published var weeklySchedule: WeeklySchedule
     var dailySchedules: [DailySchedule] {
-        return weeklySchedule.sortedDailySchedules ?? []
+        return weeklySchedule.sortedDailySchedules
     }
     
     

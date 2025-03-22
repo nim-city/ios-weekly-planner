@@ -1,5 +1,5 @@
 //
-//  WeeklyBreakdownDayView.swift
+//  DayScheduleView.swift
 //  WeeklyPlanner
 //
 //  Created by Nimish Narang on 2024-08-27.
@@ -7,11 +7,11 @@
 
 import SwiftUI
 
-struct WeeklyBreakdownDayView: View {
+struct DayScheduleView: View {
     
     @Environment(\.managedObjectContext) var moc
     
-    @ObservedObject var viewModel: WeeklyBreakdownDayViewModel
+    @ObservedObject var viewModel: DayScheduleViewModel
     
     var isFocused: FocusState<Bool>.Binding
     
@@ -74,5 +74,12 @@ struct WeeklyBreakdownDayView: View {
             deleteItemAction: {
                 _ = viewModel.deleteSelectedItem(moc: moc)
             })
+        
+        .navigationDestination(item: $viewModel.selectedTasksType) { taskType in
+            SelectTasksScreen(viewModel: SelectTasksViewModel(
+                dailySchedule: viewModel.dailySchedule,
+                taskType: taskType
+            ))
+        }
     }
 }

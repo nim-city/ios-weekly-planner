@@ -1,17 +1,16 @@
 //
-//  WeekBreakdown.swift
+//  WeekScheduleView.swift
 //  WeeklyPlanner
 //
 //  Created by Nimish Narang on 2024-05-06.
 //
 
 import SwiftUI
-import CoreData
 
-struct WeeklyBreakdownScreen: View {
+struct WeekScheduleView: View {
     
     @Environment(\.managedObjectContext) var moc
-    @ObservedObject var viewModel: WeeklyBreakdownViewModel
+    @ObservedObject var viewModel: WeekScheduleViewModel
     
     // UI variables
     @FocusState private var isFocused: Bool
@@ -23,12 +22,12 @@ struct WeeklyBreakdownScreen: View {
     }
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             // Sideways list of Weekday views
             HStack(spacing: 0) {
                 ForEach(viewModel.dailySchedules) { dailySchedule in
-                    WeeklyBreakdownDayView(
-                        viewModel: WeeklyBreakdownDayViewModel(dailySchedule: dailySchedule),
+                    DayScheduleView(
+                        viewModel: DayScheduleViewModel(dailySchedule: dailySchedule),
                         isFocused: $isFocused
                     )
                 }
@@ -83,9 +82,9 @@ struct WeeklyBreakdownScreen: View {
                         dragEnded(dragValue: dragValue)
                     }
             )
-        }
-        .onAppear {
-            viewModel.updateWeekdayName()
+            .onAppear {
+                viewModel.updateWeekdayName()
+            }
         }
     }
     

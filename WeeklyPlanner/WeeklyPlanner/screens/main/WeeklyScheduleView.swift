@@ -22,7 +22,7 @@ struct WeeklyScheduleView: View {
         VStack {
             TabView(selection: $viewModel.selectedTabIndex) {
                 if let weeklySchedule = viewModel.weeklySchedule {
-                    WeekOverviewScreen(viewModel: WeekOverviewViewModel(weeklySchedule: weeklySchedule))
+                    WeekOverviewView(viewModel: WeekOverviewViewModel(weeklySchedule: weeklySchedule))
                         .tabItem {
                             Label(
                                 "My week",
@@ -33,7 +33,7 @@ struct WeeklyScheduleView: View {
                 }
 
                 if let weeklySchedule = viewModel.weeklySchedule {
-                    WeeklyBreakdownScreen(viewModel: WeeklyBreakdownViewModel(weeklySchedule: weeklySchedule))
+                    WeekScheduleView(viewModel: WeekScheduleViewModel(weeklySchedule: weeklySchedule))
                         .tabItem {
                             Label(
                                 "Day to day",

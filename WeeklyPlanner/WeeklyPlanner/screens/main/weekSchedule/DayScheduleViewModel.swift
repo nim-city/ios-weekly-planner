@@ -1,5 +1,5 @@
 //
-//  WeeklyBreakdownDayViewModel.swift
+//  DayScheduleViewModel.swift
 //  WeeklyPlanner
 //
 //  Created by Nimish Narang on 2025-02-02.
@@ -8,7 +8,7 @@
 import Foundation
 import CoreData
 
-class WeeklyBreakdownDayViewModel: ObservableObject {
+class DayScheduleViewModel: ObservableObject {
     
     @Published var isShowingSelectScreen = false
     @Published var isShowingDeleteAlert = false

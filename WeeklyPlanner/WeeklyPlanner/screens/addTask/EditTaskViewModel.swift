@@ -22,6 +22,16 @@ class EditTaskViewModel: TaskItemViewModel {
         self.taskNotes = taskItem.notes ?? ""
     }
     
+    init(taskItem: TaskItem, moc: NSManagedObjectContext) {
+        
+        let taskItemType = taskItem.taskType ?? .goal
+        
+        super.init(taskItemType: taskItemType, taskItem: taskItem, moc: moc)
+        
+        self.taskName = taskItem.name ?? ""
+        self.taskNotes = taskItem.notes ?? ""
+    }
+    
     
     override func saveTaskItem() -> Bool {
         taskItem?.name = taskName

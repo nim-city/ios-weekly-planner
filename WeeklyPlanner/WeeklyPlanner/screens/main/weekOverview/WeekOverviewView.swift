@@ -1,5 +1,5 @@
 //
-//  WeekOverviewScreen.swift
+//  WeekOverviewView.swift
 //  WeeklyPlanner
 //
 //  Created by Nimish Narang on 2024-05-06.
@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct WeekOverviewScreen: View {
+struct WeekOverviewView: View {
     
     @Environment(\.managedObjectContext) var moc
     
@@ -66,6 +66,9 @@ struct WeekOverviewScreen: View {
                 deleteItemAction: {
                     _ = viewModel.deleteSelectedItem(moc: moc)
                 })
+            .navigationDestination(isPresented: $viewModel.isShowingSelectScreen) {
+                SelectTasksScreen(viewModel: SelectTasksViewModel(taskType: .goal))
+            }
         }
     }
     
