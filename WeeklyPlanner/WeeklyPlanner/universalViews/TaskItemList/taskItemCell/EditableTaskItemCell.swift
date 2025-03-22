@@ -23,11 +23,14 @@ struct EditableTaskItemCell: View {
             // Slide view with edit button, take item name text, and delete button
             GeometryReader { geometry in
                 HStack(spacing: 0) {
+                    
                     editButton
+                    
                     VStack {
                         mainTextView
                             .frame(width: geometry.size.width)
                     }
+                    
                     deleteButton
                 }
                 .offset(x: -buttonWidth)
@@ -46,24 +49,25 @@ struct EditableTaskItemCell: View {
         .gesture(
             DragGesture()
                 .onChanged { dragValue in
+                    
                     var dragWidth = dragValue.translation.width
                     if dragWidth >= buttonWidth {
                         dragWidth = buttonWidth
                         
                         AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
                         
-                        viewModel.selectEditItem()
-                        
                         viewModel.offset = 0
                         
+                        viewModel.selectEditItem()
                     } else if dragWidth <= -buttonWidth {
+                        
                         dragWidth = -buttonWidth
                         
                         AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
                         
-                        viewModel.selectDeleteItem()
-                        
                         viewModel.offset = 0
+                        
+                        viewModel.selectDeleteItem()
                     }
                     viewModel.offset = dragWidth
                 }

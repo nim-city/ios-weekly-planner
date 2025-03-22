@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-extension AddTaskScreen.AddTaskView {
+extension AddTaskView {
     
     var buttonsStack: some View {
         VStack(spacing: 10) {

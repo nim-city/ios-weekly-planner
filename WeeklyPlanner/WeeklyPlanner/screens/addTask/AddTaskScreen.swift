@@ -17,19 +17,19 @@ class AddTaskScreen {
     private init() {}
     
     func show(withViewModel viewModel: TaskItemViewModel) {
-        guard window == nil,
-              let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
-            return
-        }
-        
-        let hostingVC = UIHostingController(rootView: AddTaskScreen.AddTaskView(viewModel: viewModel))
-        hostingVC.view.backgroundColor = .clear
-        
-        window = UIWindow(windowScene: scene)
-        window?.rootViewController = hostingVC
-        window?.backgroundColor = .clear
-        window?.windowLevel = .alert + 1
-        window?.makeKeyAndVisible()
+//        guard window == nil,
+//              let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
+//            return
+//        }
+//        
+//        let hostingVC = UIHostingController(rootView: AddTaskScreen.AddTaskView(viewModel: viewModel))
+//        hostingVC.view.backgroundColor = .clear
+//        
+//        window = UIWindow(windowScene: scene)
+//        window?.rootViewController = hostingVC
+//        window?.backgroundColor = .clear
+//        window?.windowLevel = .alert + 1
+//        window?.makeKeyAndVisible()
     }
     
     func dismiss() {

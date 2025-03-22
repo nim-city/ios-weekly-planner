@@ -7,7 +7,8 @@
 
 import Foundation
 
-enum TaskType {
+enum TaskType: Equatable {
+    
     case goal
     case toDo
     case toBuy

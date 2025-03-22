@@ -9,13 +9,12 @@ import SwiftUI
 
 @main
 struct WeeklyPlannerApp: App {
-    // To access MOC for CoreData
+    
     @StateObject private var dataController = CoreDataController()
 
-    
     var body: some Scene {
         WindowGroup {
-            MainScreen()
+            MainView(viewModel: MainViewModel())
                 .environment(\.managedObjectContext, dataController.moc)
         }
     }

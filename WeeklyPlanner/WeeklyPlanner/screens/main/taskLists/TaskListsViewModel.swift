@@ -6,18 +6,45 @@
 //
 
 import Foundation
-
+import CoreData
 
 class TaskListsViewModel: ObservableObject {
     
     // Model related
     @Published var selectedTaskType: TaskType = .goal
+    @Published var taskItems: [TaskItem] = []
+    @Published var selectedTaskItem: TaskItem?
     
-    // UI related
-    @Published var isShowingAddScreen = false
+    @Published var isShowingDeleteAlert = false
+    @Published var isShowingAddTaskScreen = false
     
     // Computed
     var screenTitle: String {
         return selectedTaskType.getPluralizedTitle()
+    }
+    
+    @discardableResult
+    func deleteSelectedItem(moc: NSManagedObjectContext) -> Bool {
+        
+        guard let item = selectedTaskItem else {
+            return false
+        }
+        
+        moc.delete(item)
+        
+        return saveMOC(moc)
+    }
+    
+    private func saveMOC(_ moc: NSManagedObjectContext) -> Bool {
+        
+        do {
+            
+            try moc.save()
+            return true
+        } catch let error {
+            
+            print(error)
+            return false
+        }
     }
 }
