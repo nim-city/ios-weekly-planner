@@ -9,38 +9,22 @@ import Foundation
 import CoreData
 
 class DayScheduleViewModel: ObservableObject {
-    
-    @Published var isShowingSelectScreen = false
-    @Published var isShowingDeleteAlert = false
-    
+
     @Published var dailySchedule: DailySchedule
     
-    let taskTypes: [TaskType] = [.toDo, .toBuy, .meal, .workout]
+    @Published var taskItemToEdit: TaskItem?
+    @Published var taskItemToDelete: TaskItem?
+    @Published var selectedTasksType: TaskType?
     
-    var selectedTaskItem: TaskItem?
-    var selectedTasksType: TaskType?
+    let taskTypes: [TaskType] = [.toDo, .toBuy, .meal, .workout]
     
     init(dailySchedule: DailySchedule) {
         self.dailySchedule = dailySchedule
     }
-    
-    func selectItemToEdit(taskItem: TaskItem) {
-        selectedTaskItem = taskItem
-        isShowingSelectScreen = true
-    }
-    
-    func selectItemToDelete(taskItem: TaskItem) {
-        selectedTaskItem = taskItem
-        isShowingDeleteAlert = true
-    }
-    
-    func selectMoreItems(ofType tasksType: TaskType) {
-        selectedTasksType = tasksType
-        isShowingSelectScreen = true
-    }
-    
+
+    @discardableResult
     func removeSelectedItem(moc: NSManagedObjectContext) -> Bool {
-        guard let item = selectedTaskItem else {
+        guard let item = taskItemToDelete else {
             return false
         }
         
@@ -51,8 +35,9 @@ class DayScheduleViewModel: ObservableObject {
         return saveMOC(moc)
     }
     
+    @discardableResult
     func deleteSelectedItem(moc: NSManagedObjectContext) -> Bool {
-        guard let item = selectedTaskItem else {
+        guard let item = taskItemToDelete else {
             return false
         }
         

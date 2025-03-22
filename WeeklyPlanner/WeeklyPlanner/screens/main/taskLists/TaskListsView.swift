@@ -20,81 +20,97 @@ struct TaskListsView: View {
     
     @ObservedObject var viewModel: TaskListsViewModel
     
+    private var taskItemList: [TaskItem] {
+        
+        switch viewModel.selectedTaskType {
+        case .goal:
+            return Array(goals)
+        case .toDo:
+            return Array(toDoItems)
+        case .toBuy:
+            return Array(toBuyItems)
+        case .meal:
+            return Array(meals)
+        case .workout:
+            return Array(workouts)
+        }
+    }
+    
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
                 TaskListsTabBar(selectedTaskType: $viewModel.selectedTaskType)
-                .padding(.top, 20)
-                .padding(.horizontal, 10)
+                    .padding(.top, 20)
+                    .padding(.horizontal, 10)
                 
                 taskListView
             }
+            .navigationTitle(viewModel.screenTitle)
             // Navigation bar
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
-                        viewModel.isShowingAddTaskScreen = true
+                        viewModel.isShowingAddTaskSheet = true
                     } label: {
                         Image(systemName: "plus")
                             .tint(CustomColours.ctaGold)
                     }
                 }
             }
-            .navigationDestination(isPresented: $viewModel.isShowingAddTaskScreen) {
-                if let selectedTaskItem = viewModel.selectedTaskItem {
-                    
-                    AddTaskView(viewModel: EditTaskViewModel(
-                        taskItemType: viewModel.selectedTaskType,
-                        taskItem: selectedTaskItem,
-                        moc: moc
-                    ))
-                } else {
-                    
-                    AddTaskView(viewModel: AddTaskViewModel(
-                        taskItemType: viewModel.selectedTaskType,
-                        moc: moc
-                    ))
-                }
+        }
+        // Edit task sheet
+        .sheet(item: $viewModel.taskItemToEdit) { taskItem in
+            AddTaskView(viewModel: EditTaskViewModel(
+                taskItem: taskItem,
+                moc: moc
+            ))
+        }
+        // Add task sheet
+        .sheet(isPresented: $viewModel.isShowingAddTaskSheet) {
+            AddTaskView(viewModel: AddTaskViewModel(
+                taskItemType: viewModel.selectedTaskType,
+                moc: moc
+            ))
+        }
+        // Delete alert
+        .alert(
+            "Delete item?",
+            isPresented: Binding(
+                get: { viewModel.taskItemToDelete != nil },
+                set: { if !$0 { viewModel.taskItemToDelete = nil } }
+            )
+        ) {
+            Button("Yes", role: .destructive) {
+                viewModel.deleteSelectedItem(moc: moc)
             }
-            .navigationTitle(viewModel.screenTitle)
+            
+            Button("No", role: .cancel) {}
         }
     }
     
     var taskListView: some View {
         ScrollView(showsIndicators: false) {
             VStack(spacing: 0) {
-                ForEach(viewModel.taskItems) { taskItem in
+
+                ForEach(taskItemList) { taskItem in
                     
                     EditableTaskItemCell(
                         viewModel: TaskItemCellViewModel(
                             taskType: viewModel.selectedTaskType,
                             taskItem: taskItem,
-                            deleteItem: { item in
-                                
-                                viewModel.selectedTaskItem = item
-                                
-                                viewModel.isShowingDeleteAlert = true
+                            deleteItem: { taskItem in
+                                viewModel.taskItemToDelete = taskItem
                             },
-                            editItem: { item in
-                                
-                                viewModel.selectedTaskItem = item
-                                
-                                viewModel.isShowingAddTaskScreen = true
+                            editItem: { taskItem in
+                                viewModel.taskItemToEdit = taskItem
                             }
                         )
                     )
-                    if taskItem != viewModel.taskItems.last {
+                    if taskItem != taskItemList.last {
                         Divider()
                             .background(CustomColours.textDarkGray)
                             .padding(.horizontal, 20)
                     }
-                }
-                .onAppear {
-                    setTaskItemsList()
-                }
-                .onChange(of: viewModel.selectedTaskType) { _ in
-                    
-                    setTaskItemsList()
                 }
             }
             .clipShape(RoundedRectangle(cornerRadius: 20))
@@ -105,40 +121,7 @@ struct TaskListsView: View {
                         lineWidth: 4
                     )
             )
-            // Delete alert
-            .alert(
-                "Delete item?",
-                isPresented: $viewModel.isShowingDeleteAlert
-            ) {
-                
-                Button("Yes", role: .destructive) {
-                    viewModel.deleteSelectedItem(moc: moc)
-                }
-                
-                Button("No", role: .cancel) {}
-            }
             .padding(20)
-        }
-    }
-    
-    private func setTaskItemsList() {
-        
-        switch viewModel.selectedTaskType {
-        case .goal:
-            
-            viewModel.taskItems = Array(goals)
-        case .toDo:
-            
-            viewModel.taskItems = Array(toDoItems)
-        case .toBuy:
-            
-            viewModel.taskItems = Array(toBuyItems)
-        case .meal:
-            
-            viewModel.taskItems = Array(meals)
-        case .workout:
-            
-            viewModel.taskItems = Array(workouts)
         }
     }
 }

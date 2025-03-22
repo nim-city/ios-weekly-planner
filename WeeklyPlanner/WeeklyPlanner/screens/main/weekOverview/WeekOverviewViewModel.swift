@@ -14,10 +14,10 @@ class WeekOverviewViewModel: ObservableObject {
     @Published var weeklySchedule: WeeklySchedule
 
     @Published var isShowingSelectScreen = false
-    @Published var isShowingDeleteAlert = false
     @Published var notes = ""
     
-    var goalToDelete: Goal?
+    @Published var selectedGoalToEdit: Goal?
+    @Published var selectedGoalToDelete: Goal?
     
     // Date variables
     var startDateString: String {
@@ -38,21 +38,21 @@ class WeekOverviewViewModel: ObservableObject {
     }
     
     func removeSelectedItem(moc: NSManagedObjectContext) -> Bool {
-        guard let goalToDelete else {
+        guard let selectedGoalToDelete else {
             return false
         }
         
-        weeklySchedule.removeFromGoals(goalToDelete)
+        weeklySchedule.removeFromGoals(selectedGoalToDelete)
         
         return saveMOC(moc)
     }
     
     func deleteSelectedItem(moc: NSManagedObjectContext) -> Bool {
-        guard let goalToDelete else {
+        guard let selectedGoalToDelete else {
             return false
         }
         
-        moc.delete(goalToDelete)
+        moc.delete(selectedGoalToDelete)
         
         return saveMOC(moc)
     }

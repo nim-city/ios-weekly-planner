@@ -25,12 +25,14 @@ struct DayScheduleView: View {
                             taskItems: viewModel.dailySchedule.getTaskItems(ofType: tasksType),
                             tasksType: tasksType,
                             editTaskItem: { taskItem in
-                                
-                                viewModel.selectedTaskItem = taskItem
-                                
+                                viewModel.taskItemToEdit = taskItem
                             },
-                            deleteTaskItem: viewModel.selectItemToDelete(taskItem:),
-                            selectTaskItems: viewModel.selectMoreItems(ofType:)
+                            deleteTaskItem: { taskItem in
+                                viewModel.taskItemToDelete = taskItem
+                            },
+                            selectTaskItems: { taskType in
+                                viewModel.selectedTasksType = taskType
+                            }
                         )
                     }
 
@@ -55,25 +57,30 @@ struct DayScheduleView: View {
         .frame(width: UIScreen.main.bounds.size.width)
         .background(Color.white)
 
-        // Select sheet
-        .sheet(isPresented: $viewModel.isShowingSelectScreen) {
-            if let tasksType = viewModel.selectedTasksType {
-                SelectTasksScreen(viewModel: SelectTasksViewModel(
-                    dailySchedule: viewModel.dailySchedule,
-                    taskType: tasksType
-                ))
-            }
+        // Edit item sheet
+        .sheet(item: $viewModel.taskItemToEdit) { taskItem in
+            AddTaskView(viewModel: EditTaskViewModel(
+                taskItem: taskItem,
+                moc: moc
+            ))
         }
 
         // Delete alert
-        .removeOrDeleteItemsAlert(
-            isShowingAlert: $viewModel.isShowingDeleteAlert,
-            removeItemAction: {
-                _ = viewModel.removeSelectedItem(moc: moc)
-            },
-            deleteItemAction: {
-                _ = viewModel.deleteSelectedItem(moc: moc)
-            })
+        .alert(
+            "Remove or delete item?",
+            isPresented: Binding(
+                get: { return viewModel.taskItemToDelete != nil },
+                set: { if !$0 { viewModel.taskItemToDelete = nil } }
+            )
+        ) {
+            Button("Remove item") {
+                viewModel.removeSelectedItem(moc: moc)
+            }
+            Button("Delete item") {
+                viewModel.deleteSelectedItem(moc: moc)
+            }
+            Button("Cancel", role: .cancel) { }
+        }
         
         .navigationDestination(item: $viewModel.selectedTasksType) { taskType in
             SelectTasksScreen(viewModel: SelectTasksViewModel(

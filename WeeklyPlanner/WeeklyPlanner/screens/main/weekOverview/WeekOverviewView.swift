@@ -49,23 +49,27 @@ struct WeekOverviewView: View {
                 }
             }
 
-            // Select items sheet
-            .sheet(isPresented: $viewModel.isShowingSelectScreen) {
-                SelectTasksScreen(viewModel: SelectTasksViewModel(
-                    taskType: .goal,
-                    weeklySchedule: viewModel.weeklySchedule
+            // Edit task item sheet
+            .sheet(item: $viewModel.selectedGoalToEdit) { goal in
+                AddTaskView(viewModel: EditTaskViewModel(
+                    taskItem: goal,
+                    moc: moc
                 ))
             }
             
             // Delete alert
             .removeOrDeleteItemsAlert(
-                isShowingAlert: $viewModel.isShowingDeleteAlert,
+                isShowingAlert: Binding(
+                    get: { return viewModel.selectedGoalToDelete != nil },
+                    set: { if !$0 { viewModel.selectedGoalToDelete = nil } }
+                ),
                 removeItemAction: {
                     _ = viewModel.removeSelectedItem(moc: moc)
                 },
                 deleteItemAction: {
                     _ = viewModel.deleteSelectedItem(moc: moc)
                 })
+            
             .navigationDestination(isPresented: $viewModel.isShowingSelectScreen) {
                 SelectTasksScreen(viewModel: SelectTasksViewModel(taskType: .goal))
             }
@@ -88,12 +92,11 @@ struct WeekOverviewView: View {
                 tasksType: .goal,
                 editTaskItem: { taskItem in
                     
-                    AddTaskScreen.shared.show(withViewModel: EditTaskViewModel(taskItemType: .goal, taskItem: taskItem, moc: moc))
+                    viewModel.selectedGoalToEdit = taskItem as? Goal
                 },
                 deleteTaskItem: { taskItem in
                     
-                    viewModel.goalToDelete = taskItem as? Goal
-                    viewModel.isShowingDeleteAlert = true
+                    viewModel.selectedGoalToDelete = taskItem as? Goal
                 },
                 selectTaskItems: { taskItem in
                     

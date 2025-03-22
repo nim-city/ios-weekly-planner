@@ -12,11 +12,10 @@ class TaskListsViewModel: ObservableObject {
     
     // Model related
     @Published var selectedTaskType: TaskType = .goal
-    @Published var taskItems: [TaskItem] = []
-    @Published var selectedTaskItem: TaskItem?
     
-    @Published var isShowingDeleteAlert = false
-    @Published var isShowingAddTaskScreen = false
+    @Published var taskItemToEdit: TaskItem?
+    @Published var taskItemToDelete: TaskItem?
+    @Published var isShowingAddTaskSheet = false
     
     // Computed
     var screenTitle: String {
@@ -26,7 +25,7 @@ class TaskListsViewModel: ObservableObject {
     @discardableResult
     func deleteSelectedItem(moc: NSManagedObjectContext) -> Bool {
         
-        guard let item = selectedTaskItem else {
+        guard let item = taskItemToDelete else {
             return false
         }
         
