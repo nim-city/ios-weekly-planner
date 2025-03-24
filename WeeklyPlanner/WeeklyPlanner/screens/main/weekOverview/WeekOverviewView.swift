@@ -71,7 +71,7 @@ struct WeekOverviewView: View {
                 })
             
             .navigationDestination(isPresented: $viewModel.isShowingSelectScreen) {
-                SelectTasksScreen(viewModel: SelectTasksViewModel(taskType: .goal))
+                SelectTasksView(viewModel: SelectTasksViewModel(taskType: .goal))
             }
         }
     }

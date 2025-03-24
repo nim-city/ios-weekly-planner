@@ -10,10 +10,13 @@ import CoreData
 
 
 class SelectTasksViewModel: ObservableObject {
+    
     // TODO: update this to ordered set instead of list
     @Published var selectedTasks = [TaskItem]()
     @Published var dailySchedule: DailySchedule?
     @Published var weeklySchedule: WeeklySchedule?
+    
+    @Published var isShowingAddItemSheet = false
     
     var taskType: TaskType
     

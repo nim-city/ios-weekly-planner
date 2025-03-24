@@ -1,5 +1,5 @@
 //
-//  SelectItemScreen.swift
+//  SelectTasksView.swift
 //  WeeklyPlanner
 //
 //  Created by Nimish Narang on 2024-06-13.
@@ -8,7 +8,8 @@
 import SwiftUI
 
 
-struct SelectTasksScreen: View {
+struct SelectTasksView: View {
+    
     // To allow for manual dismiss
     @Environment(\.dismiss) var dismiss
     // For task items list
@@ -37,61 +38,40 @@ struct SelectTasksScreen: View {
     
     
     var body: some View {
-        NavigationSplitView {
-            VStack {
-                // Tasks list
-                tasksList
-            }
-            .frame(
-                maxWidth: .infinity,
-                maxHeight: .infinity,
-                alignment: .leading
-            )
-            
-            // Navigation toolbar
-            .toolbar {
-                // Add button
-                ToolbarItem(placement: .topBarLeading) {
-                    addButton
-                }
-                
-                // Save button
-                ToolbarItem(placement: .topBarTrailing) {
-                    saveButton
+        VStack {
+            // Tasks list
+            tasksList
+        }
+        .frame(
+            maxWidth: .infinity,
+            maxHeight: .infinity,
+            alignment: .leading
+        )
+        
+        // Navigation toolbar
+        .toolbar {
+            // Add button
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    viewModel.isShowingAddItemSheet = true
+                } label: {
+                    Image(systemName: "plus")
+                        .tint(CustomColours.ctaGold)
                 }
             }
-            .navigationBarBackButtonHidden(true)
-            .navigationTitle(viewModel.screenTitle)
-            
-            // Set the tasks currently selected for the day and task type
-            .onAppear {
-                viewModel.setSelectedTasks()
-            }
-        } detail: {
-            Text("Select Tasks Screen")
         }
-    }
-    
-    private var addButton: some View {
-        Button {
-            
-            AddTaskScreen.shared.show(withViewModel: AddTaskViewModel(taskItemType: viewModel.taskType, moc: moc))
-        } label: {
-            Image(systemName: "plus")
-                .tint(CustomColours.ctaGold)
+        .navigationTitle(viewModel.screenTitle)
+        // Add item sheet
+        .sheet(isPresented: $viewModel.isShowingAddItemSheet) {
+            AddTaskView(viewModel: AddTaskViewModel(
+                taskItemType: viewModel.taskType,
+                dailySchedule: viewModel.dailySchedule,
+                moc: moc
+            ))
         }
-    }
-    
-    private var saveButton: some View {
-        Button {
-            let wasSaveSuccessful = viewModel.saveSelectedItems(moc: moc)
-            if wasSaveSuccessful {
-                dismiss()
-            }
-        } label: {
-            Text("Save")
-                .foregroundStyle(CustomColours.ctaGold)
-                .font(CustomFonts.toolbarButtonFont)
+        // Set the tasks currently selected for the day and task type
+        .onAppear {
+            viewModel.setSelectedTasks()
         }
     }
 }
@@ -100,7 +80,7 @@ struct SelectTasksScreen: View {
 // MARK: Select tasks list
 
 
-extension SelectTasksScreen {
+extension SelectTasksView {
     
     // List of all tasks
     // Shows which tasks are selected via checkmarks

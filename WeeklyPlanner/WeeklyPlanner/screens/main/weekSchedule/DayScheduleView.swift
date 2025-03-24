@@ -83,7 +83,7 @@ struct DayScheduleView: View {
         }
         
         .navigationDestination(item: $viewModel.selectedTasksType) { taskType in
-            SelectTasksScreen(viewModel: SelectTasksViewModel(
+            SelectTasksView(viewModel: SelectTasksViewModel(
                 dailySchedule: viewModel.dailySchedule,
                 taskType: taskType
             ))

@@ -44,13 +44,7 @@ struct WeekScheduleView: View {
             .offset(x: xOffset)
             
             // Navigation bar
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .principal) {
-                    ScreenTitleLabel(text: viewModel.weekdayName)
-                }
-            }
-            .toolbarBackground(.visible, for: .navigationBar)
+            .navigationTitle(viewModel.weekdayName)
             
             // Keyboard "Done" button to save notes
             .toolbar {

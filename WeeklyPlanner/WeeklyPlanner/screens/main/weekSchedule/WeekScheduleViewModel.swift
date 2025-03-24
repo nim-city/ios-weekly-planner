@@ -12,7 +12,7 @@ import CoreData
 class WeekScheduleViewModel: ObservableObject {
     
     @Published var weekdayIndex: Int = 0
-    @Published private(set) var weekdayName = ""
+    @Published private(set) var weekdayName = DayOfTheWeek.monday.capitalizedName
     
     @Published var weeklySchedule: WeeklySchedule
     var dailySchedules: [DailySchedule] {
