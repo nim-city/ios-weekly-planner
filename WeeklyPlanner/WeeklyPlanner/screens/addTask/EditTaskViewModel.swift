@@ -11,33 +11,20 @@ import CoreData
 
 class EditTaskViewModel: TaskItemViewModel {
     
-    override var itemTypeLabel: String {
-        return "Edit \(super.itemTypeLabel)"
+    var title: String {
+        return "Edit \(super.taskTypeLabel.lowercased())"
     }
     
-    
-    init(taskItemType: TaskType, taskItem: TaskItem, moc: NSManagedObjectContext) {
-        super.init(taskItemType: taskItemType, taskItem: taskItem, moc: moc)
-        self.taskName = taskItem.name ?? ""
-        self.taskNotes = taskItem.notes ?? ""
-    }
-    
-    init(taskItem: TaskItem, moc: NSManagedObjectContext) {
+    override func saveTaskItem(moc: NSManagedObjectContext) -> Bool {
         
-        let taskItemType = taskItem.taskType ?? .goal
+        guard let taskItem else {
+            return false
+        }
         
-        super.init(taskItemType: taskItemType, taskItem: taskItem, moc: moc)
-        
-        self.taskName = taskItem.name ?? ""
-        self.taskNotes = taskItem.notes ?? ""
-    }
-    
-    
-    override func saveTaskItem() -> Bool {
-        taskItem?.name = taskName
-        taskItem?.notes = taskNotes
+        taskItem.name = taskName
+        taskItem.notes = taskNotes
         
         // Try to save
-        return super.saveTaskItem()
+        return super.saveTaskItem(moc: moc)
     }
 }

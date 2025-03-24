@@ -11,52 +11,76 @@ import CoreData
 
 class AddTaskViewModel: TaskItemViewModel {
     
-    let dailySchedule: DailySchedule?
+    var daySchedule: DailySchedule?
+    var weekSchedule: WeeklySchedule?
     
-    override var itemTypeLabel: String {
-        return "Add \(super.itemTypeLabel)"
+    override var taskTypeLabel: String {
+        return "Add \(super.taskTypeLabel.lowercased())"
     }
     
+    override init(taskType: TaskType) {
+        super.init(taskType: taskType)
+    }
     
-    init(taskItemType: TaskType, dailySchedule: DailySchedule? = nil, moc: NSManagedObjectContext) {
-        self.dailySchedule = dailySchedule
+    // Special init for Goals to be added to a weekly schedule
+    init(weekSchedule: WeeklySchedule) {
+        super.init(taskType: .goal)
+        self.weekSchedule = weekSchedule
+    }
+    
+    // Init for item to added to a week schedule
+    init(taskType: TaskType, daySchedule: DailySchedule) {
+        super.init(taskType: taskType)
+        self.daySchedule = daySchedule
+    }
+    
+    override func saveTaskItem(moc: NSManagedObjectContext) -> Bool {
         
-        super.init(taskItemType: taskItemType, taskItem: nil, moc: moc)
-    }
-    
-    
-    override func saveTaskItem() -> Bool {
         // Create item
         taskItem = createNewTaskItem(moc: moc)
         
         // Assign to schedule if not nil
-        if let dailySchedule, let taskItem {
-            let wasAssignmentSuccessful = dailySchedule.addTaskItem(taskItem, ofType: taskItemType)
-            if !wasAssignmentSuccessful {
+        if let taskItem, let daySchedule {
+            
+            if !daySchedule.addTaskItem(taskItem, ofType: taskType) {
                 return false
             }
         }
         
         // Save
-        return super.saveTaskItem()
+        return super.saveTaskItem(moc: moc)
+    }
+    
+    private func addTaskItemToSchedule(_ taskItem: TaskItem, schedule: DailySchedule) -> Bool {
+        
+        guard let taskType = taskItem.taskType else {
+            return false
+        }
+        
+        return schedule.addTaskItem(taskItem, ofType: taskType)
     }
     
     
-    private func createNewTaskItem(moc: NSManagedObjectContext) -> TaskItem {
-        var newTaskItem: TaskItem
+    private func createNewTaskItem(moc: NSManagedObjectContext) -> TaskItem? {
         
-        switch taskItemType {
+        var newTaskItem: TaskItem
+        switch taskType {
         case .goal:
+            
             newTaskItem = Goal(context: moc)
         case .toDo:
+            
             newTaskItem = ToDoItem(context: moc)
             // Forced cast is safe as we are initializing as a ToDoItem explicitly here
             (newTaskItem as! ToDoItem).categoryName = ToDoItemCategory.shortTerm.rawValue
         case .toBuy:
+            
             newTaskItem = ToBuyItem(context: moc)
         case .meal:
+            
             newTaskItem = Meal(context: moc)
         case .workout:
+            
             newTaskItem = Workout(context: moc)
         }
         

@@ -61,16 +61,13 @@ struct TaskListsView: View {
         // Edit task sheet
         .sheet(item: $viewModel.taskItemToEdit) { taskItem in
             AddTaskView(viewModel: EditTaskViewModel(
-                taskItem: taskItem,
-                moc: moc
+                taskType: viewModel.selectedTaskType,
+                taskItem: taskItem
             ))
         }
         // Add task sheet
         .sheet(isPresented: $viewModel.isShowingAddTaskSheet) {
-            AddTaskView(viewModel: AddTaskViewModel(
-                taskItemType: viewModel.selectedTaskType,
-                moc: moc
-            ))
+            AddTaskView(viewModel: AddTaskViewModel(taskType: viewModel.selectedTaskType))
         }
         // Delete alert
         .alert(

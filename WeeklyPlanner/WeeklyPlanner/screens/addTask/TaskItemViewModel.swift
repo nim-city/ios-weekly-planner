@@ -14,35 +14,30 @@ class TaskItemViewModel: ObservableObject {
     @Published var taskName: String = ""
     @Published var taskNotes: String = ""
     
-    let taskItemType: TaskType
+    let taskType: TaskType
     var taskItem: TaskItem?
-    var moc: NSManagedObjectContext
     
-    var itemTypeLabel: String {
-        switch taskItemType {
-        case .goal:
-            return "goal"
-        case .toDo:
-            return "to do item"
-        case .toBuy:
-            return "to buy item"
-        case .meal:
-            return "meal"
-        case .workout:
-            return "workout"
-        }
+    var taskTypeLabel: String {
+        taskType.taskListLabel
     }
     
+    init(taskType: TaskType) {
+        self.taskType = taskType
+    }
     
-    init(taskItemType: TaskType, taskItem: TaskItem?, moc: NSManagedObjectContext) {
-        self.taskItemType = taskItemType
+    init(taskType: TaskType, taskItem: TaskItem) {
+        self.taskType = taskType
         self.taskItem = taskItem
-        self.moc = moc
+        
+        self.taskName = taskItem.name ?? ""
+        self.taskNotes = taskItem.notes ?? ""
     }
-    
-    
-    func saveTaskItem() -> Bool {
-        guard taskItem != nil else { return false }
+
+    func saveTaskItem(moc: NSManagedObjectContext) -> Bool {
+        
+        if taskItem == nil {
+            return false
+        }
         
         do {
             try moc.save()

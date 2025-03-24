@@ -13,7 +13,7 @@ struct TaskItemList: View {
     var taskItems: [TaskItem]
     
     var title: String {
-        tasksType.getPluralizedTitle()
+        tasksType.taskListLabel
     }
     
     init(

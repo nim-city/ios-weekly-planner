@@ -19,7 +19,7 @@ class TaskListsViewModel: ObservableObject {
     
     // Computed
     var screenTitle: String {
-        return selectedTaskType.getPluralizedTitle()
+        return selectedTaskType.taskListLabel
     }
     
     @discardableResult
@@ -35,7 +35,6 @@ class TaskListsViewModel: ObservableObject {
     }
     
     private func saveMOC(_ moc: NSManagedObjectContext) -> Bool {
-        
         do {
             
             try moc.save()

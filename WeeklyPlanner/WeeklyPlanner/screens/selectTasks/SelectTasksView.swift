@@ -63,11 +63,21 @@ struct SelectTasksView: View {
         .navigationTitle(viewModel.screenTitle)
         // Add item sheet
         .sheet(isPresented: $viewModel.isShowingAddItemSheet) {
-            AddTaskView(viewModel: AddTaskViewModel(
-                taskItemType: viewModel.taskType,
-                dailySchedule: viewModel.dailySchedule,
-                moc: moc
-            ))
+            
+            if let weekSchedule = viewModel.weeklySchedule {
+                
+                AddTaskView(viewModel: AddTaskViewModel(weekSchedule: weekSchedule))
+            } else if let daySchedule = viewModel.dailySchedule {
+                
+                AddTaskView(viewModel: AddTaskViewModel(
+                    taskType: viewModel.taskType,
+                    daySchedule: daySchedule
+                ))
+            } else {
+                
+                // TODO: Display proper error screen
+                Text("There was a problem loading the add task view")
+            }
         }
         // Set the tasks currently selected for the day and task type
         .onAppear {

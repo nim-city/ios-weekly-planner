@@ -15,7 +15,7 @@ enum TaskType: Equatable {
     case meal
     case workout
     
-    func getPluralizedTitle() -> String {
+    var taskListLabel: String {
         switch self {
         case .goal:
             return "Goals"

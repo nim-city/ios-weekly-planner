@@ -11,51 +11,45 @@ import SwiftUI
 struct AddTaskView: View {
     
     @Environment(\.dismiss) var dismiss
+    @Environment(\.managedObjectContext) var moc
+    
     @FocusState private var isFocused: Bool
     @ObservedObject var viewModel: TaskItemViewModel
     
     
     var body: some View {
-        ZStack(alignment: .center) {
-            
-            // Blur view
-            BlurredBackgroundView()
-                .edgesIgnoringSafeArea(.all)
-            
-            // Main content
-            VStack {
-                VStack(alignment: .leading, spacing: 40) {
-                    // Title
-                    LargeTitleLabel(text: viewModel.itemTypeLabel)
-                    
-                    // Task name
-                    AddTaskNameInput(
-                        itemName: $viewModel.taskName,
-                        isFocused: $isFocused,
-                        colour: CustomColours.getColourForTaskType(viewModel.taskItemType)
-                    )
-                    
-                    // Task notes
-                    AddTaskNotesView(
-                        text: $viewModel.taskNotes,
-                        isFocused: $isFocused,
-                        colour: CustomColours.getColourForTaskType(viewModel.taskItemType)
-                    )
-                    
-                    // Save and cancel buttons
-                    buttonsStack
-                }
-                .padding(20)
+        VStack {
+            VStack(alignment: .leading, spacing: 40) {
+                // Title
+                LargeTitleLabel(text: viewModel.taskTypeLabel)
+                
+                // Task name
+                AddTaskNameInput(
+                    itemName: $viewModel.taskName,
+                    isFocused: $isFocused,
+                    colour: CustomColours.getColourForTaskType(viewModel.taskType)
+                )
+                
+                // Task notes
+                AddTaskNotesView(
+                    text: $viewModel.taskNotes,
+                    isFocused: $isFocused,
+                    colour: CustomColours.getColourForTaskType(viewModel.taskType)
+                )
+                
+                // Save and cancel buttons
+                buttonsStack
             }
-            .background(.white)
-            .clipShape(RoundedRectangle(cornerRadius: 20))
-            .overlay(
-                RoundedRectangle(cornerRadius: 20)
-                    .stroke(CustomColours.getColourForTaskType(viewModel.taskItemType), lineWidth: 4)
-            )
-            .padding(.horizontal, 40)
-            .padding(.vertical, 120)
+            .padding(20)
         }
+        .background(.white)
+        .clipShape(RoundedRectangle(cornerRadius: 20))
+        .overlay(
+            RoundedRectangle(cornerRadius: 20)
+                .stroke(CustomColours.getColourForTaskType(viewModel.taskType), lineWidth: 4)
+        )
+        .padding(.horizontal, 40)
+        .padding(.vertical, 120)
     }
 }
 
@@ -65,7 +59,7 @@ extension AddTaskView {
         VStack(spacing: 10) {
             // Save button
             Button {
-                if viewModel.saveTaskItem() {
+                if viewModel.saveTaskItem(moc: moc) {
                     dismiss()
                 }
             } label: {
@@ -76,7 +70,7 @@ extension AddTaskView {
                         maxHeight: 50
                     )
                     .foregroundColor(CustomColours.textDarkGray)
-                    .background(CustomColours.getColourForTaskType(viewModel.taskItemType))
+                    .background(CustomColours.getColourForTaskType(viewModel.taskType))
                     .font(CustomFonts.buttonFont)
                     .clipShape(RoundedRectangle(cornerRadius: 25))
                     .overlay {

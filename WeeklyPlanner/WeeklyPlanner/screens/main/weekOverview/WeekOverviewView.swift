@@ -51,10 +51,7 @@ struct WeekOverviewView: View {
 
             // Edit task item sheet
             .sheet(item: $viewModel.selectedGoalToEdit) { goal in
-                AddTaskView(viewModel: EditTaskViewModel(
-                    taskItem: goal,
-                    moc: moc
-                ))
+                AddTaskView(viewModel: EditTaskViewModel(taskType: .goal, taskItem: goal))
             }
             
             // Delete alert
@@ -71,7 +68,10 @@ struct WeekOverviewView: View {
                 })
             
             .navigationDestination(isPresented: $viewModel.isShowingSelectScreen) {
-                SelectTasksView(viewModel: SelectTasksViewModel(taskType: .goal))
+                SelectTasksView(viewModel: SelectTasksViewModel(
+                    taskType: .goal,
+                    weeklySchedule: viewModel.weeklySchedule
+                ))
             }
         }
     }
