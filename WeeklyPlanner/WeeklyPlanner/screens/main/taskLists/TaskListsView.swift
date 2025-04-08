@@ -59,16 +59,9 @@ struct TaskListsView: View {
             }
         }
         // Edit task sheet
-        .sheet(item: $viewModel.taskItemToEdit) { taskItem in
-            AddTaskView(viewModel: EditTaskViewModel(
-                taskType: viewModel.selectedTaskType,
-                taskItem: taskItem
-            ))
-        }
+        .editTaskItemSheet(taskItemToEdit: $viewModel.taskItemToEdit, taskType: viewModel.selectedTaskType)
         // Add task sheet
-        .sheet(isPresented: $viewModel.isShowingAddTaskSheet) {
-            AddTaskView(viewModel: AddTaskViewModel(taskType: viewModel.selectedTaskType))
-        }
+        .addTaskItemSheet(isShowing: $viewModel.isShowingAddTaskSheet, taskType: viewModel.selectedTaskType)
         // Delete alert
         .alert(
             "Delete item?",

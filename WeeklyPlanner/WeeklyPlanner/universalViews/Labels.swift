@@ -60,3 +60,15 @@ struct SubheadingLabel: View {
             .foregroundColor(CustomColours.textDarkGray)
     }
 }
+
+struct SheetTitleLabel: View {
+    
+    let text: String
+    
+    var body: some View {
+        Text(text)
+            .font(.title)
+            .fontWeight(.bold)
+            .foregroundColor(CustomColours.textDarkGray)
+    }
+}

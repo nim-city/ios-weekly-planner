@@ -13,84 +13,82 @@ struct AddTaskView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.managedObjectContext) var moc
     
-    @FocusState private var isFocused: Bool
     @ObservedObject var viewModel: TaskItemViewModel
     
+    @FocusState private var isFocused: Bool
     
     var body: some View {
-        VStack {
-            VStack(alignment: .leading, spacing: 40) {
-                // Title
-                LargeTitleLabel(text: viewModel.taskTypeLabel)
-                
-                // Task name
-                AddTaskNameInput(
-                    itemName: $viewModel.taskName,
-                    isFocused: $isFocused,
-                    colour: CustomColours.getColourForTaskType(viewModel.taskType)
-                )
-                
-                // Task notes
-                AddTaskNotesView(
-                    text: $viewModel.taskNotes,
-                    isFocused: $isFocused,
-                    colour: CustomColours.getColourForTaskType(viewModel.taskType)
-                )
-                
-                // Save and cancel buttons
-                buttonsStack
+        NavigationStack {
+            ScrollView(showsIndicators: false) {
+                VStack {
+                    content
+                        .padding(.horizontal, 20)
+                        .padding(.top, 10)
+                }
+                .frame(maxHeight: .infinity)
+                .navigationTitle(viewModel.taskTypeLabel)
+                .toolbar {
+                    
+                    ToolbarItem(placement: .principal) {
+                        Rectangle()
+                            .frame(width: 60, height: 6)
+                            .foregroundStyle(CustomColours.textLightGray)
+                            .cornerRadius(3)
+                    }
+                }
+                .toolbar {
+                    ToolbarItemGroup(placement: .keyboard) {
+                        Spacer()
+                        Button {
+                            isFocused = false
+                        } label: {
+                            Text("Done")
+                                .font(CustomFonts.buttonFont)
+                                .foregroundStyle(CustomColours.ctaGold)
+                        }
+                    }
+                }
             }
-            .padding(20)
         }
-        .background(.white)
-        .clipShape(RoundedRectangle(cornerRadius: 20))
-        .overlay(
-            RoundedRectangle(cornerRadius: 20)
-                .stroke(CustomColours.getColourForTaskType(viewModel.taskType), lineWidth: 4)
-        )
-        .padding(.horizontal, 40)
-        .padding(.vertical, 120)
     }
-}
-
-extension AddTaskView {
+    
+    private var content: some View {
+        VStack(alignment: .leading, spacing: 40) {
+            // Task name
+            TextInputWithBorder(
+                itemName: $viewModel.taskName,
+                isFocused: $isFocused,
+                colour: CustomColours.getColourForTaskType(viewModel.taskType)
+            )
+            
+            // Task notes
+            MultilineTextInputWithBorder(
+                text: $viewModel.taskNotes,
+                isFocused: $isFocused,
+                colour: CustomColours.getColourForTaskType(viewModel.taskType)
+            )
+            
+            // Save and cancel buttons
+            buttonsStack
+        }
+    }
     
     var buttonsStack: some View {
         VStack(spacing: 10) {
+            
             // Save button
-            Button {
+            PrimaryButton(
+                text: "Save",
+                backgroundColour: CustomColours.getColourForTaskType(viewModel.taskType)
+            ) {
                 if viewModel.saveTaskItem(moc: moc) {
                     dismiss()
                 }
-            } label: {
-                Text("Save")
-                    .frame(
-                        maxWidth: .infinity,
-                        minHeight: 50,
-                        maxHeight: 50
-                    )
-                    .foregroundColor(CustomColours.textDarkGray)
-                    .background(CustomColours.getColourForTaskType(viewModel.taskType))
-                    .font(CustomFonts.buttonFont)
-                    .clipShape(RoundedRectangle(cornerRadius: 25))
-                    .overlay {
-                        RoundedRectangle(cornerRadius: 25)
-                            .stroke(CustomColours.veryLightGray, lineWidth: 1)
-                    }
             }
             
             // Cancel button
-            Button {
+            TextButton(text: "Cancel") {
                 dismiss()
-            } label: {
-                Text("Cancel")
-                    .frame(
-                        maxWidth: .infinity,
-                        minHeight: 50,
-                        maxHeight: 50
-                    )
-                    .foregroundColor(CustomColours.textDarkGray)
-                    .font(CustomFonts.buttonFont)
             }
         }
     }

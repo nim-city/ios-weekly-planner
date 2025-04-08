@@ -58,20 +58,7 @@ struct DayScheduleView: View {
         .background(Color.white)
 
         // Edit item sheet
-        .sheet(item: $viewModel.taskItemToEdit) { taskItem in
-            
-            if let tasksType = taskItem.taskType {
-                
-                AddTaskView(viewModel: EditTaskViewModel(
-                    taskType: tasksType,
-                    taskItem: taskItem
-                ))
-            } else {
-                
-                // TODO: Display proper error screen
-                Text("There was a problem loading the edit task view")
-            }
-        }
+        .editTaskItemSheet(taskItemToEdit: $viewModel.taskItemToEdit, taskType: viewModel.taskItemToEdit?.taskType ?? .toDo)
 
         // Delete alert
         .alert(

@@ -16,7 +16,7 @@ class WeekOverviewViewModel: ObservableObject {
     @Published var isShowingSelectScreen = false
     @Published var notes = ""
     
-    @Published var selectedGoalToEdit: Goal?
+    @Published var selectedGoalToEdit: TaskItem?
     @Published var selectedGoalToDelete: Goal?
     
     // Date variables

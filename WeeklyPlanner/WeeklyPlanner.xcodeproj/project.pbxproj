@@ -27,8 +27,6 @@
 		725AAB8E2C0FAFB2001D8CA8 /* MockListItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725AAB8D2C0FAFB2001D8CA8 /* MockListItems.swift */; };
 		725AAB952C178363001D8CA8 /* Tasks.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 725AAB942C178363001D8CA8 /* Tasks.rtf */; };
 		725AABA22C1A1D94001D8CA8 /* KeyboardReadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725AABA12C1A1D94001D8CA8 /* KeyboardReadable.swift */; };
-		7264AE682C81531900C2F86E /* AddTaskNotesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7264AE672C81531900C2F86E /* AddTaskNotesView.swift */; };
-		7264AE6A2C81538C00C2F86E /* AddTaskNameInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7264AE692C81538C00C2F86E /* AddTaskNameInput.swift */; };
 		727252492D4EF231007E1267 /* AddOrSelectItemsAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727252482D4EF231007E1267 /* AddOrSelectItemsAlert.swift */; };
 		7272524B2D4EF51A007E1267 /* RemoveOrDeleteItemsAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7272524A2D4EF51A007E1267 /* RemoveOrDeleteItemsAlert.swift */; };
 		7272524D2D4EF6BF007E1267 /* TaskItem+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7272524C2D4EF6BF007E1267 /* TaskItem+Extensions.swift */; };
@@ -43,6 +41,10 @@
 		729072ED2D8A8BEC00B3546C /* WeeklyScheduleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729072EC2D8A8BEC00B3546C /* WeeklyScheduleViewModel.swift */; };
 		729072EF2D8A92C900B3546C /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729072EE2D8A92C900B3546C /* MainViewModel.swift */; };
 		729072F12D8D2E9700B3546C /* AddTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729072F02D8D2E9700B3546C /* AddTaskView.swift */; };
+		729072F42DA3990A00B3546C /* TextInputs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729072F32DA3990A00B3546C /* TextInputs.swift */; };
+		729072F62DA4DE2F00B3546C /* Buttons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729072F52DA4DE2E00B3546C /* Buttons.swift */; };
+		729072F82DA4E2E900B3546C /* AddTaskItemSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729072F72DA4E2E900B3546C /* AddTaskItemSheet.swift */; };
+		729072FA2DA4E45000B3546C /* EditTaskItemSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729072F92DA4E45000B3546C /* EditTaskItemSheet.swift */; };
 		72A7B4702D066D950089B7D2 /* WeeklySchedule+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A7B46F2D066D950089B7D2 /* WeeklySchedule+Extensions.swift */; };
 		72A822542D0428BA002C3356 /* SnappingScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A822532D0428BA002C3356 /* SnappingScrollView.swift */; };
 		72B0D5FB2C48505600C44784 /* CustomFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B0D5FA2C48505600C44784 /* CustomFonts.swift */; };
@@ -105,8 +107,6 @@
 		725AAB8D2C0FAFB2001D8CA8 /* MockListItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockListItems.swift; sourceTree = "<group>"; };
 		725AAB942C178363001D8CA8 /* Tasks.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Tasks.rtf; sourceTree = "<group>"; };
 		725AABA12C1A1D94001D8CA8 /* KeyboardReadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardReadable.swift; sourceTree = "<group>"; };
-		7264AE672C81531900C2F86E /* AddTaskNotesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskNotesView.swift; sourceTree = "<group>"; };
-		7264AE692C81538C00C2F86E /* AddTaskNameInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskNameInput.swift; sourceTree = "<group>"; };
 		727252482D4EF231007E1267 /* AddOrSelectItemsAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddOrSelectItemsAlert.swift; sourceTree = "<group>"; };
 		7272524A2D4EF51A007E1267 /* RemoveOrDeleteItemsAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveOrDeleteItemsAlert.swift; sourceTree = "<group>"; };
 		7272524C2D4EF6BF007E1267 /* TaskItem+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TaskItem+Extensions.swift"; sourceTree = "<group>"; };
@@ -121,6 +121,10 @@
 		729072EC2D8A8BEC00B3546C /* WeeklyScheduleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyScheduleViewModel.swift; sourceTree = "<group>"; };
 		729072EE2D8A92C900B3546C /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		729072F02D8D2E9700B3546C /* AddTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskView.swift; sourceTree = "<group>"; };
+		729072F32DA3990A00B3546C /* TextInputs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInputs.swift; sourceTree = "<group>"; };
+		729072F52DA4DE2E00B3546C /* Buttons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Buttons.swift; sourceTree = "<group>"; };
+		729072F72DA4E2E900B3546C /* AddTaskItemSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskItemSheet.swift; sourceTree = "<group>"; };
+		729072F92DA4E45000B3546C /* EditTaskItemSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTaskItemSheet.swift; sourceTree = "<group>"; };
 		72A7B46F2D066D950089B7D2 /* WeeklySchedule+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WeeklySchedule+Extensions.swift"; sourceTree = "<group>"; };
 		72A822532D0428BA002C3356 /* SnappingScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnappingScrollView.swift; sourceTree = "<group>"; };
 		72B0D5FA2C48505600C44784 /* CustomFonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFonts.swift; sourceTree = "<group>"; };
@@ -265,8 +269,10 @@
 				725AAB892C0AB3AC001D8CA8 /* Labels.swift */,
 				72D107F82CBDBEE300A777EC /* NotesView.swift */,
 				72A822532D0428BA002C3356 /* SnappingScrollView.swift */,
+				729072F32DA3990A00B3546C /* TextInputs.swift */,
 				728B72472D3C4C5900B4054F /* CollapsibleView.swift */,
 				72BFACC12D66F91400D6A56F /* BlurredBackgroundView.swift */,
+				729072F52DA4DE2E00B3546C /* Buttons.swift */,
 			);
 			path = universalViews;
 			sourceTree = "<group>";
@@ -274,11 +280,12 @@
 		725AAB8F2C10ED82001D8CA8 /* addTask */ = {
 			isa = PBXGroup;
 			children = (
-				72E474242C82AAA90074FF40 /* subviews */,
 				729072F02D8D2E9700B3546C /* AddTaskView.swift */,
 				72E474222C82AAA50074FF40 /* EditTaskViewModel.swift */,
 				72B7D2302D017DC000B106BB /* AddTaskViewModel.swift */,
 				72B7D2322D01806A00B106BB /* TaskItemViewModel.swift */,
+				729072F72DA4E2E900B3546C /* AddTaskItemSheet.swift */,
+				729072F92DA4E45000B3546C /* EditTaskItemSheet.swift */,
 			);
 			path = addTask;
 			sourceTree = "<group>";
@@ -388,15 +395,6 @@
 				72206B542C9BBAFF004FE043 /* TaskListsViewModel.swift */,
 			);
 			path = taskLists;
-			sourceTree = "<group>";
-		};
-		72E474242C82AAA90074FF40 /* subviews */ = {
-			isa = PBXGroup;
-			children = (
-				7264AE672C81531900C2F86E /* AddTaskNotesView.swift */,
-				7264AE692C81538C00C2F86E /* AddTaskNameInput.swift */,
-			);
-			path = subviews;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -536,14 +534,15 @@
 				72D107F52CBDB7E100A777EC /* EditableTaskItemCell.swift in Sources */,
 				72B0D5FB2C48505600C44784 /* CustomFonts.swift in Sources */,
 				7273697D2D50A17C003CF384 /* DayScheduleViewModel.swift in Sources */,
+				729072F82DA4E2E900B3546C /* AddTaskItemSheet.swift in Sources */,
 				72BFACC22D66F91400D6A56F /* BlurredBackgroundView.swift in Sources */,
-				7264AE682C81531900C2F86E /* AddTaskNotesView.swift in Sources */,
 				72DFBD092BE9F3F10009EE03 /* TaskListsView.swift in Sources */,
 				7281BBD82C06BD4C00855655 /* CoreDataController.swift in Sources */,
 				721341472B3B55D100AACD27 /* WeeklyPlannerApp.swift in Sources */,
 				72B7D2332D01806A00B106BB /* TaskItemViewModel.swift in Sources */,
 				72206B4E2C99E7AB004FE043 /* WeekOverviewViewModel.swift in Sources */,
 				722A8A422C1B6C1100E8C318 /* SelectTasksView.swift in Sources */,
+				729072F42DA3990A00B3546C /* TextInputs.swift in Sources */,
 				729072EF2D8A92C900B3546C /* MainViewModel.swift in Sources */,
 				725AAB8E2C0FAFB2001D8CA8 /* MockListItems.swift in Sources */,
 				72A7B4702D066D950089B7D2 /* WeeklySchedule+Extensions.swift in Sources */,
@@ -552,6 +551,7 @@
 				72E474232C82AAA50074FF40 /* EditTaskViewModel.swift in Sources */,
 				72B0D6022C487FC800C44784 /* TaskListsTabBarItem.swift in Sources */,
 				7281BBD62C01559200855655 /* TaskListsTabBar.swift in Sources */,
+				729072FA2DA4E45000B3546C /* EditTaskItemSheet.swift in Sources */,
 				721341802B3C9F9A00AACD27 /* DayOfTheWeek.swift in Sources */,
 				72DEDEDB2C7DB3030099F3E0 /* DayScheduleView.swift in Sources */,
 				729072ED2D8A8BEC00B3546C /* WeeklyScheduleViewModel.swift in Sources */,
@@ -559,7 +559,6 @@
 				72DFBD072BE9F38F0009EE03 /* WeekScheduleView.swift in Sources */,
 				72DFBD052BE9F2CE0009EE03 /* WeekOverviewView.swift in Sources */,
 				72D390392D55D9CA00529419 /* EditableTaskItemList.swift in Sources */,
-				7264AE6A2C81538C00C2F86E /* AddTaskNameInput.swift in Sources */,
 				72206B5A2C9BD59D004FE043 /* SelectTasksViewModel.swift in Sources */,
 				7281BBDB2C070DD000855655 /* MockDailySchedules.swift in Sources */,
 				72B7D2312D017DC000B106BB /* AddTaskViewModel.swift in Sources */,
@@ -575,6 +574,7 @@
 				727252492D4EF231007E1267 /* AddOrSelectItemsAlert.swift in Sources */,
 				725AABA22C1A1D94001D8CA8 /* KeyboardReadable.swift in Sources */,
 				7272524D2D4EF6BF007E1267 /* TaskItem+Extensions.swift in Sources */,
+				729072F62DA4DE2F00B3546C /* Buttons.swift in Sources */,
 				7272524B2D4EF51A007E1267 /* RemoveOrDeleteItemsAlert.swift in Sources */,
 				721341532B3B55D200AACD27 /* WeeklyPlanner.xcdatamodeld in Sources */,
 				72B7D2352D02C8EF00B106BB /* DailySchedule+Extensions.swift in Sources */,

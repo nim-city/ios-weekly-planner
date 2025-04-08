@@ -50,9 +50,7 @@ struct WeekOverviewView: View {
             }
 
             // Edit task item sheet
-            .sheet(item: $viewModel.selectedGoalToEdit) { goal in
-                AddTaskView(viewModel: EditTaskViewModel(taskType: .goal, taskItem: goal))
-            }
+            .editTaskItemSheet(taskItemToEdit: $viewModel.selectedGoalToEdit, taskType: .goal)
             
             // Delete alert
             .removeOrDeleteItemsAlert(

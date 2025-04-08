@@ -15,6 +15,7 @@ class CustomColours {
     static let mediumLightGray = Color(red: 0/255, green: 0/255, blue: 0/255).opacity(0.3)
     static let textDarkGray = Color(red: 65/255, green: 65/255, blue: 65/255)
     static let textMediumGray = Color(red: 125/255, green: 125/255, blue: 125/255)
+    static let textLightGray = Color(red: 155/255, green: 155/255, blue: 155/255)
     static let accentBlue = Color(red: 29/255, green: 133/255, blue: 193/255)
     static let ctaGold = Color(red: 143/255, green: 110/255, blue: 1/255)
     

@@ -22,16 +22,11 @@ class AddTaskViewModel: TaskItemViewModel {
         super.init(taskType: taskType)
     }
     
-    // Special init for Goals to be added to a weekly schedule
-    init(weekSchedule: WeeklySchedule) {
-        super.init(taskType: .goal)
-        self.weekSchedule = weekSchedule
-    }
-    
     // Init for item to added to a week schedule
-    init(taskType: TaskType, daySchedule: DailySchedule) {
+    init(taskType: TaskType, daySchedule: DailySchedule? = nil, weekSchedule: WeeklySchedule? = nil) {
         super.init(taskType: taskType)
         self.daySchedule = daySchedule
+        self.weekSchedule = weekSchedule
     }
     
     override func saveTaskItem(moc: NSManagedObjectContext) -> Bool {
