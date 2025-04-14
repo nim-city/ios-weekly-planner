@@ -11,14 +11,22 @@ import CoreData
 
 class SelectTasksViewModel: ObservableObject {
     
+    var taskType: TaskType
+    
     // TODO: update this to ordered set instead of list
-    @Published var selectedTasks = [TaskItem]()
+    @Published var allTaskItems = [TaskItem]()
+    @Published var selectedTaskItems = [TaskItem]()
     @Published var dailySchedule: DailySchedule?
     @Published var weeklySchedule: WeeklySchedule?
     
+    @Published var areAllTaskItemsSelected = false
     @Published var isShowingAddItemSheet = false
     
-    var taskType: TaskType
+    var areAllItemsSelected: Bool { selectedTaskItems.count == allTaskItems.count }
+    var isSelectAllButtonEnabled: Bool {
+        !allTaskItems.isEmpty
+    }
+    var selectAllButtonTitle: String { areAllItemsSelected ? "Unselect all" : "Select all" }
     
     init(taskType: TaskType, dailySchedule: DailySchedule? = nil, weeklySchedule: WeeklySchedule? = nil) {
         self.taskType = taskType
@@ -48,29 +56,37 @@ class SelectTasksViewModel: ObservableObject {
     }
     
     
-    func setSelectedTasks() {
+    func setselectedTaskItems() {
         if let dailySchedule {
-            selectedTasks = dailySchedule.getTaskItems(ofType: taskType)
+            selectedTaskItems = dailySchedule.getTaskItems(ofType: taskType)
         } else if let weeklySchedule {
-            selectedTasks = weeklySchedule.goals?.array as? [TaskItem] ?? []
+            selectedTaskItems = weeklySchedule.goals?.array as? [TaskItem] ?? []
         }
     }
     
     
     func selectTask(_ taskItem: TaskItem) {
-        if let index = selectedTasks.firstIndex(of: taskItem) {
-            selectedTasks.remove(at: index)
+        if let index = selectedTaskItems.firstIndex(of: taskItem) {
+            selectedTaskItems.remove(at: index)
         } else {
-            selectedTasks.append(taskItem)
+            selectedTaskItems.append(taskItem)
         }
     }
     
+    func pressSelectAllTasksButton() {
+        
+        guard !allTaskItems.isEmpty else {
+            return
+        }
+        
+        selectedTaskItems = areAllItemsSelected ? [] : allTaskItems
+    }
     
     func saveSelectedItems(moc: NSManagedObjectContext) -> Bool {
         if let dailySchedule {
-            dailySchedule.selectTaskItems(selectedTasks, ofType: taskType)
+            dailySchedule.selectTaskItems(selectedTaskItems, ofType: taskType)
         } else if let weeklySchedule {
-            weeklySchedule.goals = NSOrderedSet(array: selectedTasks)
+            weeklySchedule.goals = NSOrderedSet(array: selectedTaskItems)
         } else {
             return false
         }

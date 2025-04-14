@@ -39,6 +39,11 @@ struct SelectTasksView: View {
     
     var body: some View {
         VStack {
+            // Select all button
+            selectAllButtonView
+                .padding(.horizontal, 20)
+                .padding(.top, 20)
+            
             // Tasks list
             tasksList
         }
@@ -49,14 +54,34 @@ struct SelectTasksView: View {
         )
         
         // Navigation toolbar
+        .navigationBarBackButtonHidden(true)
         .toolbar {
+            // Back button
+            ToolbarItem(placement: .topBarLeading) {
+                Button {
+                    
+                    _ = viewModel.saveSelectedItems(moc: moc)
+                    
+                    dismiss()
+                } label: {
+                    HStack(spacing: 4) {
+                        
+                        Image(systemName: "chevron.backward")
+                            .tint(CustomColours.ctaGold)
+                        
+                        Text("Save")
+                            .foregroundStyle(CustomColours.ctaGold)
+                    }
+                }
+            }
+            
             // Add button
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
                     viewModel.isShowingAddItemSheet = true
                 } label: {
-                    Image(systemName: "plus")
-                        .tint(CustomColours.ctaGold)
+                    Text("New")
+                        .foregroundStyle(CustomColours.ctaGold)
                 }
             }
         }
@@ -70,16 +95,41 @@ struct SelectTasksView: View {
         )
         // Set the tasks currently selected for the day and task type
         .onAppear {
-            viewModel.setSelectedTasks()
+            viewModel.setselectedTaskItems()
+            viewModel.allTaskItems = Array(taskItems)
         }
     }
 }
 
 
-// MARK: Select tasks list
+// MARK: Views
 
 
 extension SelectTasksView {
+    
+    var selectAllButtonView: some View {
+        HStack {
+            Button {
+                viewModel.pressSelectAllTasksButton()
+            } label: {
+                Text(viewModel.selectAllButtonTitle)
+                    .foregroundStyle(CustomColours.ctaGold)
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 8)
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(
+                                CustomColours.ctaGold,
+                                lineWidth: 2
+                            )
+                        )
+            }
+            .disabled(!viewModel.isSelectAllButtonEnabled)
+            
+            Spacer()
+        }
+    }
     
     // List of all tasks
     // Shows which tasks are selected via checkmarks
@@ -89,7 +139,7 @@ extension SelectTasksView {
                 ForEach(taskItems) { taskItem in
                     SelectTaskCell(
                         taskItem: taskItem,
-                        isSelected: viewModel.selectedTasks.contains(taskItem),
+                        isSelected: viewModel.selectedTaskItems.contains(taskItem),
                         selectTask: viewModel.selectTask
                     )
                     if taskItem != taskItems.last {
