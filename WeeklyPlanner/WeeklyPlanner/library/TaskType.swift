@@ -18,6 +18,21 @@ enum TaskType: Equatable {
     var taskListLabel: String {
         switch self {
         case .goal:
+            return "Goal"
+        case .toDo:
+            return "To do item"
+        case .toBuy:
+            return "To buy item"
+        case .meal:
+            return "Meal"
+        case .workout:
+            return "Workout"
+        }
+    }
+    
+    var taskListLabelPluralized: String {
+        switch self {
+        case .goal:
             return "Goals"
         case .toDo:
             return "To do items"

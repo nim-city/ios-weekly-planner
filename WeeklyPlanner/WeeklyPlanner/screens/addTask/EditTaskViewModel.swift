@@ -11,7 +11,7 @@ import CoreData
 
 class EditTaskViewModel: TaskItemViewModel {
     
-    var title: String {
+    override var taskTypeLabel: String {
         return "Edit \(super.taskTypeLabel.lowercased())"
     }
     

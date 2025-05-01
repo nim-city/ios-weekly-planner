@@ -19,7 +19,7 @@ class TaskListsViewModel: ObservableObject {
     
     // Computed
     var screenTitle: String {
-        return selectedTaskType.taskListLabel
+        return selectedTaskType.taskListLabelPluralized
     }
     
     @discardableResult

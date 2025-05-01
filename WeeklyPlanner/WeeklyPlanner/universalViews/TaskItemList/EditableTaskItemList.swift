@@ -17,7 +17,7 @@ struct EditableTaskItemList: View {
     let selectTaskItems: (TaskType) -> Void
 
     var body: some View {
-        CollapsibleView(title: tasksType.taskListLabel) {
+        CollapsibleView(title: tasksType.taskListLabelPluralized) {
             VStack {
                 VStack(spacing: 0) {
                     ForEach(taskItems) { taskItem in

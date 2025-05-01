@@ -77,7 +77,7 @@ struct WeekOverviewView: View {
     private var subheading: some View {
         VStack(alignment: .leading, spacing: 20) {
             Text(viewModel.dateString)
-            SubheadingLabel(text: "All of your goals, to do items, meals, and workouts for the week.")
+            SubheadingLabel(text: "Your goals, to do items, meals, and workouts for the week.")
         }
     }
     
