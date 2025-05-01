@@ -28,8 +28,12 @@ class DateFunctions {
     }
     
     private static var weekEndDate: Date? {
-        let increment = 7 % adjustedCurrentWeekday
-        return Calendar.current.date(byAdding: .day, value: increment, to: Date())
+        
+        guard let weekStartDate else {
+            return nil
+        }
+        
+        return Calendar.current.date(byAdding: .day, value: 6, to: weekStartDate)
     }
     
     static var startDateString: String {

@@ -17,7 +17,6 @@ struct NotesView: View {
         VStack(alignment: .leading) {
             HStack {
                 SubtitleLabel(text: "Notes")
-                    .padding(.leading, 10)
                 Spacer()
             }
             VStack(spacing: 0) {

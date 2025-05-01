@@ -19,40 +19,38 @@ struct WeeklyScheduleView: View {
     }
     
     var body: some View {
-        VStack {
-            TabView(selection: $viewModel.selectedTabIndex) {
-                if let weeklySchedule = viewModel.weeklySchedule {
-                    WeekOverviewView(viewModel: WeekOverviewViewModel(weeklySchedule: weeklySchedule))
-                        .tabItem {
-                            Label(
-                                "My week",
-                                systemImage: "doc.text.magnifyingglass"
-                            )
-                        }
-                        .tag(0)
-                }
-
-                if let weeklySchedule = viewModel.weeklySchedule {
-                    WeekScheduleView(viewModel: WeekScheduleViewModel(weeklySchedule: weeklySchedule))
-                        .tabItem {
-                            Label(
-                                "Day to day",
-                                systemImage: "calendar"
-                            )
-                        }
-                        .tag(1)
-                }
-
-                TaskListsView(viewModel: TaskListsViewModel())
+        TabView(selection: $viewModel.selectedTabIndex) {
+            if let weeklySchedule = viewModel.weeklySchedule {
+                WeekOverviewView(viewModel: WeekOverviewViewModel(weeklySchedule: weeklySchedule))
                     .tabItem {
                         Label(
-                            "All tasks",
-                            systemImage: "list.bullet"
+                            "My week",
+                            systemImage: "doc.text.magnifyingglass"
                         )
                     }
-                    .tag(2)
+                    .tag(0)
             }
-            .tint(CustomColours.ctaGold)
+
+            if let weeklySchedule = viewModel.weeklySchedule {
+                WeekScheduleView(viewModel: WeekScheduleViewModel(weeklySchedule: weeklySchedule))
+                    .tabItem {
+                        Label(
+                            "Day to day",
+                            systemImage: "calendar"
+                        )
+                    }
+                    .tag(1)
+            }
+
+            TaskListsView(viewModel: TaskListsViewModel())
+                .tabItem {
+                    Label(
+                        "All tasks",
+                        systemImage: "list.bullet"
+                    )
+                }
+                .tag(2)
         }
+        .tint(CustomColours.ctaGold)
     }
 }

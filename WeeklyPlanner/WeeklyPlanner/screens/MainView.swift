@@ -28,7 +28,7 @@ struct MainView: View {
             weeklySchedule: weeklySchedules.first,
             moc: moc
         ))
-        .onReceive(weeklySchedules.publisher) { newValue in
+        .onAppear {
             
             if weeklySchedules.isEmpty {
                 
