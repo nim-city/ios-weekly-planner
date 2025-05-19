@@ -42,10 +42,9 @@ struct EditableTaskItemCell: View {
                 expandedView
             }
         }
+        .contentShape(Rectangle())
         .offset(x: viewModel.offset)
             
-        .background(CustomColours.getColourForTaskType(viewModel.taskType).opacity(0.3))
-        
         .gesture(
             DragGesture()
                 .onChanged { dragValue in

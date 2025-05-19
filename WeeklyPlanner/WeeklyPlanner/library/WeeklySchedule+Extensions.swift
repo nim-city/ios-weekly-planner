@@ -39,18 +39,9 @@ extension WeeklySchedule {
         }.array as? [ToBuyItem] ?? []
     }
     
-    var allMeals: [Meal] {
-        sortedDailySchedules.reduce(NSMutableOrderedSet()) { items, schedule in
-            if let meals = schedule.meals?.array {
-                items.addObjects(from: meals)
-            }
-            return items
-        }.array as? [Meal] ?? []
-    }
-    
     var allWorkouts: [Workout] {
         sortedDailySchedules.reduce(NSMutableOrderedSet()) { items, schedule in
-            if let workouts = schedule.meals?.array {
+            if let workouts = schedule.workouts?.array {
                 items.addObjects(from: workouts)
             }
             return items

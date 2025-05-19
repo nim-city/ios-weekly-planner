@@ -23,7 +23,6 @@ struct EditableTaskItemList: View {
                     ForEach(taskItems) { taskItem in
                         EditableTaskItemCell(
                             viewModel: TaskItemCellViewModel(
-                                taskType: tasksType,
                                 taskItem: taskItem,
                                 deleteItem: deleteTaskItem,
                                 editItem: editTaskItem
@@ -37,6 +36,7 @@ struct EditableTaskItemList: View {
                     }
                 }
             }
+            .background(CustomColours.getColourForTaskType(tasksType).opacity(0.3))
             .clipShape(RoundedRectangle(cornerRadius: 20))
             .overlay(
                 RoundedRectangle(cornerRadius: 20)

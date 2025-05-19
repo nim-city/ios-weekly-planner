@@ -44,5 +44,20 @@ enum TaskType: Equatable {
             return "Workouts"
         }
     }
+    
+    var taskListLabelPluralizedShortform: String {
+        switch self {
+        case .goal:
+            return "Goals"
+        case .toDo:
+            return "To do"
+        case .toBuy:
+            return "To buy"
+        case .meal:
+            return "Meals"
+        case .workout:
+            return "Workouts"
+        }
+    }
 }
 

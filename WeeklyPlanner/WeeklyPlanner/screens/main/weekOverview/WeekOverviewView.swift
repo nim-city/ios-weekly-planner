@@ -103,17 +103,15 @@ struct WeekOverviewView: View {
                 }
             )
             
-            // To do list
+            // To do item
             TaskItemList(
                 tasksType: .toDo,
                 taskItems: viewModel.weeklySchedule.allToDoItems
             )
             
-            // Meals
-            TaskItemList(
-                tasksType: .meal,
-                taskItems: viewModel.weeklySchedule.allToBuyItems
-            )
+            // To buy items
+            TaskItemList(tasksType: .toBuy,
+                         taskItems: viewModel.weeklySchedule.allToBuyItems)
             
             // Workouts
             TaskItemList(

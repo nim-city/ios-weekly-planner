@@ -9,23 +9,10 @@ import SwiftUI
 
 
 struct TaskListsTabBarItem: View {
-    let taskType: TaskType
+    
+    @State var taskType: TaskType
     @Binding var selectedTaskType: TaskType
     
-    var title: String {
-        switch taskType {
-        case .goal:
-            return "Goals"
-        case .toDo:
-            return "To do"
-        case .toBuy:
-            return "To buy"
-        case .meal:
-            return "Meals"
-        case .workout:
-            return "Workout"
-        }
-    }
     private var isSelected: Bool {
         return taskType == selectedTaskType
     }
@@ -38,7 +25,7 @@ struct TaskListsTabBarItem: View {
             label: {
                 Spacer()
                 HStack {
-                    Text(title)
+                    Text(taskType.taskListLabelPluralizedShortform)
                         .fixedSize()
                         .foregroundColor(CustomColours.textDarkGray)
                         .font(CustomFonts.taskListsTabBarFont)
@@ -51,5 +38,12 @@ struct TaskListsTabBarItem: View {
         .frame(height: 36)
         .background(isSelected ? CustomColours.getColourForTaskType(taskType).opacity(0.5) : .white)
         .clipShape(RoundedRectangle(cornerRadius: 18))
+        .overlay(
+            RoundedRectangle(cornerRadius: 18)
+                .stroke(
+                    CustomColours.getColourForTaskType(taskType),
+                    lineWidth: isSelected ? 2 : 0
+                )
+        )
     }
 }

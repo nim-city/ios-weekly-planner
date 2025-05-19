@@ -12,7 +12,7 @@ struct TaskListsTabBar: View {
     @Binding var selectedTaskType: TaskType
 
     var body: some View {
-        HStack(alignment: .bottom, spacing: 0) {
+        HStack(alignment: .bottom, spacing: 2) {
             TaskListsTabBarItem(
                 taskType: .goal,
                 selectedTaskType: $selectedTaskType

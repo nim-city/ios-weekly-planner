@@ -34,6 +34,7 @@ struct AddTaskView: View {
                             .frame(width: 60, height: 6)
                             .foregroundStyle(CustomColours.textLightGray)
                             .cornerRadius(3)
+                            .offset(y: -5)
                     }
                 }
                 .toolbar {

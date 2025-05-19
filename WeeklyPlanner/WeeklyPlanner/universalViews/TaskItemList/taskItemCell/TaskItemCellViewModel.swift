@@ -10,7 +10,6 @@ import Foundation
 
 class TaskItemCellViewModel: ObservableObject {
     
-    @Published var taskType: TaskType
     @Published var taskItem: TaskItem
     
     private var deleteItem: (TaskItem) -> Void
@@ -33,8 +32,7 @@ class TaskItemCellViewModel: ObservableObject {
     }
     
     
-    init(taskType: TaskType, taskItem: TaskItem, deleteItem: @escaping (TaskItem) -> Void, editItem: @escaping (TaskItem) -> Void) {
-        self.taskType = taskType
+    init(taskItem: TaskItem, deleteItem: @escaping (TaskItem) -> Void, editItem: @escaping (TaskItem) -> Void) {
         self.taskItem = taskItem
         self.deleteItem = deleteItem
         self.editItem = editItem

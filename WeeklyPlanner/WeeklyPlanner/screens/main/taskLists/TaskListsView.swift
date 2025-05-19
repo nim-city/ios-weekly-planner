@@ -40,8 +40,7 @@ struct TaskListsView: View {
         NavigationStack {
             VStack(spacing: 0) {
                 TaskListsTabBar(selectedTaskType: $viewModel.selectedTaskType)
-                    .padding(.top, 20)
-                    .padding(.horizontal, 10)
+                    .padding(EdgeInsets(top: 20, leading: 10, bottom: 10, trailing: 10))
                 
                 taskListView
             }
@@ -86,7 +85,6 @@ struct TaskListsView: View {
                     
                     EditableTaskItemCell(
                         viewModel: TaskItemCellViewModel(
-                            taskType: viewModel.selectedTaskType,
                             taskItem: taskItem,
                             deleteItem: { taskItem in
                                 viewModel.taskItemToDelete = taskItem
@@ -103,6 +101,7 @@ struct TaskListsView: View {
                     }
                 }
             }
+            .background(CustomColours.getColourForTaskType(viewModel.selectedTaskType).opacity(0.3))
             .clipShape(RoundedRectangle(cornerRadius: 20))
             .overlay(
                 RoundedRectangle(cornerRadius: 20)

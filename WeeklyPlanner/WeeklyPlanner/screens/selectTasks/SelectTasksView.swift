@@ -80,8 +80,10 @@ struct SelectTasksView: View {
                 Button {
                     viewModel.isShowingAddItemSheet = true
                 } label: {
-                    Text("New")
-                        .foregroundStyle(CustomColours.ctaGold)
+                    Image(systemName: "plus")
+                        .tint(CustomColours.ctaGold)
+//                    Text("New")
+//                        .foregroundStyle(CustomColours.ctaGold)
                 }
             }
         }
@@ -121,7 +123,7 @@ extension SelectTasksView {
                         RoundedRectangle(cornerRadius: 8)
                             .stroke(
                                 CustomColours.ctaGold,
-                                lineWidth: 2
+                                lineWidth: 1
                             )
                         )
             }
