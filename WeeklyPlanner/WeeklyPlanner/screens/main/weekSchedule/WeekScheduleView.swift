@@ -14,7 +14,9 @@ struct WeekScheduleView: View {
     
     // UI variables
     @FocusState private var isFocused: Bool
+    @GestureState private var isDragging = false
     @State private var dragAmount: CGFloat = 0
+    @State var hasEnded = false
     @State var uuid = UUID()
     
     private let offsetInterval = UIScreen.main.bounds.size.width
@@ -68,22 +70,31 @@ struct WeekScheduleView: View {
         .toolbarBackground(.visible, for: .tabBar)
         
         // Drag gestures
-        .gesture(
+        .simultaneousGesture(
             DragGesture()
                 .onChanged { dragValue in
                     dragChanged(dragValue: dragValue)
+                    hasEnded = false
                 }
                 .onEnded { dragValue in
                     dragEnded(dragValue: dragValue)
+                    hasEnded = true
+                }
+                .updating($isDragging) { value, state, _ in
+                    state = true
                 }
         )
+        .onChange(of: isDragging) { dragging in
+            if !dragging && !hasEnded && xOffset != .zero {
+                
+                hasEnded = true
+                dragAmount = 0
+            }
+        }
         .onAppear {
             refreshView()
             
         }
-//        NavigationStack {
-//            
-//        }
     }
     
     private func refreshView() {
