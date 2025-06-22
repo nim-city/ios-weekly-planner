@@ -10,7 +10,7 @@ import SwiftUI
 struct WeekScheduleView: View {
     
     @Environment(\.managedObjectContext) var moc
-    @ObservedObject var viewModel: WeekScheduleViewModel
+    @StateObject var viewModel: WeekScheduleViewModel
     
     // UI variables
     @FocusState private var isFocused: Bool
