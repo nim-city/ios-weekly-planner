@@ -14,6 +14,8 @@ struct EditableTaskItemCell: View {
     @Environment(\.managedObjectContext) var moc
     
     @ObservedObject var viewModel: TaskItemCellViewModel
+    @GestureState private var isDragging = false
+    @State private var hasEnded = false
     
     private let buttonWidth: CGFloat = 150
     private let cellHeight: CGFloat = 50
@@ -44,18 +46,20 @@ struct EditableTaskItemCell: View {
         }
         .contentShape(Rectangle())
         .offset(x: viewModel.offset)
-            
-        .gesture(
+        
+        .simultaneousGesture(
             DragGesture()
                 .onChanged { dragValue in
                     
+                    hasEnded = false
+                    
                     var dragWidth = dragValue.translation.width
+
                     if dragWidth >= buttonWidth {
+                        
                         dragWidth = buttonWidth
                         
                         AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
-                        
-                        viewModel.offset = 0
                         
                         viewModel.selectEditItem()
                     } else if dragWidth <= -buttonWidth {
@@ -64,18 +68,28 @@ struct EditableTaskItemCell: View {
                         
                         AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
                         
-                        viewModel.offset = 0
-                        
                         viewModel.selectDeleteItem()
                     }
+                    
                     viewModel.offset = dragWidth
                 }
                 .onEnded { dragValue in
                     withAnimation(.snappy(duration: 0.2)) {
                         viewModel.offset = 0
+                        hasEnded = true
                     }
                 }
+                .updating($isDragging) { value, state, _ in
+                    state = true
+                }
         )
+        .onChange(of: isDragging) { dragging in
+            if !dragging && !hasEnded && viewModel.offset != .zero {
+                
+                hasEnded = true
+                viewModel.offset = 0
+            }
+        }
     }
     
     var mainTextView: some View {
@@ -96,13 +110,13 @@ struct EditableTaskItemCell: View {
             .padding(15)
             .onTapGesture {
                 withAnimation(.easeOut(duration: 0.25)) {
-                    viewModel.isExpanded.toggle()
+                    viewModel.pressExpandButton()
                 }
             }
         }
         .frame(height: cellHeight)
     }
-    
+
     var editButton: some View {
         HStack(spacing: 0) {
             Spacer()

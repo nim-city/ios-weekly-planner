@@ -45,4 +45,10 @@ class TaskItemCellViewModel: ObservableObject {
     func selectDeleteItem() {
         deleteItem(taskItem)
     }
+    
+    func pressExpandButton() {
+        
+        offset = 0
+        isExpanded.toggle()
+    }
 }

@@ -36,6 +36,10 @@ class DateFunctions {
         return Calendar.current.date(byAdding: .day, value: 6, to: weekStartDate)
     }
     
+    static var currentWeekdayIndex: Int {
+        adjustedCurrentWeekday - 1
+    }
+    
     static var startDateString: String {
         guard let weekStartDate else {
             return ""

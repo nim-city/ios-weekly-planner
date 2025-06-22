@@ -21,7 +21,12 @@ class WeekScheduleViewModel: ObservableObject {
     
     
     init(weeklySchedule: WeeklySchedule) {
+        
         self.weeklySchedule = weeklySchedule
+        
+        // Set initial weekday index to be current day of the week
+        // Ex. Monday = 0 . . . Sunday = 7
+        weekdayIndex = DateFunctions.currentWeekdayIndex
     }
     
     func updateWeekdayName() {
