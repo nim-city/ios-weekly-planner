@@ -38,7 +38,6 @@
 		728B72482D3C4C5900B4054F /* CollapsibleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728B72472D3C4C5900B4054F /* CollapsibleView.swift */; };
 		729072E92D8A7C0C00B3546C /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729072E82D8A7C0C00B3546C /* MainView.swift */; };
 		729072EB2D8A8BD600B3546C /* WeeklyScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729072EA2D8A8BD600B3546C /* WeeklyScheduleView.swift */; };
-		729072ED2D8A8BEC00B3546C /* WeeklyScheduleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729072EC2D8A8BEC00B3546C /* WeeklyScheduleViewModel.swift */; };
 		729072EF2D8A92C900B3546C /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729072EE2D8A92C900B3546C /* MainViewModel.swift */; };
 		729072F12D8D2E9700B3546C /* AddTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729072F02D8D2E9700B3546C /* AddTaskView.swift */; };
 		729072F42DA3990A00B3546C /* TextInputs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729072F32DA3990A00B3546C /* TextInputs.swift */; };
@@ -118,7 +117,6 @@
 		728B72472D3C4C5900B4054F /* CollapsibleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollapsibleView.swift; sourceTree = "<group>"; };
 		729072E82D8A7C0C00B3546C /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		729072EA2D8A8BD600B3546C /* WeeklyScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyScheduleView.swift; sourceTree = "<group>"; };
-		729072EC2D8A8BEC00B3546C /* WeeklyScheduleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyScheduleViewModel.swift; sourceTree = "<group>"; };
 		729072EE2D8A92C900B3546C /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		729072F02D8D2E9700B3546C /* AddTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskView.swift; sourceTree = "<group>"; };
 		729072F32DA3990A00B3546C /* TextInputs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInputs.swift; sourceTree = "<group>"; };
@@ -359,7 +357,6 @@
 			isa = PBXGroup;
 			children = (
 				729072EA2D8A8BD600B3546C /* WeeklyScheduleView.swift */,
-				729072EC2D8A8BEC00B3546C /* WeeklyScheduleViewModel.swift */,
 				72DFBD022BE9F2830009EE03 /* weekOverview */,
 				72DFBD012BE9F2700009EE03 /* weekSchedule */,
 				72DFBD032BE9F29D0009EE03 /* taskLists */,
@@ -554,7 +551,6 @@
 				729072FA2DA4E45000B3546C /* EditTaskItemSheet.swift in Sources */,
 				721341802B3C9F9A00AACD27 /* DayOfTheWeek.swift in Sources */,
 				72DEDEDB2C7DB3030099F3E0 /* DayScheduleView.swift in Sources */,
-				729072ED2D8A8BEC00B3546C /* WeeklyScheduleViewModel.swift in Sources */,
 				72D390372D55D91900529419 /* TaskItemList.swift in Sources */,
 				72DFBD072BE9F38F0009EE03 /* WeekScheduleView.swift in Sources */,
 				72DFBD052BE9F2CE0009EE03 /* WeekOverviewView.swift in Sources */,

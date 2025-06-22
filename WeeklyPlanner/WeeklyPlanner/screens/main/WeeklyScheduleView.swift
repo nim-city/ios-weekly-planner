@@ -9,38 +9,35 @@ import SwiftUI
 
 struct WeeklyScheduleView: View {
     
-    @ObservedObject private var viewModel: WeeklyScheduleViewModel
+    @State private var weekSchedule: WeeklySchedule
+    @State private var selectedTabIndex = 0
     
-    init(viewModel: WeeklyScheduleViewModel) {
+    init(weekSchedule: WeeklySchedule) {
         
-        self.viewModel = viewModel
+        self.weekSchedule = weekSchedule
         
         UITabBar.appearance().unselectedItemTintColor = UIColor(CustomColours.mediumLightGray)
     }
     
     var body: some View {
-        TabView(selection: $viewModel.selectedTabIndex) {
-            if let weeklySchedule = viewModel.weeklySchedule {
-                WeekOverviewView(viewModel: WeekOverviewViewModel(weeklySchedule: weeklySchedule))
-                    .tabItem {
-                        Label(
-                            "My week",
-                            systemImage: "doc.text.magnifyingglass"
-                        )
-                    }
-                    .tag(0)
-            }
+        TabView(selection: $selectedTabIndex) {
+            WeekOverviewView(viewModel: WeekOverviewViewModel(weeklySchedule: weekSchedule))
+                .tabItem {
+                    Label(
+                        "My week",
+                        systemImage: "doc.text.magnifyingglass"
+                    )
+                }
+                .tag(0)
 
-            if let weeklySchedule = viewModel.weeklySchedule {
-                WeekScheduleView(viewModel: WeekScheduleViewModel(weeklySchedule: weeklySchedule))
-                    .tabItem {
-                        Label(
-                            "Day to day",
-                            systemImage: "calendar"
-                        )
-                    }
-                    .tag(1)
-            }
+            WeekScheduleView(viewModel: WeekScheduleViewModel(weeklySchedule: weekSchedule))
+                .tabItem {
+                    Label(
+                        "Day to day",
+                        systemImage: "calendar"
+                    )
+                }
+                .tag(1)
 
             TaskListsView(viewModel: TaskListsViewModel())
                 .tabItem {

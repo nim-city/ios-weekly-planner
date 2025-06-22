@@ -12,9 +12,10 @@ struct WeekOverviewView: View {
     
     @Environment(\.managedObjectContext) var moc
     
-    @ObservedObject var viewModel: WeekOverviewViewModel
+    @StateObject var viewModel: WeekOverviewViewModel
     
     @FocusState var isFocused
+    @State var uuid = UUID()
         
     var body: some View {
         NavigationStack {
@@ -25,6 +26,7 @@ struct WeekOverviewView: View {
                     mainContent
                 }
                 .padding(20)
+                .id(uuid)
             }
             // Sizing and positioning
             .frame(
@@ -70,6 +72,9 @@ struct WeekOverviewView: View {
                     taskType: .goal,
                     weeklySchedule: viewModel.weeklySchedule
                 ))
+            }
+            .onAppear {
+                refreshView()
             }
         }
     }
@@ -125,6 +130,10 @@ struct WeekOverviewView: View {
                 isFocused: $isFocused
             )
         }
+    }
+    
+    private func refreshView() {
+        uuid = UUID()
     }
 }
 

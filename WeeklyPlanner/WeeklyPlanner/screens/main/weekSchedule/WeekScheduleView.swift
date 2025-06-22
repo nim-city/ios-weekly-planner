@@ -15,6 +15,7 @@ struct WeekScheduleView: View {
     // UI variables
     @FocusState private var isFocused: Bool
     @State private var dragAmount: CGFloat = 0
+    @State var uuid = UUID()
     
     private let offsetInterval = UIScreen.main.bounds.size.width
     private var xOffset: CGFloat {
@@ -32,6 +33,7 @@ struct WeekScheduleView: View {
                     )
                 }
             }
+            .id(uuid)
             
             // Size and positioning
             .frame(
@@ -77,11 +79,17 @@ struct WeekScheduleView: View {
                     }
             )
             .onAppear {
-                viewModel.updateWeekdayName()
+                refreshView()
+                
             }
         }
     }
     
+    private func refreshView() {
+        
+        uuid = UUID()
+        viewModel.updateWeekdayName()
+    }
     
     private func dragChanged(dragValue: DragGesture.Value) {
         // Dismiss keyboard

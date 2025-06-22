@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22758" systemVersion="23F79" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="23605" systemVersion="23H420" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="DailySchedule" representedClassName="DailySchedule" elementID="toDoItems" syncable="YES" codeGenerationType="class">
         <attribute name="dayIndex" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="dayName" optional="YES" attributeType="String"/>
@@ -11,7 +11,7 @@
         <relationship name="workouts" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Workout" inverseName="dailySchedules" inverseEntity="Workout" elementID="workouts"/>
     </entity>
     <entity name="Goal" representedClassName="Goal" parentEntity="TaskItem" syncable="YES" codeGenerationType="class">
-        <relationship name="weeklySchedules" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="WeeklySchedule" inverseName="goals" inverseEntity="WeeklySchedule"/>
+        <relationship name="weeklySchedules" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="WeeklySchedule" inverseName="goals" inverseEntity="WeeklySchedule"/>
     </entity>
     <entity name="Meal" representedClassName="Meal" parentEntity="TaskItem" syncable="YES" codeGenerationType="class">
         <relationship name="dailySchedules" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DailySchedule" inverseName="meals" inverseEntity="DailySchedule"/>

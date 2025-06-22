@@ -20,13 +20,15 @@ class WeekScheduleViewModel: ObservableObject {
     }
     
     
-    init(weeklySchedule: WeeklySchedule) {
+    init(weeklySchedule: WeeklySchedule, startAtIndex weekdayIndex: Int? = nil) {
         
         self.weeklySchedule = weeklySchedule
         
         // Set initial weekday index to be current day of the week
         // Ex. Monday = 0 . . . Sunday = 7
-        weekdayIndex = DateFunctions.currentWeekdayIndex
+        if let weekdayIndex {
+            self.weekdayIndex = weekdayIndex
+        }
     }
     
     func updateWeekdayName() {

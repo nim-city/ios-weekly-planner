@@ -24,10 +24,11 @@ struct MainView: View {
         // TODO: In the future, we will allow user to select a weekly schedule
         //  For now, just show the first weekly schedule
         //  Add a default weekly schedule if none exist
-        WeeklyScheduleView(viewModel: WeeklyScheduleViewModel(
-            weeklySchedule: weeklySchedules.first,
-            moc: moc
-        ))
+        VStack {
+            if let schedule = weeklySchedules.first {
+                WeeklyScheduleView(weekSchedule: schedule)
+            }
+        }
         .onAppear {
             
             if weeklySchedules.isEmpty {
