@@ -16,7 +16,7 @@ struct DayScheduleView: View {
     var isFocused: FocusState<Bool>.Binding
     
     var body: some View {
-        VStack {
+        NavigationStack {
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 40) {
                     
@@ -49,39 +49,38 @@ struct DayScheduleView: View {
                         isFocused: isFocused
                     )
                 }
-                .padding(5)
+                .padding(20)
             }
-            .padding(.horizontal, 15)
-            .padding(.top, 20)
+            .background(Color.white)
+
+            // Edit item sheet
+            .editTaskItemSheet(taskItemToEdit: $viewModel.taskItemToEdit, taskType: viewModel.taskItemToEdit?.taskType ?? .toDo)
+
+            // Delete alert
+            .alert(
+                "Remove or delete item?",
+                isPresented: Binding(
+                    get: { return viewModel.taskItemToDelete != nil },
+                    set: { if !$0 { viewModel.taskItemToDelete = nil } }
+                )
+            ) {
+                Button("Remove item") {
+                    viewModel.removeSelectedItem(moc: moc)
+                }
+                Button("Delete item") {
+                    viewModel.deleteSelectedItem(moc: moc)
+                }
+                Button("Cancel", role: .cancel) { }
+            }
+            
+            .navigationDestination(item: $viewModel.selectedTasksType) { taskType in
+                SelectTasksView(viewModel: SelectTasksViewModel(
+                    dailySchedule: viewModel.dailySchedule,
+                    taskType: taskType
+                ))
+            }
+            .navigationTitle(viewModel.dayName)
         }
         .frame(width: UIScreen.main.bounds.size.width)
-        .background(Color.white)
-
-        // Edit item sheet
-        .editTaskItemSheet(taskItemToEdit: $viewModel.taskItemToEdit, taskType: viewModel.taskItemToEdit?.taskType ?? .toDo)
-
-        // Delete alert
-        .alert(
-            "Remove or delete item?",
-            isPresented: Binding(
-                get: { return viewModel.taskItemToDelete != nil },
-                set: { if !$0 { viewModel.taskItemToDelete = nil } }
-            )
-        ) {
-            Button("Remove item") {
-                viewModel.removeSelectedItem(moc: moc)
-            }
-            Button("Delete item") {
-                viewModel.deleteSelectedItem(moc: moc)
-            }
-            Button("Cancel", role: .cancel) { }
-        }
-        
-        .navigationDestination(item: $viewModel.selectedTasksType) { taskType in
-            SelectTasksView(viewModel: SelectTasksViewModel(
-                dailySchedule: viewModel.dailySchedule,
-                taskType: taskType
-            ))
-        }
     }
 }

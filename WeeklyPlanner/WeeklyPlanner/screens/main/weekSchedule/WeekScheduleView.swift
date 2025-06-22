@@ -23,66 +23,67 @@ struct WeekScheduleView: View {
     }
     
     var body: some View {
-        NavigationStack {
-            // Sideways list of Weekday views
-            HStack(spacing: 0) {
-                ForEach(viewModel.dailySchedules) { dailySchedule in
-                    DayScheduleView(
-                        viewModel: DayScheduleViewModel(dailySchedule: dailySchedule),
-                        isFocused: $isFocused
-                    )
-                }
-            }
-            .id(uuid)
-            
-            // Size and positioning
-            .frame(
-                minWidth: 0,
-                maxWidth: offsetInterval * 7,
-                minHeight: 0,
-                maxHeight: .infinity,
-                alignment: .leading
-            )
-            .offset(x: xOffset)
-            
-            // Navigation bar
-            .navigationTitle(viewModel.weekdayName)
-            
-            // Keyboard "Done" button to save notes
-            .toolbar {
-                ToolbarItemGroup(placement: .keyboard) {
-                    Spacer()
-                    Button {
-                        isFocused = false
-                        // TODO: Handle error here
-                        let _ = viewModel.saveNotes(moc: moc)
-                    } label: {
-                        Text("Done")
-                            .font(CustomFonts.buttonFont)
-                            .foregroundStyle(CustomColours.ctaGold)
-                    }
-                }
-            }
-            
-            // To ensure bottom tab bar is showing
-            // Due to lack of vertical scroll view, bottom tab bar is transparent
-            .toolbarBackground(.visible, for: .tabBar)
-            
-            // Drag gestures
-            .gesture(
-                DragGesture()
-                    .onChanged { dragValue in
-                        dragChanged(dragValue: dragValue)
-                    }
-                    .onEnded { dragValue in
-                        dragEnded(dragValue: dragValue)
-                    }
-            )
-            .onAppear {
-                refreshView()
-                
+        // Sideways list of Weekday views
+        HStack(spacing: 0) {
+            ForEach(viewModel.dailySchedules) { dailySchedule in
+                DayScheduleView(
+                    viewModel: DayScheduleViewModel(dailySchedule: dailySchedule),
+                    isFocused: $isFocused
+                )
             }
         }
+        .id(uuid)
+        
+        // Size and positioning
+        .frame(
+            minWidth: 0,
+            maxWidth: offsetInterval * 7,
+            minHeight: 0,
+            maxHeight: .infinity,
+            alignment: .leading
+        )
+        .offset(x: xOffset)
+        
+        // Navigation bar
+        .navigationTitle(viewModel.weekdayName)
+        
+        // Keyboard "Done" button to save notes
+        .toolbar {
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()
+                Button {
+                    isFocused = false
+                    // TODO: Handle error here
+                    let _ = viewModel.saveNotes(moc: moc)
+                } label: {
+                    Text("Done")
+                        .font(CustomFonts.buttonFont)
+                        .foregroundStyle(CustomColours.ctaGold)
+                }
+            }
+        }
+        
+        // To ensure bottom tab bar is showing
+        // Due to lack of vertical scroll view, bottom tab bar is transparent
+        .toolbarBackground(.visible, for: .tabBar)
+        
+        // Drag gestures
+        .gesture(
+            DragGesture()
+                .onChanged { dragValue in
+                    dragChanged(dragValue: dragValue)
+                }
+                .onEnded { dragValue in
+                    dragEnded(dragValue: dragValue)
+                }
+        )
+        .onAppear {
+            refreshView()
+            
+        }
+//        NavigationStack {
+//            
+//        }
     }
     
     private func refreshView() {

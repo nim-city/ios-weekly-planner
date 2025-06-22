@@ -18,6 +18,11 @@ class DayScheduleViewModel: ObservableObject {
     
     let taskTypes: [TaskType] = [.toDo, .toBuy, .meal, .workout]
     
+    var dayName: String {
+        let dayIndex = Int(dailySchedule.dayIndex)
+        return DayOfTheWeek.getDayFromIndex(dayIndex)?.capitalizedName ?? ""
+    }
+    
     init(dailySchedule: DailySchedule) {
         self.dailySchedule = dailySchedule
     }

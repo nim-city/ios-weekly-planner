@@ -16,6 +16,10 @@ class WeekScheduleViewModel: ObservableObject {
     
     @Published var weeklySchedule: WeeklySchedule
     var dailySchedules: [DailySchedule] {
+//        if let first = weeklySchedule.sortedDailySchedules.first {
+//            return [first]
+//        }
+//        return []
         return weeklySchedule.sortedDailySchedules
     }
     
