@@ -13,16 +13,20 @@ class WeekScheduleViewModel: ObservableObject {
     
     @Published var weekdayIndex: Int = 0
     @Published private(set) var weekdayName = DayOfTheWeek.monday.capitalizedName
+    @Published var isShowingClearItemsAlert = false
     
     @Published var weeklySchedule: WeeklySchedule
     var dailySchedules: [DailySchedule] {
-//        if let first = weeklySchedule.sortedDailySchedules.first {
-//            return [first]
-//        }
-//        return []
         return weeklySchedule.sortedDailySchedules
     }
     
+    var selectedDailySchedule: DailySchedule? {
+        
+        guard dailySchedules.count == 7 else {
+            return nil
+        }
+        return dailySchedules[weekdayIndex]
+    }
     
     init(weeklySchedule: WeeklySchedule, startAtIndex weekdayIndex: Int? = nil) {
         
@@ -53,6 +57,20 @@ class WeekScheduleViewModel: ObservableObject {
     
     func saveNotes(moc: NSManagedObjectContext) -> Bool{
         saveMOC(moc: moc)
+    }
+    
+    @discardableResult
+    func resetSchedule(moc: NSManagedObjectContext) -> Bool {
+        
+        guard let selectedDailySchedule else {
+            return false
+        }
+        
+        if selectedDailySchedule.removeAllTaskItems() {
+            return saveMOC(moc: moc)
+        }
+        
+        return false
     }
     
     private func saveMOC(moc: NSManagedObjectContext) -> Bool {

@@ -38,67 +38,67 @@ struct SelectTasksView: View {
     
     
     var body: some View {
-        VStack {
-            // Select all button
-            selectAllButtonView
-                .padding(.horizontal, 20)
-                .padding(.top, 20)
+        NavigationStack {
+            VStack {
+                // Select all button
+                selectAllButtonView
+                    .padding(.horizontal, 20)
+                    .padding(.top, 20)
+                
+                // Tasks list
+                tasksList
+            }
+            .frame(
+                maxWidth: .infinity,
+                maxHeight: .infinity,
+                alignment: .leading
+            )
             
-            // Tasks list
-            tasksList
-        }
-        .frame(
-            maxWidth: .infinity,
-            maxHeight: .infinity,
-            alignment: .leading
-        )
-        
-        // Navigation toolbar
-        .navigationBarBackButtonHidden(true)
-        .toolbar {
-            // Back button
-            ToolbarItem(placement: .topBarLeading) {
-                Button {
-                    
-                    _ = viewModel.saveSelectedItems(moc: moc)
-                    
-                    dismiss()
-                } label: {
-                    HStack(spacing: 4) {
+            // Navigation toolbar
+            .navigationBarBackButtonHidden(true)
+            .toolbar {
+                // Back button
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
                         
-                        Image(systemName: "chevron.backward")
+                        _ = viewModel.saveSelectedItems(moc: moc)
+                        
+                        dismiss()
+                    } label: {
+                        HStack(spacing: 4) {
+                            
+                            Image(systemName: "chevron.backward")
+                                .tint(CustomColours.ctaGold)
+                            
+                            Text("Save")
+                                .foregroundStyle(CustomColours.ctaGold)
+                        }
+                    }
+                }
+                
+                // Add button
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        viewModel.isShowingAddItemSheet = true
+                    } label: {
+                        Image(systemName: "plus")
                             .tint(CustomColours.ctaGold)
-                        
-                        Text("Save")
-                            .foregroundStyle(CustomColours.ctaGold)
                     }
                 }
             }
-            
-            // Add button
-            ToolbarItem(placement: .topBarTrailing) {
-                Button {
-                    viewModel.isShowingAddItemSheet = true
-                } label: {
-                    Image(systemName: "plus")
-                        .tint(CustomColours.ctaGold)
-//                    Text("New")
-//                        .foregroundStyle(CustomColours.ctaGold)
-                }
+            .navigationTitle(viewModel.screenTitle)
+            // Add item sheet
+            .addTaskItemSheet(
+                isShowing: $viewModel.isShowingAddItemSheet,
+                taskType: viewModel.taskType,
+                daySchedule: viewModel.dailySchedule,
+                weekSchedule: viewModel.weeklySchedule
+            )
+            // Set the tasks currently selected for the day and task type
+            .onAppear {
+                viewModel.setselectedTaskItems()
+                viewModel.allTaskItems = Array(taskItems)
             }
-        }
-        .navigationTitle(viewModel.screenTitle)
-        // Add item sheet
-        .addTaskItemSheet(
-            isShowing: $viewModel.isShowingAddItemSheet,
-            taskType: viewModel.taskType,
-            daySchedule: viewModel.dailySchedule,
-            weekSchedule: viewModel.weeklySchedule
-        )
-        // Set the tasks currently selected for the day and task type
-        .onAppear {
-            viewModel.setselectedTaskItems()
-            viewModel.allTaskItems = Array(taskItems)
         }
     }
 }

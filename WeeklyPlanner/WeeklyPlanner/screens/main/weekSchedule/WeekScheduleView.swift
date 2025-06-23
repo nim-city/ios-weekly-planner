@@ -25,75 +25,100 @@ struct WeekScheduleView: View {
     }
     
     var body: some View {
-        // Sideways list of Weekday views
-        HStack(spacing: 0) {
-            ForEach(viewModel.dailySchedules) { dailySchedule in
-                DayScheduleView(
-                    viewModel: DayScheduleViewModel(dailySchedule: dailySchedule),
-                    isFocused: $isFocused
-                )
-            }
-        }
-        .id(uuid)
-        
-        // Size and positioning
-        .frame(
-            minWidth: 0,
-            maxWidth: offsetInterval * 7,
-            minHeight: 0,
-            maxHeight: .infinity,
-            alignment: .leading
-        )
-        .offset(x: xOffset)
-        
-        // Navigation bar
-        .navigationTitle(viewModel.weekdayName)
-        
-        // Keyboard "Done" button to save notes
-        .toolbar {
-            ToolbarItemGroup(placement: .keyboard) {
-                Spacer()
-                Button {
-                    isFocused = false
-                    // TODO: Handle error here
-                    let _ = viewModel.saveNotes(moc: moc)
-                } label: {
-                    Text("Done")
-                        .font(CustomFonts.buttonFont)
-                        .foregroundStyle(CustomColours.ctaGold)
-                }
-            }
-        }
-        
-        // To ensure bottom tab bar is showing
-        // Due to lack of vertical scroll view, bottom tab bar is transparent
-        .toolbarBackground(.visible, for: .tabBar)
-        
-        // Drag gestures
-        .simultaneousGesture(
-            DragGesture()
-                .onChanged { dragValue in
-                    dragChanged(dragValue: dragValue)
-                    hasEnded = false
-                }
-                .onEnded { dragValue in
-                    dragEnded(dragValue: dragValue)
-                    hasEnded = true
-                }
-                .updating($isDragging) { value, state, _ in
-                    state = true
-                }
-        )
-        .onChange(of: isDragging) { dragging in
-            if !dragging && !hasEnded && xOffset != .zero {
-                
-                hasEnded = true
-                dragAmount = 0
-            }
-        }
-        .onAppear {
-            refreshView()
+        NavigationStack {
             
+            ScrollView {
+                // Sideways list of Weekday views
+                HStack(spacing: 0) {
+                    ForEach(viewModel.dailySchedules) { dailySchedule in
+                        DayScheduleView(
+                            viewModel: DayScheduleViewModel(dailySchedule: dailySchedule),
+                            isFocused: $isFocused
+                        )
+                    }
+                }
+                .id(uuid)
+                
+                // Size and positioning
+                .frame(
+                    minWidth: 0,
+                    maxWidth: offsetInterval * 7,
+                    minHeight: 0,
+                    maxHeight: .infinity,
+                    alignment: .leading
+                )
+                .offset(x: xOffset)
+            }
+            
+            // Navigation bar
+            .navigationTitle(viewModel.weekdayName)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        viewModel.isShowingClearItemsAlert = true
+                    } label: {
+                        Image(systemName: "eraser.line.dashed")
+                            .tint(CustomColours.ctaGold)
+                    }
+                }
+            }
+            
+            // Keyboard "Done" button to save notes
+            .toolbar {
+                ToolbarItemGroup(placement: .keyboard) {
+                    Spacer()
+                    Button {
+                        isFocused = false
+                        // TODO: Handle error here
+                        let _ = viewModel.saveNotes(moc: moc)
+                    } label: {
+                        Text("Done")
+                            .font(CustomFonts.buttonFont)
+                            .foregroundStyle(CustomColours.ctaGold)
+                    }
+                }
+            }
+            
+            // To ensure bottom tab bar is showing
+            // Due to lack of vertical scroll view, bottom tab bar is transparent
+            .toolbarBackground(.visible, for: .tabBar)
+            
+            // Drag gestures
+            .gesture(
+                DragGesture()
+                    .onChanged { dragValue in
+                        dragChanged(dragValue: dragValue)
+                        hasEnded = false
+                    }
+                    .onEnded { dragValue in
+                        dragEnded(dragValue: dragValue)
+                        hasEnded = true
+                    }
+                    .updating($isDragging) { value, state, _ in
+                        state = true
+                    }
+            )
+            .onChange(of: isDragging) { dragging in
+                if !dragging && !hasEnded && xOffset != .zero {
+                    
+                    hasEnded = true
+                    dragAmount = 0
+                }
+            }
+            .onAppear {
+                refreshView()
+                
+            }
+            
+            // Clear all items alert
+            .alert("Reset \(viewModel.weekdayName)?", isPresented: $viewModel.isShowingClearItemsAlert) {
+                Button("No", role: .cancel) { }
+                Button("Yes", role: .destructive) {
+                    viewModel.resetSchedule(moc: moc)
+                }
+            } message: {
+                Text("Are you sure you want to remove all items?")
+            }
         }
     }
     

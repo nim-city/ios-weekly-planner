@@ -102,4 +102,37 @@ extension DailySchedule {
         
         return true
     }
+    
+    func removeAllTaskItems() -> Bool {
+        if let toDoItems {
+            toDoItems.forEach { item in
+                if let toDoItem = item as? ToDoItem {
+                    removeFromToDoItems(toDoItem)
+                }
+            }
+        }
+        if let toBuyItems {
+            toBuyItems.forEach { item in
+                if let toBuyItems = item as? ToBuyItem {
+                    removeFromToBuyItems(toBuyItems)
+                }
+            }
+        }
+        if let meals {
+            meals.forEach { item in
+                if let meal = item as? Meal {
+                    removeFromMeals(meal)
+                }
+            }
+        }
+        if let workouts {
+            workouts.forEach { item in
+                if let workout = item as? Workout {
+                    removeFromWorkouts(workout)
+                }
+            }
+        }
+        
+        return true
+    }
 }
