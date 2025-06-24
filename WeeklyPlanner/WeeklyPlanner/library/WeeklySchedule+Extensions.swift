@@ -48,4 +48,41 @@ extension WeeklySchedule {
         }.array as? [Workout] ?? []
     }
     
+    func removeAllGoals() -> Bool {
+        
+        guard let goals else {
+            return false
+        }
+        
+        goals.forEach { item in
+            if let goal = item as? Goal {
+                removeFromGoals(goal)
+            }
+        }
+        
+        return true
+    }
+    
+    // TODO: At some point, handle this properly like maybe revert saved state or something?
+    func resetDailySchedules() -> Bool {
+        
+        guard let dailySchedules else {
+            return false
+        }
+        
+        var wasSuccessful = true
+        
+        dailySchedules.forEach { item in
+            if let dailySchedule = item as? DailySchedule {
+                
+                wasSuccessful = dailySchedule.removeAllTaskItems()
+                if !wasSuccessful {
+                    return
+                }
+            }
+        }
+        
+        return wasSuccessful
+    }
+    
 }

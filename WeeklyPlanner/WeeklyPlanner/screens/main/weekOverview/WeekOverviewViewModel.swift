@@ -14,6 +14,7 @@ class WeekOverviewViewModel: ObservableObject {
     @Published var weeklySchedule: WeeklySchedule
 
     @Published var isShowingSelectScreen = false
+    @Published var isShowingClearItemsAlert = false
     @Published var notes = ""
     
     @Published var selectedGoalToEdit: TaskItem?
@@ -56,6 +57,32 @@ class WeekOverviewViewModel: ObservableObject {
         
         return saveMOC(moc)
     }
+    
+    @discardableResult
+    func resetGoals(moc: NSManagedObjectContext) -> Bool {
+        
+        var wasResetSuccessful = weeklySchedule.removeAllGoals()
+        
+        if wasResetSuccessful {
+            wasResetSuccessful = saveMOC(moc)
+        }
+        
+        return wasResetSuccessful
+    }
+    
+    @discardableResult
+    func resetDailySchedules(moc: NSManagedObjectContext) -> Bool {
+        
+        var wasResetSuccessful = weeklySchedule.resetDailySchedules()
+        
+        if wasResetSuccessful {
+            wasResetSuccessful = saveMOC(moc)
+        }
+        
+        return wasResetSuccessful
+    }
+    
+    // TODO: Add reset week functionality
     
     private func saveMOC(_ moc: NSManagedObjectContext) -> Bool {
         do {

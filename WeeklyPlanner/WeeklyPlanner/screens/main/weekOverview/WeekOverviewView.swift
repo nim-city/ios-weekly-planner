@@ -36,6 +36,17 @@ struct WeekOverviewView: View {
             )
             // Navigation toolbar
             .navigationTitle("Week overview")
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        viewModel.isShowingClearItemsAlert = true
+                    } label: {
+                        Image(systemName: "eraser.line.dashed")
+                            .tint(CustomColours.ctaGold)
+                    }
+                }
+            }
+            
             // Keyboard done button for saving notes
             .toolbar {
                 ToolbarItemGroup(placement: .keyboard) {
@@ -66,6 +77,22 @@ struct WeekOverviewView: View {
                 deleteItemAction: {
                     _ = viewModel.deleteSelectedItem(moc: moc)
                 })
+            
+            // Clear all items alert
+            .alert("Reset this week?", isPresented: $viewModel.isShowingClearItemsAlert) {
+                
+                Button("Neither", role: .cancel) { }
+                
+                Button("All items", role: .destructive) {
+                    viewModel.resetDailySchedules(moc: moc)
+                }
+                
+                Button("Goals", role: .destructive) {
+                    viewModel.resetGoals(moc: moc)
+                }
+            } message: {
+                Text("Do you want to remove all items for this week or just this week's goals?")
+            }
             
             .navigationDestination(isPresented: $viewModel.isShowingSelectScreen) {
                 SelectTasksView(viewModel: SelectTasksViewModel(
