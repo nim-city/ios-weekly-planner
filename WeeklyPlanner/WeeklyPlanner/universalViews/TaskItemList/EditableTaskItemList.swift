@@ -18,21 +18,19 @@ struct EditableTaskItemList: View {
 
     var body: some View {
         CollapsibleView(title: tasksType.taskListLabelPluralized) {
-            VStack {
-                VStack(spacing: 0) {
-                    ForEach(taskItems) { taskItem in
-                        EditableTaskItemCell(
-                            viewModel: TaskItemCellViewModel(
-                                taskItem: taskItem,
-                                deleteItem: deleteTaskItem,
-                                editItem: editTaskItem
-                            )
+            VStack(spacing: 0) {
+                ForEach(taskItems) { taskItem in
+                    EditableTaskItemCell(
+                        viewModel: TaskItemCellViewModel(
+                            taskItem: taskItem,
+                            deleteItem: deleteTaskItem,
+                            editItem: editTaskItem
                         )
-                        if taskItem != taskItems.last {
-                            Divider()
-                                .background(CustomColours.textDarkGray)
-                                .padding(.horizontal, 20)
-                        }
+                    )
+                    if taskItem != taskItems.last {
+                        Divider()
+                            .background(CustomColours.textDarkGray)
+                            .padding(.horizontal, 20)
                     }
                 }
             }

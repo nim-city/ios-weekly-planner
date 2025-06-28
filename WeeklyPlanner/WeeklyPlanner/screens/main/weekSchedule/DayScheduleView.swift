@@ -16,42 +16,46 @@ struct DayScheduleView: View {
     var isFocused: FocusState<Bool>.Binding
     
     var body: some View {
-        VStack(spacing: 40) {
-            
-            ForEach(viewModel.taskTypes, id: \.self) { tasksType in
-                EditableTaskItemList(
-                    taskItems: viewModel.dailySchedule.getTaskItems(ofType: tasksType),
-                    tasksType: tasksType,
-                    editTaskItem: { taskItem in
-                        viewModel.taskItemToEdit = taskItem
-                    },
-                    deleteTaskItem: { taskItem in
-                        viewModel.taskItemToDelete = taskItem
-                    },
-                    selectTaskItems: { taskType in
-                        viewModel.selectedTasksType = taskType
-                    }
-                )
-            }
+        ScrollView {
+            VStack(spacing: 40) {
+                
+                ForEach(viewModel.taskTypes, id: \.self) { tasksType in
+                    EditableTaskItemList(
+                        taskItems: viewModel.dailySchedule.getTaskItems(ofType: tasksType),
+                        tasksType: tasksType,
+                        editTaskItem: { taskItem in
+                            viewModel.taskItemToEdit = taskItem
+                        },
+                        deleteTaskItem: { taskItem in
+                            viewModel.taskItemToDelete = taskItem
+                        },
+                        selectTaskItems: { taskType in
+                            viewModel.selectedTasksType = taskType
+                        }
+                    )
+                }
 
-            // Notes
-            NotesView(
-                text: Binding(
-                    get: {
-                        return viewModel.dailySchedule.notes ?? ""
-                    },
-                    set: { newValue in
-                        viewModel.dailySchedule.notes = newValue
-                    }
-                ),
-                isFocused: isFocused
-            )
-            
-            Spacer()
+                // Notes
+                NotesView(
+                    text: Binding(
+                        get: {
+                            return viewModel.dailySchedule.notes ?? ""
+                        },
+                        set: { newValue in
+                            viewModel.dailySchedule.notes = newValue
+                        }
+                    ),
+                    isFocused: isFocused
+                )
+                
+                Spacer()
+            }
+            .padding(20)
+            .frame(width: UIScreen.main.bounds.size.width)
+            .background(.white)
         }
-        .padding(20)
-        .frame(width: UIScreen.main.bounds.size.width)
-        .background(.white)
+        .scrollDisabled(true)
+        
         // Edit item sheet
         .editTaskItemSheet(taskItemToEdit: $viewModel.taskItemToEdit, taskType: viewModel.taskItemToEdit?.taskType ?? .toDo)
 

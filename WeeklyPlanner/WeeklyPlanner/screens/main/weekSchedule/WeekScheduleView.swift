@@ -43,8 +43,6 @@ struct WeekScheduleView: View {
                 .frame(
                     minWidth: 0,
                     maxWidth: offsetInterval * 7,
-                    minHeight: 0,
-                    maxHeight: .infinity,
                     alignment: .leading
                 )
                 .offset(x: xOffset)
