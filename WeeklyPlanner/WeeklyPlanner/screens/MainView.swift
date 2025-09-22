@@ -13,28 +13,44 @@ struct MainView: View {
     
     @FetchRequest(sortDescriptors: []) var weeklySchedules: FetchedResults<WeeklySchedule>
     
-    @ObservedObject private var viewModel: MainViewModel
-    
-    init(viewModel: MainViewModel) {
-        self.viewModel = viewModel
-    }
+    @State private var selectedWeeklySchedule: WeeklySchedule?
+    @ObservedObject var viewModel: MainViewModel
     
     var body: some View {
+        
+        NavigationSplitView {
+            
+            SelectWeekScheduleView(selectedWeekSchedule: $selectedWeeklySchedule)
+        } detail: {
+            
+            if let selectedWeeklySchedule {
+                WeeklyScheduleView(weekSchedule: selectedWeeklySchedule)
+            } else {
+                Text("Select week schedule")
+            }
+        }
+        .onAppear {
+            if weeklySchedules.isEmpty {
+                viewModel.createDefaultWeeklySchedule(moc: moc)
+            } else {
+                selectedWeeklySchedule = weeklySchedules.first
+            }
+        }
         
         // TODO: In the future, we will allow user to select a weekly schedule
         //  For now, just show the first weekly schedule
         //  Add a default weekly schedule if none exist
-        VStack {
-            if let schedule = weeklySchedules.first {
-                WeeklyScheduleView(weekSchedule: schedule)
-            }
-        }
-        .onAppear {
-            
-            if weeklySchedules.isEmpty {
-                
-                viewModel.createDefaultWeeklySchedule(moc: moc)
-            }
-        }
+//        VStack {
+//            if let schedule = weeklySchedules.first {
+//                WeeklyScheduleView(weekSchedule: schedule)
+//            }
+//        }
+//        .onAppear {
+//            
+//            if weeklySchedules.isEmpty {
+//                
+//                viewModel.createDefaultWeeklySchedule(moc: moc)
+//            }
+//        }
     }
 }

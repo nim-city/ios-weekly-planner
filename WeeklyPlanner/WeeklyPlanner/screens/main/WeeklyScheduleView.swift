@@ -11,6 +11,7 @@ struct WeeklyScheduleView: View {
     
     @State private var weekSchedule: WeeklySchedule
     @State private var selectedTabIndex = 0
+    @State var title: String = "Week Schedule"
     
     init(weekSchedule: WeeklySchedule) {
         
@@ -49,5 +50,6 @@ struct WeeklyScheduleView: View {
                 .tag(2)
         }
         .tint(CustomColours.ctaGold)
+        .navigationTitle(title)
     }
 }

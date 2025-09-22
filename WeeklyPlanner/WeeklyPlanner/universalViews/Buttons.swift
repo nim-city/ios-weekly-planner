@@ -49,3 +49,17 @@ struct TextButton: View {
         }
     }
 }
+
+struct ToolbarAddButton: View {
+    
+    let action: () -> Void
+    
+    var body: some View {
+        Button {
+            action()
+        } label: {
+            Image(systemName: "plus")
+                .tint(CustomColours.ctaGold)
+        }
+    }
+}
