@@ -82,8 +82,6 @@ struct SelectTasksView: View {
                 } label: {
                     Image(systemName: "plus")
                         .tint(CustomColours.ctaGold)
-//                    Text("New")
-//                        .foregroundStyle(CustomColours.ctaGold)
                 }
             }
         }
@@ -97,7 +95,6 @@ struct SelectTasksView: View {
         )
         // Set the tasks currently selected for the day and task type
         .onAppear {
-            viewModel.setselectedTaskItems()
             viewModel.allTaskItems = Array(taskItems)
         }
     }
@@ -139,6 +136,7 @@ extension SelectTasksView {
         ScrollView(showsIndicators: false) {
             VStack(spacing: 0) {
                 ForEach(taskItems) { taskItem in
+                    
                     SelectTaskCell(
                         taskItem: taskItem,
                         isSelected: viewModel.selectedTaskItems.contains(taskItem),
