@@ -32,6 +32,7 @@ struct DayScheduleView: View {
                             },
                             selectTaskItems: { taskType in
                                 viewModel.selectedTasksType = taskType
+                                viewModel.isPresentingSelectTasksView = true
                             }
                         )
                     }
@@ -77,11 +78,13 @@ struct DayScheduleView: View {
             Button("Cancel", role: .cancel) { }
         }
         
-        .navigationDestination(item: $viewModel.selectedTasksType) { taskType in
-            SelectTasksView(viewModel: SelectTasksViewModel(
-                dailySchedule: viewModel.dailySchedule,
-                taskType: taskType
-            ))
+        .navigationDestination(isPresented: $viewModel.isPresentingSelectTasksView) {
+            if let taskType = viewModel.selectedTasksType {
+                SelectTasksView(viewModel: .init(
+                    taskType: taskType,
+                    dailySchedule: viewModel.dailySchedule
+                ))
+            }
         }
     }
 }

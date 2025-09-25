@@ -12,7 +12,7 @@ struct WeekOverviewView: View {
     
     @Environment(\.managedObjectContext) var moc
     
-    @StateObject var viewModel: WeekOverviewViewModel
+    @ObservedObject var viewModel: WeekOverviewViewModel
     
     @FocusState var isFocused
     @State var uuid = UUID()

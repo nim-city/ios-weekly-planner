@@ -20,6 +20,7 @@ struct SelectTasksView: View {
     
     
     init(viewModel: SelectTasksViewModel) {
+        
         self.viewModel = viewModel
         // Set the fetch request according to the type of the task list
         switch viewModel.taskType {
@@ -93,8 +94,10 @@ struct SelectTasksView: View {
             daySchedule: viewModel.dailySchedule,
             weekSchedule: viewModel.weeklySchedule
         )
-        // Set the tasks currently selected for the day and task type
         .onAppear {
+            viewModel.allTaskItems = Array(taskItems)
+        }
+        .onChange(of: taskItems.count) {
             viewModel.allTaskItems = Array(taskItems)
         }
     }
@@ -124,7 +127,6 @@ extension SelectTasksView {
                             )
                         )
             }
-            .disabled(!viewModel.isSelectAllButtonEnabled)
             
             Spacer()
         }
