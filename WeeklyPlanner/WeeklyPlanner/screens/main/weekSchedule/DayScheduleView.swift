@@ -16,22 +16,38 @@ struct DayScheduleView: View {
     var isFocused: FocusState<Bool>.Binding
     
     var body: some View {
-        ScrollView {
-            VStack(spacing: 40) {
-                
-                ForEach(viewModel.taskTypes, id: \.self) { tasksType in
-                    EditableTaskItemList(
-                        taskItems: viewModel.dailySchedule.getTaskItems(ofType: tasksType),
-                        tasksType: tasksType,
-                        editTaskItem: { taskItem in
-                            viewModel.taskItemToEdit = taskItem
-                        },
-                        deleteTaskItem: { taskItem in
-                            viewModel.taskItemToDelete = taskItem
-                        },
-                        selectTaskItems: { taskType in
-                            viewModel.selectedTasksType = taskType
-                        }
+        VStack {
+            ScrollView(showsIndicators: false) {
+                VStack(spacing: 40) {
+                    
+                    ForEach(viewModel.taskTypes, id: \.self) { tasksType in
+                        EditableTaskItemList(
+                            taskItems: viewModel.dailySchedule.getTaskItems(ofType: tasksType),
+                            tasksType: tasksType,
+                            editTaskItem: { taskItem in
+                                viewModel.taskItemToEdit = taskItem
+                            },
+                            deleteTaskItem: { taskItem in
+                                viewModel.taskItemToDelete = taskItem
+                            },
+                            selectTaskItems: { taskType in
+                                viewModel.selectedTasksType = taskType
+                                viewModel.isPresentingSelectTasksView = true
+                            }
+                        )
+                    }
+
+                    // Notes
+                    NotesView(
+                        text: Binding(
+                            get: {
+                                return viewModel.dailySchedule.notes ?? ""
+                            },
+                            set: { newValue in
+                                viewModel.dailySchedule.notes = newValue
+                            }
+                        ),
+                        isFocused: isFocused
                     )
                 }
 
@@ -76,11 +92,13 @@ struct DayScheduleView: View {
             Button("Cancel", role: .cancel) { }
         }
         
-        .navigationDestination(item: $viewModel.selectedTasksType) { taskType in
-            SelectTasksView(viewModel: SelectTasksViewModel(
-                dailySchedule: viewModel.dailySchedule,
-                taskType: taskType
-            ))
+        .navigationDestination(isPresented: $viewModel.isPresentingSelectTasksView) {
+            if let taskType = viewModel.selectedTasksType {
+                SelectTasksView(viewModel: .init(
+                    taskType: taskType,
+                    dailySchedule: viewModel.dailySchedule
+                ))
+            }
         }
     }
 }

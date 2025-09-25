@@ -20,6 +20,7 @@ struct SelectTasksView: View {
     
     
     init(viewModel: SelectTasksViewModel) {
+        
         self.viewModel = viewModel
         // Set the fetch request according to the type of the task list
         switch viewModel.taskType {
@@ -86,19 +87,20 @@ struct SelectTasksView: View {
                     }
                 }
             }
-            .navigationTitle(viewModel.screenTitle)
-            // Add item sheet
-            .addTaskItemSheet(
-                isShowing: $viewModel.isShowingAddItemSheet,
-                taskType: viewModel.taskType,
-                daySchedule: viewModel.dailySchedule,
-                weekSchedule: viewModel.weeklySchedule
-            )
-            // Set the tasks currently selected for the day and task type
-            .onAppear {
-                viewModel.setselectedTaskItems()
-                viewModel.allTaskItems = Array(taskItems)
-            }
+        }
+        .navigationTitle(viewModel.screenTitle)
+        // Add item sheet
+        .addTaskItemSheet(
+            isShowing: $viewModel.isShowingAddItemSheet,
+            taskType: viewModel.taskType,
+            daySchedule: viewModel.dailySchedule,
+            weekSchedule: viewModel.weeklySchedule
+        )
+        .onAppear {
+            viewModel.allTaskItems = Array(taskItems)
+        }
+        .onChange(of: taskItems.count) {
+            viewModel.allTaskItems = Array(taskItems)
         }
     }
 }
@@ -127,7 +129,6 @@ extension SelectTasksView {
                             )
                         )
             }
-            .disabled(!viewModel.isSelectAllButtonEnabled)
             
             Spacer()
         }
@@ -139,6 +140,7 @@ extension SelectTasksView {
         ScrollView(showsIndicators: false) {
             VStack(spacing: 0) {
                 ForEach(taskItems) { taskItem in
+                    
                     SelectTaskCell(
                         taskItem: taskItem,
                         isSelected: viewModel.selectedTaskItems.contains(taskItem),

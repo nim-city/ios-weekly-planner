@@ -14,7 +14,9 @@ class DayScheduleViewModel: ObservableObject {
     
     @Published var taskItemToEdit: TaskItem?
     @Published var taskItemToDelete: TaskItem?
-    @Published var selectedTasksType: TaskType?
+    
+    var selectedTasksType: TaskType?
+    @Published var isPresentingSelectTasksView: Bool = false
     
     let taskTypes: [TaskType] = [.toDo, .toBuy, .meal, .workout]
     
