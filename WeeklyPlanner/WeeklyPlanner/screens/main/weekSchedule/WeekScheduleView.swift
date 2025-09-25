@@ -127,8 +127,13 @@ struct WeekScheduleView: View {
     }
     
     private func dragChanged(dragValue: DragGesture.Value) {
+        
         // Dismiss keyboard
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+        
+//        if dragValue.startLocation.x > 20 && dragValue.startLocation.x < (UIScreen.main.bounds.size.width - 20) {
+//            return
+//        }
         
         dragAmount = dragValue.translation.width
         if viewModel.weekdayIndex == 0 {

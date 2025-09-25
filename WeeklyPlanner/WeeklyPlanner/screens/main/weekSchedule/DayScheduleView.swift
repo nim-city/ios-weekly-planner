@@ -50,27 +50,12 @@ struct DayScheduleView: View {
                         isFocused: isFocused
                     )
                 }
-
-                // Notes
-                NotesView(
-                    text: Binding(
-                        get: {
-                            return viewModel.dailySchedule.notes ?? ""
-                        },
-                        set: { newValue in
-                            viewModel.dailySchedule.notes = newValue
-                        }
-                    ),
-                    isFocused: isFocused
-                )
-                
-                Spacer()
+                .padding(.horizontal, 2)
             }
             .padding(20)
             .frame(width: UIScreen.main.bounds.size.width)
             .background(.white)
         }
-        .scrollDisabled(true)
         
         // Edit item sheet
         .editTaskItemSheet(taskItemToEdit: $viewModel.taskItemToEdit, taskType: viewModel.taskItemToEdit?.taskType ?? .toDo)

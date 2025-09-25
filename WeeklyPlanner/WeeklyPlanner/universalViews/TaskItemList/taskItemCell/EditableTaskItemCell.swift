@@ -47,7 +47,7 @@ struct EditableTaskItemCell: View {
         .contentShape(Rectangle())
         .offset(x: viewModel.offset)
         
-        .simultaneousGesture(
+        .highPriorityGesture(
             DragGesture()
                 .onChanged { dragValue in
                     

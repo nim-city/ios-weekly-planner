@@ -30,6 +30,7 @@ struct NotesView: View {
                 minHeight: 55,
                 maxHeight: 200
             )
+            .clipShape(RoundedRectangle(cornerRadius: 20))
             .overlay(
                 RoundedRectangle(cornerRadius: 20)
                     .stroke(
